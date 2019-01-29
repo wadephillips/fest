@@ -15,8 +15,7 @@ class CreateBreakoutsTable extends Migration
     {
         Schema::create('breakouts', function (Blueprint $table) {
           $table->increments('id');
-          $table->integer('event_id');
-          $table->integer('presenter_id');
+          $table->integer('event_id')->unsigned()->index();
           $table->string('title');
           $table->string('location');
           $table->string('description');
