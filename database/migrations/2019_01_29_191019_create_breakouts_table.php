@@ -14,8 +14,15 @@ class CreateBreakoutsTable extends Migration
     public function up()
     {
         Schema::create('breakouts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+          $table->increments('id');
+          $table->integer('event_id');
+          $table->integer('presenter_id');
+          $table->string('title');
+          $table->string('location');
+          $table->string('description');
+//          $table->string('');
+
+          $table->timestamps();
         });
     }
 

@@ -15,6 +15,30 @@ class CreateAttendeesTable extends Migration
     {
         Schema::create('attendees', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('event_id');
+            $table->integer('payment_id');
+            $table->string('name');
+            $table->string('email', 100);
+            $table->string('phone', 16);
+            $table->string('address');
+            $table->string('address_2')->nullable();
+            $table->string('suite');
+            $table->string('city');
+            $table->string('state', 3);
+            $table->string('postal', 10);
+            $table->string('country', 2);
+
+            $table->string('emergency_contact_name');
+            $table->string('emergency_contact_phone');
+            $table->string('emergency_contact_relation');
+
+            $table->string('modifiers');
+            $table->integer('total');
+
+
+
+
+
             $table->timestamps();
         });
     }
