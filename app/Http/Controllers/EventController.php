@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use Illuminate\Http\Request;
+use function response;
 
 class EventController extends Controller
 {
@@ -14,7 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+      return response('events index', 200);
     }
 
     /**
@@ -24,7 +25,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -44,9 +45,9 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+    public function show( $event) //TODO Add type hint back once we're ready to begin building out the model
     {
-        //
+        return response('event ' . $event, 200);
     }
 
     /**

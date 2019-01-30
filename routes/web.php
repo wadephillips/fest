@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/events', 'EventController@index');
+Route::get('/events/{event}', 'EventController@show');
+
+
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
