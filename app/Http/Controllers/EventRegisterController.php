@@ -19,21 +19,12 @@ class EventRegisterController extends Controller
     //
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\Response
-   */
-  public function store(Request $request)
-  {
-    //
-  }
+
 
   /**
    * Display the specified resource.
    *
-   * @param  int $id
+   * @param Event $event
    * @return \Illuminate\Http\Response
    */
   public function show($event) //todo add type hint
@@ -41,7 +32,23 @@ class EventRegisterController extends Controller
     return response($event, 200);
   }
 
-  public function registered($event) //todo add type hint
+  /**
+   * Process an event registration.
+   *
+   * @param  \Illuminate\Http\Request $request
+   * @param Event $event
+   * @return \Illuminate\Http\Response
+   */
+  public function register(Request $request, $event) //TODO add type hint
+  {
+    return response($event, 200);
+  }
+
+  /**
+   * @param Event $event
+   * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+   */
+  public function registered(Event $event) //todo add type hint
   {
     return response($event, 200);
   }

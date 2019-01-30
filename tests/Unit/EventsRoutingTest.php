@@ -7,9 +7,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function var_dump;
 
-class RoutingTest extends TestCase
+class EventsRoutingTest extends TestCase
 {
 
+  /**
+   * GET Requests
+   */
   public function testItHasAnIndexRoute()
   {
     $response = $this->get('/');
@@ -44,6 +47,18 @@ class RoutingTest extends TestCase
   {
     $stub = 'fest';
     $response = $this->get('/events/' . $stub . '/registered');
+    $response->assertStatus(200);
+    $this->assertTrue($response->content() == $stub);
+  }
+
+  /**
+   * POSTS
+   */
+
+  public function testItHasAPostEventRegistrationRoute()
+  {
+    $stub = 'fest';
+    $response = $this->post('/events/' . $stub . '/register');
     $response->assertStatus(200);
     $this->assertTrue($response->content() == $stub);
   }
