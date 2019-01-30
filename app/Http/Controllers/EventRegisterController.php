@@ -4,19 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use Illuminate\Http\Request;
-use function response;
 
-class EventController extends Controller
+class EventRegisterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-      return response('events index', 200);
-    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -25,7 +16,7 @@ class EventController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -42,21 +33,21 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Event  $event
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($event) //TODO Add type hint back once we're ready to begin building out the model
+    public function show( $event)
     {
-        return response('event ' . $event, 200);
+      return response($event, 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Event  $event
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Event $event)
+    public function edit($id)
     {
         //
     }
@@ -65,10 +56,10 @@ class EventController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Event  $event
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -76,10 +67,10 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Event  $event
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
         //
     }

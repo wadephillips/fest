@@ -16,6 +16,12 @@ class RoutingTest extends TestCase
     $response->assertStatus(200);
   }
 
+  public function testItHasAGetEventIndexRoute()
+  {
+    $response = $this->get('/events');
+    $response->assertStatus(200);
+  }
+
   public function testItHasAGetIndividualEventRoute()
   {
     $stub = 'fest';
@@ -26,9 +32,13 @@ class RoutingTest extends TestCase
 
   }
 
-  public function testItHasAGetEventIndexRoute()
+  public function testItHasAGetEventRegisterRoute()
   {
-    $response = $this->get('/events');
+    $stub = 'fest';
+    $response = $this->get('/events/' . $stub . '/register');
     $response->assertStatus(200);
+    $this->assertTrue($response->content() == $stub);
   }
+
+
 }
