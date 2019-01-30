@@ -17,6 +17,16 @@ class Event extends Model
     return 'slug';
   }
 
+  /**
+   * The attributes that should be mutated to dates.
+   *
+   * @var array
+   */
+  protected $dates = [
+      'start',
+      'end'
+  ];
+
   public function attendees()
   {
     return $this->hasMany('App\Attendee');
