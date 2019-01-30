@@ -18,6 +18,8 @@ Route::get('/', function () {
 Route::get('/events', 'EventController@index');
 Route::get('/events/{event}', 'EventController@show');
 Route::get('/events/{event}/register', 'EventRegisterController@show');
+Route::get('/events/{event}/registered', 'EventRegisterController@registered' );
+
 
 
 

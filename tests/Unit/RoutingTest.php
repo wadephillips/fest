@@ -40,5 +40,13 @@ class RoutingTest extends TestCase
     $this->assertTrue($response->content() == $stub);
   }
 
+  public function testItHasAGetEventRegistrationSuccessfulRoute()
+  {
+    $stub = 'fest';
+    $response = $this->get('/events/' . $stub . '/registered');
+    $response->assertStatus(200);
+    $this->assertTrue($response->content() == $stub);
+  }
+
 
 }
