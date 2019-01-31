@@ -15,9 +15,9 @@ class CreatePaymentsTable extends Migration
   {
     Schema::create('payments', function (Blueprint $table) {
       $table->increments('id');
-      $table->string('event_id')->unsigned()->index();
-      $table->string('payer_id')->unsigned()->index(); //foreign key to attendee
-      $table->string('amount');
+      $table->integer('event_id')->unsigned()->index();
+      $table->integer('payer_id')->unsigned()->index(); //foreign key to attendee
+      $table->integer('amount');
       $table->string('status');
       $table->string('token');
       //billing address

@@ -18,8 +18,11 @@ class CreateBreakoutsTable extends Migration
           $table->integer('event_id')->unsigned()->index();
           $table->string('title');
           $table->string('slug');
+          $table->date('date');
+          $table->time('start');
+          $table->time('end');
           $table->string('location');
-          $table->string('description');
+          $table->string('description', 5000);
 //          $table->string('');
 
           $table->timestamps();
