@@ -16,8 +16,8 @@ class CreatePresentersTable extends Migration
         Schema::create('presenters', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('credentials');
-            $table->string('bio');
+            $table->string('credentials')->nullable();
+            $table->string('bio', 1000);
 
 
           $table->timestamps();

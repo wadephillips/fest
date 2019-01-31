@@ -14,7 +14,7 @@ class FestDataSeeder extends Seeder
     {
         $this->call([
           PresenterTableSeeder::class,
-          EventTableSeeder::class,
+          EventTableSeeder::class, //creates 2 events and assocaiates presenters with each
         ]);
     }
 }
