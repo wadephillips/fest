@@ -17,6 +17,7 @@ class CreateBreakoutsTable extends Migration
           $table->increments('id');
           $table->integer('event_id')->unsigned()->index();
           $table->string('title');
+          $table->string('slug');
           $table->string('location');
           $table->string('description');
 //          $table->string('');

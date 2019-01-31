@@ -32,11 +32,8 @@ class CreateAttendeesTable extends Migration
             $table->string('emergency_contact_phone');
             $table->string('emergency_contact_relation');
 
-            $table->string('modifiers');
-            $table->integer('total');
-
-
-
+            $table->json('modifiers')->nullable();
+            $table->integer('total')->default(0);
 
 
             $table->timestamps();
