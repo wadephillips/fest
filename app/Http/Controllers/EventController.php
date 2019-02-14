@@ -15,7 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-      return response('events index', 200);
+      return view('events');
     }
 
     /**
@@ -83,4 +83,6 @@ class EventController extends Controller
     {
         //
     }
+
+
 }

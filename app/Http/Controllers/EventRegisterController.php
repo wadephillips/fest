@@ -29,7 +29,7 @@ class EventRegisterController extends Controller
    */
   public function show($event) //todo add type hint
   {
-    return response($event, 200);
+    return view('event.register');
   }
 
   /**
@@ -48,7 +48,7 @@ class EventRegisterController extends Controller
    * @param Event $event
    * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
    */
-  public function registered(Event $event) //todo add type hint
+  public function registered($event) //todo add type hint
   {
     return response($event, 200);
   }
