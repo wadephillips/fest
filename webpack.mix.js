@@ -17,9 +17,10 @@ let path = require('path');
 mix
     .js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    // .copy('resources/assets/img', 'public/img')
+    .copy('resources/assets/img', 'public/img')
     .browserSync({
       proxy: 'fest.pocacoop.test',
-      open: false
+      open: false,
+      https:true
     })
 ;

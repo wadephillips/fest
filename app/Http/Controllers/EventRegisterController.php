@@ -39,9 +39,14 @@ class EventRegisterController extends Controller
    * @param Event $event
    * @return \Illuminate\Http\Response
    */
-  public function register(Request $request, $event) //TODO add type hint
+  public function register(Request $request, Event $event) //TODO add type hint
   {
-    return response($event, 200);
+    dd($request->all());
+    // validate
+    // attempt to charge the card
+    //if successful persist payment info, attendee info, and then send email to queue, display thank you page
+    // else return them to the registration form with some error message
+    return response($request->all(), 200);
   }
 
   /**

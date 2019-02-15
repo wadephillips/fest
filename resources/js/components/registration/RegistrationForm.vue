@@ -1,9 +1,12 @@
 <template>
 
   <div class="container">
-    <form action="post">
+    <form id="registrationForm" :action="postPath" method="post">
+      <input type="hidden" name="_token" :value="csrf">
+
       <vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">
       </vue-form-generator>
+      <stripe-payment-form purchaserEmail="purchaserEmail"></stripe-payment-form>
     </form>
   </div>
 
@@ -16,19 +19,22 @@
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
 
-  // window.Cleave = new Cleave()
 
 
   export default {
     name: "RegistrationForm",
     components: {
       "vue-form-generator": VueFormGenerator.component,
-      'field-cleave' : VueFormGenerator.component
     },
-    // props: ['states', 'countries'],
+    // computed: {
+    //   postPath(){
+    //     return window.location.pathname;
+    //   }
+    // },
     data () {
       return {
-
+        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        postPath: window.location.pathname,
         model: [
           {
             id: 1,
@@ -195,6 +201,20 @@
           validateAsync: true
         }
       }
+    },
+    methods: {
+
+    },
+    computed: {
+      purchaserEmail() {
+        return model[0].email;
+      }
+    },
+    mounted() {
+      let self = this;
+      Bus.$on('stripe_done', (payload) => {
+        $('#registrationForm').submit();
+      });
     }
   }
 </script>

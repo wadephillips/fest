@@ -9,6 +9,9 @@ require('./bootstrap');
 window.states = require('./states.json');
 window.countries = require('./countries.json');
 window.Vue = require('vue');
+import VueStripeCheckout from 'vue-stripe-checkout';
+
+Vue.use(VueStripeCheckout, process.env.MIX_STRIPE_PUBLIC_KEY);
 
 /**
  * The following block of code may be used to automatically register your
@@ -22,6 +25,11 @@ const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
+/**
+ * Set up an events bus
+ */
+window.Bus = new Vue();
 /**
  * Registering a Vue Global Mixin
  */
@@ -32,6 +40,9 @@ Vue.mixin({
         },
         countries() {
             return window.countries;
+        },
+        Bus() {
+            return window.Bus;
         }
     }
 });
