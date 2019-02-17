@@ -3,9 +3,15 @@
 namespace Tests\Unit;
 
 use App\Event;
+use App\Http\Controllers\EventRegisterController;
 use function array_merge;
+use Exception;
 use function factory;
+use Illuminate\Support\Facades\App;
+use function is_object;
 use function json_decode;
+use ReflectionClass;
+use Stripe\Charge;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,7 +45,6 @@ class EventRegistrationTest extends TestCase
     ];
     //create the form data
     $this->formData = [
-        '' => '',
     ];
 
     $this->stripeData = \GuzzleHttp\json_decode(
@@ -87,20 +92,32 @@ class EventRegistrationTest extends TestCase
 
   public function testItPostsStuffToTheRoute()
   {
-    $path = '/events/' . $this->event->slug . '/register';
-    $post = array_merge($this->registrant,  $this->formData, $this->stripeData);
-//    var_dump($path);
+    try {
+      $path = '/events/' . $this->event->slug . '/register';
+    $post = array_merge($this->registrant, $this->formData, $this->stripeData, [ 'total' => 15000 ]);//    var_dump($path);
       $response = $this->post($path, $post);
       $response->assertOk();
-  }
-  /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-      var_dump($this->stripeData['token']['id']);
-        $this->assertTrue(false);
+    } catch ( Exception $e ) {
+      echo $e->getMessage();
+      echo $e->getTraceAsString();
     }
+  }
+  public function testItChargesAStripeToken()
+  {
+    $token='tok_visa';
+    $amount = '9900';
+    $description = 'This is a unit test charge';
+
+    ;
+    $controller = App::make(EventRegisterController::class);
+    $method = $this->getPrivateMethod('App\Http\Controllers\EventRegisterController', 'chargeStripeToken');
+
+    $result = $method->invokeArgs($controller, [$token,$amount, $description]);
+
+    $this->assertTrue(is_object($result));
+    $this->assertInstanceOf(Charge::class, $result);
+    $this->assertTrue($result->amount == 9900);
+
+  }
+
 }
