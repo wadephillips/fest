@@ -17,6 +17,7 @@ $factory->define(App\Payment::class, function (Faker $faker) {
       'postal' => $faker->postcode,
       'country' => $faker->countryCode,
       'processor' => $faker->word,
+      'processor_transaction_id' => $faker->uuid,
       'processor_customer_id' => $faker->uuid,
       'processor_invoice_id' => $faker->uuid,
       'processor_subscription_id' => $faker->uuid,

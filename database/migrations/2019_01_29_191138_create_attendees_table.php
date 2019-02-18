@@ -22,7 +22,7 @@ class CreateAttendeesTable extends Migration
             $table->string('phone', 16);
             $table->string('address',100);
             $table->string('address_2',100)->nullable();
-            $table->string('suite', 50);
+            $table->string('suite', 50)->nullable();
             $table->string('city');
             $table->string('state', 3);
             $table->string('postal', 10);

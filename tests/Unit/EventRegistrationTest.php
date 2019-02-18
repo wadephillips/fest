@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Event;
 use App\Http\Controllers\EventRegisterController;
+use App\Payment;
 use function array_merge;
 use Exception;
 use function factory;
@@ -19,10 +20,11 @@ use function var_dump;
 
 class EventRegistrationTest extends TestCase
 {
-  private $registrant;
+  private $registrants = [];
   private $event;
   private $formData;
   private $stripeData;
+  private $post;
 
   protected function setUp()
   {
@@ -30,7 +32,7 @@ class EventRegistrationTest extends TestCase
     // create an event
     $this->event = factory(Event::class)->create([ 'name' => 'POCA Fest!!', 'slug' => 'poca-fest',]);
     //create a registrant(s)
-    $this->registrant = [
+    $this->registrants[] = [
         'name' => 'John Jones',
         'email' => 'jjones@example.com',
         'phone' => '907-555-5555',
@@ -42,6 +44,21 @@ class EventRegistrationTest extends TestCase
         'emergency_contact_name' => 'James Jones',
         'emergency_contact_phone' => '406-555-5555',
         'emergency_contact_relation' => 'father',
+        'total' => '200',
+    ];
+    $this->registrants[] = [
+        'name' => 'Jane Doe',
+        'email' => 'janedoe@example.com',
+        'phone' => '907-555-5556',
+        'address' => '789 any st.',
+        'city' => 'Anytown',
+        'state' => 'AK',
+        'postal' => '99501',
+        'country' => 'US',
+        'emergency_contact_name' => 'Jenny Doe',
+        'emergency_contact_phone' => '406-555-5556',
+        'emergency_contact_relation' => 'Mother',
+        'total' => 250,
     ];
     //create the form data
     $this->formData = [
@@ -55,14 +72,14 @@ class EventRegistrationTest extends TestCase
                 "card": {
                   "id": "card_1E4D7BEfCmJMLhhrncimuMLh",
                   "object": "card",
-                  "address_city": null,
-                  "address_country": null,
-                  "address_line1": null,
-                  "address_line1_check": null,
+                  "address_city": "Anytown",
+                  "address_country": "US",
+                  "address_line1": "123 any st.",
+                  "address_line1_check": "pass",
                   "address_line2": null,
                   "address_state": null,
-                  "address_zip": null,
-                  "address_zip_check": null,
+                  "address_zip": "99501",
+                  "address_zip_check": "pass",
                   "brand": "Visa",
                   "country": "US",
                   "cvc_check": "pass",
@@ -86,6 +103,9 @@ class EventRegistrationTest extends TestCase
             }'
     , true);
 
+    $this->post = $post = array_merge( $this->formData, $this->stripeData, [ 'total' => 15000 ]);
+    $this->post['registrants'] = $this->registrants;
+
 
   }
 
@@ -94,8 +114,7 @@ class EventRegistrationTest extends TestCase
   {
     try {
       $path = '/events/' . $this->event->slug . '/register';
-    $post = array_merge($this->registrant, $this->formData, $this->stripeData, [ 'total' => 15000 ]);//    var_dump($path);
-      $response = $this->post($path, $post);
+      $response = $this->post($path, $this->post);
       $response->assertOk();
     } catch ( Exception $e ) {
       echo $e->getMessage();
@@ -104,20 +123,67 @@ class EventRegistrationTest extends TestCase
   }
   public function testItChargesAStripeToken()
   {
-    $token='tok_visa';
-    $amount = '9900';
-    $description = 'This is a unit test charge';
-
-    ;
-    $controller = App::make(EventRegisterController::class);
-    $method = $this->getPrivateMethod('App\Http\Controllers\EventRegisterController', 'chargeStripeToken');
-
-    $result = $method->invokeArgs($controller, [$token,$amount, $description]);
-
+    $result = $this->chargeAToken(9900, 'base charge test');
+//    var_dump($result);
     $this->assertTrue(is_object($result));
     $this->assertInstanceOf(Charge::class, $result);
     $this->assertTrue($result->amount == 9900);
 
+  }
+
+  public function testItPersistsAPayment()
+  {
+    $total = 7500;
+    $charge = $this->chargeAToken($total, 'charge for building a Payment test');
+    $controller = App::make(EventRegisterController::class);
+    $method = $this->getPrivateMethod('App\Http\Controllers\EventRegisterController', 'savePayment');
+    $all = $this->post;
+    $all['total'] = $total;
+    $result = $method->invokeArgs($controller, [ $all, $charge, $this->event ]);
+    $this->assertTrue(is_object($result), 'The result is not an object');
+    $this->assertInstanceOf(Payment::class, $result);
+    $this->assertTrue($result->amount == 7500);
+    $this->assertTrue($result->address == $this->registrants[0]['address']);
+    $this->assertTrue($result->city == $this->registrants[0]['city']);
+    $this->assertTrue($result->state == $this->registrants[0]['state']);
+    $this->assertTrue($result->country == $this->registrants[0]['country']);
+
+  }
+
+  public function testItRegistersAnAttendee()
+  {
+    $payment = factory(Payment::class)->create([ 
+        'event_id' => $this->event->id,
+        'payer_id' => 0,
+        'processor' => 'stripe',
+        'processor_transaction_id' => 'ch_1E5LXbLHPlwTNNkcbl0czjGQ',
+        ]);
+    $controller = App::make(EventRegisterController::class);
+    $method = $this->getPrivateMethod('App\Http\Controllers\EventRegisterController', 'createRegistration');
+
+    $result = $method->invokeArgs($controller, [ $this->registrants[0], $this->event, $payment ]);
+
+    $this->assertTrue($result->name == $this->registrants[0]['name'] );
+    $this->assertTrue($result->phone == $this->registrants[0]['phone'] );
+    $this->assertTrue($result->postal == $this->registrants[0]['postal'] );
+    $this->assertTrue($result->address == $this->registrants[0]['address'] );
+  }
+
+  /**
+   * @param $price
+   * @return mixed
+   */
+  private function chargeAToken(int $price = 9999,
+                                string $description = 'This is a unit test charge',
+                                string $token = 'tok_visa'
+  )
+  {
+    $amount = $price;
+    $controller = App::make(EventRegisterController::class);
+    $method = $this->getPrivateMethod('App\Http\Controllers\EventRegisterController', 'chargeStripeToken');
+
+    $result = $method->invokeArgs($controller, [ $token, $amount, $description ]);
+    return $result;
   }
 
 }

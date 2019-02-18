@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use function abort;
+use App\Attendee;
 use App\Event;
 use App\Http\Requests\EventRegistrationPostRequest;
+use App\Payment;
+use function array_has;
 use function env;
 use Exception;
 use Illuminate\Http\Request;
 use function is_null;
+use stdClass;
 use Stripe\Charge;
 use Stripe\Stripe;
 use function var_dump;
@@ -50,6 +54,7 @@ class EventRegisterController extends Controller
   {
     try {
       $all = $request->all();
+      var_dump($all);
       $description = (isset($all[ 'description' ])) ? $all->description : 'Event Charge';
 
       // validate - done with request
@@ -61,19 +66,17 @@ class EventRegisterController extends Controller
       $charge = $this->chargeStripeToken($tokenId, $total, $description);
       var_dump($charge);
 
-      if (is_null($charge)) {
+      if ( is_null($charge) ) {
         //we've got a problem throw an error nothing happened at all
         //
-      } elseif (!$charge) {
+      } elseif ( !$charge ) {
         //we're missing the token or an amount and should return a error
-      } elseif ($charge instanceof Charge) {
+      } elseif ( $charge instanceof Charge ) {
         // do all the persisting in a transaction
-        $this->saveRegistrationAndPayment($all, $charge);
+        $this->saveRegistrationAndPayment($all, $charge, $event);
       } else {
         throw new Exception('');
       }
-
-
 
 
     } catch ( Exception $e ) {
@@ -145,42 +148,112 @@ class EventRegisterController extends Controller
         ]);
       }
       return $charge;
-    } catch(\Stripe\Error\Card $e) {
+    } catch ( \Stripe\Error\Card $e ) {
       // Since it's a decline, \Stripe\Error\Card will be caught
       $body = $e->getJsonBody();
-      $err  = $body['error'];
+      $err = $body[ 'error' ];
       //TODO: log all declines to a DB table, set up error logging
 
       print('Status is:' . $e->getHttpStatus() . "\n");
-      print('Type is:' . $err['type'] . "\n");
-      print('Code is:' . $err['code'] . "\n");
+      print('Type is:' . $err[ 'type' ] . "\n");
+      print('Code is:' . $err[ 'code' ] . "\n");
       // param is '' in this case
-      print('Param is:' . $err['param'] . "\n");
-      print('Message is:' . $err['message'] . "\n");
-    } catch (\Stripe\Error\RateLimit $e) {
+      print('Param is:' . $err[ 'param' ] . "\n");
+      print('Message is:' . $err[ 'message' ] . "\n");
+    } catch ( \Stripe\Error\RateLimit $e ) {
       // Too many requests made to the API too quickly
-    } catch (\Stripe\Error\InvalidRequest $e) {
+    } catch ( \Stripe\Error\InvalidRequest $e ) {
       // Invalid parameters were supplied to Stripe's API
-    } catch (\Stripe\Error\Authentication $e) {
+    } catch ( \Stripe\Error\Authentication $e ) {
       // Authentication with Stripe's API failed
       // (maybe you changed API keys recently)
-    } catch (\Stripe\Error\ApiConnection $e) {
+    } catch ( \Stripe\Error\ApiConnection $e ) {
       // Network communication with Stripe failed
-    } catch (\Stripe\Error\Base $e) {
+    } catch ( \Stripe\Error\Base $e ) {
       // Display a very generic error to the user, and maybe send
       // yourself an email
     }
   }
 
-  private function saveRegistrationAndPayment(array $all, $charge)
+  private function saveRegistrationAndPayment(array $all, $charge, Event $event)
   {
-    $payment = $this->savePayment($all, $charge); //App\Payment
-
-    $attendees = $this->saveRegistration($all); // array of attendees with first being the payee
+    $payment = $this->savePayment($all, $charge, $event); //App\Payment
+    $attendees = [];
+    foreach ( $all[ 'registrants' ] as $registrant ) {
+      $attendees[] = $this->createRegistration($registrant, $event, $payment); // array of attendees with first being the payee
+    }
+    $payment->payee_id = $attendees[0]->id;
   }
 
-  private function savePayment(array $all, $charge)
+  private function savePayment(array $all, $charge, Event $event)
   {
-    $this->
+    $payment = Payment::create([
+      //charge
+        'amount' => $charge->amount,
+        'processor_transaction_id' => $charge->id,
+        'processor' => env('CREDIT_CARD_PROCESSOR'),
+        'status' => $charge->status,
+        'token' => $all[ 'token' ][ 'id' ],
+
+
+      //event
+        'event_id' => $event->id,
+
+      //attendee
+        'payer_id' => 0,
+        'address' => $all[ 'registrants' ][ 0 ][ 'address' ],
+        'city' => $all[ 'registrants' ][ 0 ][ 'city' ],
+        'state' => $all[ 'registrants' ][ 0 ][ 'state' ],
+        'postal' => $all[ 'registrants' ][ 0 ][ 'postal' ],
+        'country' => $all[ 'registrants' ][ 0 ][ 'country' ],
+
+    ]);
+    if ( array_has($all[ 'registrants' ][ 0 ], 'address_2') ) {
+      $payment->address_2 = $all[ 'registrants' ][ 0 ][ 'address_2' ];
+    }
+    if ( array_has($all[ 'registrants' ][ 0 ], 'suite') ) {
+      $payment->suite = $all[ 'registrants' ][ 0 ][ 'suite' ];
+    }
+
+    return $payment;
+  }
+
+  private function createRegistration(array $registrant, Event $event, Payment $payment): Attendee
+  {
+    $eventId = $event->id;
+    $paymentId = $payment->id;
+    // for each attendee in the form create an Attendee
+
+      $attendee = Attendee::create([
+          'event_id' => $eventId,
+          'payment_id' => $paymentId,
+          'name' => $registrant['name'],
+          'email' => $registrant['email'],
+          'phone' => $registrant['phone'],
+          'address' => $registrant['address'],
+          'city' => $registrant['city'],
+          'state' => $registrant['state'],
+          'postal' => $registrant['postal'],
+          'country' => $registrant['country'],
+          'emergency_contact_name' => $registrant['emergency_contact_name'],
+          'emergency_contact_phone' => $registrant['emergency_contact_phone'],
+          'emergency_contact_relation' => $registrant['emergency_contact_relation'],
+//          'modifiers' => $registrant['modifiers'],
+          'total' => $registrant['total'],
+      ]);
+
+    if ( array_has($registrant, 'address_2') ) {
+      $attendee->address_2 = $registrant[ 'address_2' ];
+    }
+    if ( array_has($registrant, 'suite') ) {
+      $attendee->suite = $registrant[ 'suite' ];
+    }
+    if ( array_has($registrant, 'modifiers') ) {
+      $attendee->modifiers = $registrant[ 'modifiers' ];
+    }
+
+
+
+    return $attendee;
   }
 }
