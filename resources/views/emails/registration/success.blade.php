@@ -10,7 +10,7 @@ Lets tell you more about that!!
     | Attendee       | Email        | Amount  |
     | ------------- |:-------------:| --------:|
     @foreach($attendees as $attendee)
-    | {{$attendee->name}}  | {{$attendee->email}} | {{$attendee->total}} |
+    | {{$attendee['name']}}  | {{$attendee['email']}} | {{$attendee['total']}} |
     @endforeach
     |            |                   |           |
     | **Total**  |                   | **{{$payment->amount}}** |

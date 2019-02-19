@@ -14,6 +14,7 @@ use function dd;
 use function env;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use function is_null;
 use stdClass;
@@ -62,7 +63,7 @@ class EventRegisterController extends Controller
 
       $description = (isset($all[ 'description' ])) ? $all['description ']: 'Event Charge';
 
-      // validate - done with request
+      //todo CRITICAL pre-launch need to validate - done with request, but the request isn't being called right now
       // attempt to charge the card
       $tokenId = $all[ 'token' ][ 'id' ];
       $total = $all[ 'total' ];
@@ -73,34 +74,37 @@ class EventRegisterController extends Controller
       $paymentAndAttendees = null;
 
       if ( is_null($charge) ) {
-        //we've got a problem throw an error nothing happened at all
+        //todo we've got a problem throw an error nothing happened at all
+        throw new Exception('Nothing happened when attempting to charge the token');
         //
       } elseif ( !$charge ) {
-        //we're missing the token or an amount and should return a error
+        //todo we're missing the token or an amount and should return a error
+        throw new Exception('The charge returned false while attempting to charge the token');
       } elseif ( $charge instanceof Charge ) {
         // do all the persisting in a transaction
         $paymentAndAttendees = $this->saveRegistrationAndPayment($all, $charge, $event);
       } else {
-        throw new Exception('');
+        throw new Exception('There is a general problem processing the charge');
       }
-//      dd($paymentAndAttendees);
       //if successful persist payment info, attendee info, and then send email to queue, display thank you page
-      //log the payment to and the registration
+      //todo log the payment to and the registration
 
       // send email
-//      dd($paymentAndAttendees['attendees']);
-      //todo: resume: why is $attendees not available in the emails.registration.blade template? Getting an error when we run a test
       Mail::to($all['token']['email'])->send(new RegistrationSuccessful($paymentAndAttendees['attendees'], $paymentAndAttendees['payment']));
+//      dd($mail);
 
+
+      // else return them to the registration form with some error message
+      return response($request->all(), 200);
 
     } catch ( Exception $e ) {
       echo $e->getMessage();
       echo $e->getTraceAsString();
 
+      return abort(400, $e->getMessage());
+
     }
 
-    // else return them to the registration form with some error message
-    return response($request->all(), 200);
   }
 
   /**
@@ -175,6 +179,7 @@ class EventRegisterController extends Controller
       print('Param is:' . $err[ 'param' ] . "\n");
       print('Message is:' . $err[ 'message' ] . "\n");
     } catch ( \Stripe\Error\RateLimit $e ) {
+      //TODO: Need to handle all these errors?
       // Too many requests made to the API too quickly
     } catch ( \Stripe\Error\InvalidRequest $e ) {
       // Invalid parameters were supplied to Stripe's API
@@ -191,15 +196,22 @@ class EventRegisterController extends Controller
 
   private function saveRegistrationAndPayment(array $all, $charge, Event $event)
   {
-    $payment = $this->savePayment($all, $charge, $event); //App\Payment
-    $attendees = [];
-    foreach ( $all[ 'registrants' ] as $registrant ) {
-      $attendees[] = $this->createRegistration($registrant, $event, $payment); // array of attendees with first being the payor
-    }
-    $payment->payer_id = $attendees[0]->id;
-    $payment->save();
 
-    return ['payment' => $payment, 'attendees' => $attendees];
+    try {
+      DB::beginTransaction();
+      $payment = $this->savePayment($all, $charge, $event);//App\Payment
+      $attendees = [];
+      foreach ( $all[ 'registrants' ] as $registrant ) {
+        $attendees[] = $this->createRegistration($registrant, $event, $payment); // array of attendees with first being the payor
+      }
+      $payment->payer_id = $attendees[ 0 ]->id;
+      $payment->save();
+      DB::commit();
+      return [ 'payment' => $payment, 'attendees' => $attendees ];
+    } catch ( Exception $e ) {
+      DB::rollBack();
+      throw new Exception('There was a problem persisting the registration or payment', 0, $e);
+    }
 
   }
 

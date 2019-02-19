@@ -117,6 +117,9 @@ class EventRegistrationTest extends TestCase
       $path = '/events/' . $this->event->slug . '/register';
       $response = $this->post($path, $this->post);
 //      dd($response);
+      $emails = app()->make('swift.transport')->driver()->messages();
+      $this->assertCount(1, $emails);
+      $this->assertEquals([$this->stripeData['token']['email']], array_keys($emails[0]->getTo()));
       $response->assertOk();
     } catch ( Exception $e ) {
       echo $e->getMessage();

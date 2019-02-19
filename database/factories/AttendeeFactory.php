@@ -14,7 +14,7 @@ $factory->define(App\Attendee::class, function (Faker $faker) {
       'payment_id' => $faker->numberBetween(1,50),
       'name' => $faker->name,
       'email' => $faker->email,
-      'phone' => $faker->phoneNumber,
+      'phone' => $faker->tollFreePhoneNumber,
       'address' => $faker->streetAddress,
       'address_2' => $faker->optional()->secondaryAddress,
       'suite' => $faker->optional()->secondaryAddress,

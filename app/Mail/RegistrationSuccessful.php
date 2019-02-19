@@ -2,8 +2,8 @@
 
 namespace App\Mail;
 
-use App\Attendee;
-use App\Payment;
+//use App\Attendee;
+//use App\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -15,11 +15,11 @@ class RegistrationSuccessful extends Mailable
   /**
    * @var Attendees - The attendees who have been registered and paid for in this group of registrations
    */
-  private $attendees;
+  public $attendees;
   /**
    * @var Payment - the Payment for the group of registrations
    */
-  private $payment;
+  public $payment;
 
   /**
    * Create a new message instance.
@@ -27,7 +27,7 @@ class RegistrationSuccessful extends Mailable
    * @param array $attendees
    * @param Payment $payment
    */
-    public function __construct(array $attendees, Payment $payment)
+    public function __construct($attendees, $payment)
     {
 
       $this->attendees = $attendees;
@@ -42,6 +42,7 @@ class RegistrationSuccessful extends Mailable
     public function build()
     {
 
-        return $this->markdown('emails.registration.success');
+        return $this->from('wadelp@wadelp.com')
+            ->markdown('emails.registration.success');
     }
 }
