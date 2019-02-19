@@ -1961,12 +1961,90 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-form-generator/dist/vfg.js */ "./node_modules/vue-form-generator/dist/vfg.js");
+/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-form-generator/dist/vfg.css */ "./node_modules/vue-form-generator/dist/vfg.css");
+/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cleave.js */ "./node_modules/cleave.js/dist/cleave.js");
+/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cleave_js__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.us */ "./node_modules/cleave.js/dist/addons/cleave-phone.us.js");
+
+__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules/cleave.js/dist/addons/cleave-phone.ca.js");
+
+var optionsIn = {
+  validateAfterLoad: false,
+  validateAfterChanged: true,
+  fieldIdPrefix: 'attendee_' //+ id
+
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "AcupunctureLicense"
+  name: "AcupunctureLicense",
+  components: {
+    "vue-form-generator": vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default.a.component
+  },
+  data: function data() {
+    return {
+      acupuncturist: null,
+      formOptions: optionsIn,
+      model: {
+        licenseNumber: '',
+        licenseCountry: '',
+        licenseState: ''
+      },
+      schema: {
+        groups: [{
+          legend: 'Acupuncture License Info',
+          fields: [{
+            type: "select",
+            label: "State or Province",
+            model: "licenseState",
+            // required: true,
+            values: states,
+            // default: "en-US",
+            // validator: validators.required
+            selectOptions: {
+              noneSelectedText: "Select a state/province"
+            },
+            placeholder: 'Select a state/province',
+            styleClasses: ['col-md-8']
+          }, {
+            type: 'input',
+            inputType: 'text',
+            label: 'License Number',
+            model: 'licenseNumber',
+            placeholder: '213BA',
+            styleClasses: ['col-md-4']
+          }, {
+            type: 'select',
+            label: 'Country',
+            model: 'licenseCountry',
+            values: countries,
+            selectOptions: {
+              noneSelectedText: "Select a country"
+            },
+            styleClasses: ['col-md-8']
+          }]
+        }]
+      }
+    };
+  }
 });
 
 /***/ }),
@@ -2000,6 +2078,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2009,6 +2090,9 @@ __webpack_require__.r(__webpack_exports__);
     AcupunctureLicense: _AcupunctureLicense__WEBPACK_IMPORTED_MODULE_2__["default"],
     EmergencyContact: _EmergencyContact__WEBPACK_IMPORTED_MODULE_1__["default"],
     AttendeeDetails: _AttendeeDetails__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {};
   }
 });
 
@@ -2407,34 +2491,39 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
         // }
         //   ]
         // },
+        // {
+        //   legend: 'Emergency Contact Info',
+        //   fields: [
+        //     {
+        //       type: 'input',
+        //       inputType: 'text',
+        //       label: 'Emergency Contact Name',
+        //       model: 'emergencyContactName',
+        //       // placeholder: 'A name',
+        //       featured: true,
+        //       required: true
+        //     },
+        //     {
+        //       type: 'cleave',
+        //       label: 'Emergency Contact Phone',
+        //       model: 'emergencyContactPhone',
+        //       cleaveOptions: {
+        //         phone: true,
+        //         phoneRegionCode: 'US'
+        //       },
+        //       required: true,
+        //       placeholder: 'Best phone number for contacting'
+        //     },
+        //     {
+        //       type: 'input',
+        //       inputType: 'text',
+        //       label: 'Relationship to Emergency Contact ',
+        //       model: 'emergencyContactRelationship',
+        //       required: true
+        //     },
+        //   ]
+        // },
         {
-          legend: 'Emergency Contact Info',
-          fields: [{
-            type: 'input',
-            inputType: 'text',
-            label: 'Emergency Contact Name',
-            model: 'emergencyContactName',
-            // placeholder: 'A name',
-            featured: true,
-            required: true
-          }, {
-            type: 'cleave',
-            label: 'Emergency Contact Phone',
-            model: 'emergencyContactPhone',
-            cleaveOptions: {
-              phone: true,
-              phoneRegionCode: 'US'
-            },
-            required: true,
-            placeholder: 'Best phone number for contacting'
-          }, {
-            type: 'input',
-            inputType: 'text',
-            label: 'Relationship to Emergency Contact ',
-            model: 'emergencyContactRelationship',
-            required: true
-          }]
-        }, {
           legend: 'Acupuncture License Info',
           fields: [{
             type: "select",
@@ -40739,7 +40828,74 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "form-group" }, [
+        _c("span", { staticClass: "switch switch-sm" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.acupuncturist,
+                expression: "acupuncturist"
+              }
+            ],
+            staticClass: "switch",
+            attrs: { type: "checkbox", id: "acupuncturist-switch" },
+            domProps: {
+              checked: Array.isArray(_vm.acupuncturist)
+                ? _vm._i(_vm.acupuncturist, null) > -1
+                : _vm.acupuncturist
+            },
+            on: {
+              change: function($event) {
+                var $$a = _vm.acupuncturist,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = null,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.acupuncturist = $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      (_vm.acupuncturist = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
+                  }
+                } else {
+                  _vm.acupuncturist = $$c
+                }
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "acupuncturist-switch" } }, [
+            _vm._v("Acupuncturist")
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("vue-form-generator", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.acupuncturist,
+            expression: "acupuncturist"
+          }
+        ],
+        attrs: {
+          model: _vm.model,
+          options: _vm.formOptions,
+          schema: _vm.schema
+        }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -40767,9 +40923,11 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [_c("attendee-details")], 1),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-3" }, [_c("emergency-contact")], 1),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-3" }, [_c("acupuncture-license")], 1)
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "col-md-12" }, [_c("emergency-contact")], 1),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-12" }, [_c("acupuncture-license")], 1)
+      ])
     ])
   ])
 }

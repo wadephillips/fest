@@ -133,38 +133,38 @@
                 // }
             //   ]
             // },
-            {
-              legend: 'Emergency Contact Info',
-              fields: [
-                {
-                  type: 'input',
-                  inputType: 'text',
-                  label: 'Emergency Contact Name',
-                  model: 'emergencyContactName',
-                  // placeholder: 'A name',
-                  featured: true,
-                  required: true
-                },
-                {
-                  type: 'cleave',
-                  label: 'Emergency Contact Phone',
-                  model: 'emergencyContactPhone',
-                  cleaveOptions: {
-                    phone: true,
-                    phoneRegionCode: 'US'
-                  },
-                  required: true,
-                  placeholder: 'Best phone number for contacting'
-                },
-                {
-                  type: 'input',
-                  inputType: 'text',
-                  label: 'Relationship to Emergency Contact ',
-                  model: 'emergencyContactRelationship',
-                  required: true
-                },
-              ]
-            },
+            // {
+            //   legend: 'Emergency Contact Info',
+            //   fields: [
+            //     {
+            //       type: 'input',
+            //       inputType: 'text',
+            //       label: 'Emergency Contact Name',
+            //       model: 'emergencyContactName',
+            //       // placeholder: 'A name',
+            //       featured: true,
+            //       required: true
+            //     },
+            //     {
+            //       type: 'cleave',
+            //       label: 'Emergency Contact Phone',
+            //       model: 'emergencyContactPhone',
+            //       cleaveOptions: {
+            //         phone: true,
+            //         phoneRegionCode: 'US'
+            //       },
+            //       required: true,
+            //       placeholder: 'Best phone number for contacting'
+            //     },
+            //     {
+            //       type: 'input',
+            //       inputType: 'text',
+            //       label: 'Relationship to Emergency Contact ',
+            //       model: 'emergencyContactRelationship',
+            //       required: true
+            //     },
+            //   ]
+            // },
             {
               legend: 'Acupuncture License Info',
               fields: [
