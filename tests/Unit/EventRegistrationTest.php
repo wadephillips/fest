@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Attendee;
 use App\Event;
 use App\Http\Controllers\EventRegisterController;
 use App\Payment;
@@ -103,9 +104,9 @@ class EventRegistrationTest extends TestCase
             }'
     , true);
 
-    $this->post = $post = array_merge( $this->formData, $this->stripeData, [ 'total' => 15000 ]);
+    $this->post = $post = array_merge( $this->formData, $this->stripeData, [ 'total' => 45000 ]);
     $this->post['registrants'] = $this->registrants;
-
+//    dd($this->post);
 
   }
 
@@ -115,6 +116,7 @@ class EventRegistrationTest extends TestCase
     try {
       $path = '/events/' . $this->event->slug . '/register';
       $response = $this->post($path, $this->post);
+//      dd($response);
       $response->assertOk();
     } catch ( Exception $e ) {
       echo $e->getMessage();
@@ -167,6 +169,12 @@ class EventRegistrationTest extends TestCase
     $this->assertTrue($result->phone == $this->registrants[0]['phone'] );
     $this->assertTrue($result->postal == $this->registrants[0]['postal'] );
     $this->assertTrue($result->address == $this->registrants[0]['address'] );
+    $attendeeId = $result->id;
+    $attendeeDB = Attendee::findOrFail($attendeeId);
+    $this->assertTrue($attendeeDB->name == $this->registrants[0]['name'] );
+    $this->assertTrue($attendeeDB->phone == $this->registrants[0]['phone'] );
+    $this->assertTrue($attendeeDB->postal == $this->registrants[0]['postal'] );
+    $this->assertTrue($attendeeDB->address == $this->registrants[0]['address'] );
   }
 
   /**

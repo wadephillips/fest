@@ -8,6 +8,7 @@ use App\Event;
 use App\Http\Requests\EventRegistrationPostRequest;
 use App\Payment;
 use function array_has;
+use function collect;
 use function env;
 use Exception;
 use Illuminate\Http\Request;
@@ -49,12 +50,13 @@ class EventRegisterController extends Controller
    * @param  \Illuminate\Http\Request $request
    * @param Event $event
    * @return \Illuminate\Http\Response
+   * //EventRegistrationPostRequest
    */
-  public function register(EventRegistrationPostRequest $request, Event $event)
+  public function register(Request $request, Event $event)
   {
     try {
       $all = $request->all();
-      var_dump($all);
+//      var_dump($all);
       $description = (isset($all[ 'description' ])) ? $all->description : 'Event Charge';
 
       // validate - done with request
@@ -64,7 +66,8 @@ class EventRegisterController extends Controller
       $charge = null;
 
       $charge = $this->chargeStripeToken($tokenId, $total, $description);
-      var_dump($charge);
+//      var_dump($charge);
+      $paymentAndAttendees = null;
 
       if ( is_null($charge) ) {
         //we've got a problem throw an error nothing happened at all
@@ -73,11 +76,11 @@ class EventRegisterController extends Controller
         //we're missing the token or an amount and should return a error
       } elseif ( $charge instanceof Charge ) {
         // do all the persisting in a transaction
-        $this->saveRegistrationAndPayment($all, $charge, $event);
+        $paymentAndAttendees = $this->saveRegistrationAndPayment($all, $charge, $event);
       } else {
         throw new Exception('');
       }
-
+//      dd($paymentAndAttendees);
 
     } catch ( Exception $e ) {
       echo $e->getMessage();
@@ -85,6 +88,10 @@ class EventRegisterController extends Controller
 
     }
     //if successful persist payment info, attendee info, and then send email to queue, display thank you page
+    //log the payment to and the registration
+
+    // send email
+
     // else return them to the registration form with some error message
     return response($request->all(), 200);
   }
@@ -183,6 +190,10 @@ class EventRegisterController extends Controller
       $attendees[] = $this->createRegistration($registrant, $event, $payment); // array of attendees with first being the payee
     }
     $payment->payee_id = $attendees[0]->id;
+    $payment->save();
+
+    return ['payment' => $payment, 'attendees' => $attendees];
+
   }
 
   private function savePayment(array $all, $charge, Event $event)
@@ -194,7 +205,6 @@ class EventRegisterController extends Controller
         'processor' => env('CREDIT_CARD_PROCESSOR'),
         'status' => $charge->status,
         'token' => $all[ 'token' ][ 'id' ],
-
 
       //event
         'event_id' => $event->id,
@@ -251,8 +261,6 @@ class EventRegisterController extends Controller
     if ( array_has($registrant, 'modifiers') ) {
       $attendee->modifiers = $registrant[ 'modifiers' ];
     }
-
-
 
     return $attendee;
   }
