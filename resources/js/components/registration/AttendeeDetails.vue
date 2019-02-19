@@ -12,8 +12,8 @@
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
 
-  //todo resume: this isn't working try adding formOptions or id to computed
-  let formOptions = {
+  //todo: this isn't working try adding formOptions or id to computed
+  let optionsIn = {
         validateAfterLoad: false,
         validateAfterChanged: true,
         fieldIdPrefix: 'attendee_'//+ id
@@ -25,6 +25,7 @@
     },
     data() {
       return {
+        formOptions: optionsIn,
 
 
         model: {
@@ -45,21 +46,19 @@
             {
               legend: 'Attendee Details',
               fields: [
-                {
-                  type: 'input',
-                  inputType: 'text',
-                  label: 'ID (disabled text field)',
-                  model: 'id',
-                  readonly: true,
-                  disabled: true,
-                  styleClasses: ['col-md']
-                },
+                // {
+                //   type: 'input',
+                //   inputType: 'hidden',
+                //   model: 'id',
+                //   readonly: true,
+                //   disabled: true,
+                // },
                 {
                   type: 'input',
                   inputType: 'text',
                   label: 'Name',
                   model: 'name',
-                  placeholder: 'Attendee name',
+                  placeholder: 'Jane Doe',
                   required: true,
                   styleClasses: ['col-md']
                 },
@@ -68,7 +67,7 @@
                   inputType: 'email',
                   label: 'E-mail',
                   model: 'email',
-                  placeholder: 'User\'s e-mail address',
+                  placeholder: 'jdoe@gmail.com',
                   validator: ['required', 'email'],
                   required: true,
                   styleClasses: ['col-md-6']
@@ -81,7 +80,7 @@
                     phone: true,
                     phoneRegionCode: 'US'
                   },
-                  placeholder: 'Attendee\'s phone number',
+                  placeholder: '551-555-5555',
                   required: true,
                   styleClasses: ['col-md-6']
                 },

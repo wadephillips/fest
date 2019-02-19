@@ -2042,10 +2042,10 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.us */ "./node_modules/cleave.js/dist/addons/cleave-phone.us.js");
 
-__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules/cleave.js/dist/addons/cleave-phone.ca.js"); //todo resume: this isn't working try adding formOptions or id to computed
+__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules/cleave.js/dist/addons/cleave-phone.ca.js"); //todo: this isn't working try adding formOptions or id to computed
 
 
-var formOptions = {
+var optionsIn = {
   validateAfterLoad: false,
   validateAfterChanged: true,
   fieldIdPrefix: 'attendee_' //+ id
@@ -2058,6 +2058,7 @@ var formOptions = {
   },
   data: function data() {
     return {
+      formOptions: optionsIn,
       model: {
         id: 0,
         name: '',
@@ -2074,20 +2075,19 @@ var formOptions = {
       schema: {
         groups: [{
           legend: 'Attendee Details',
-          fields: [{
-            type: 'input',
-            inputType: 'text',
-            label: 'ID (disabled text field)',
-            model: 'id',
-            readonly: true,
-            disabled: true,
-            styleClasses: ['col-md']
-          }, {
+          fields: [// {
+          //   type: 'input',
+          //   inputType: 'hidden',
+          //   model: 'id',
+          //   readonly: true,
+          //   disabled: true,
+          // },
+          {
             type: 'input',
             inputType: 'text',
             label: 'Name',
             model: 'name',
-            placeholder: 'Attendee name',
+            placeholder: 'Jane Doe',
             required: true,
             styleClasses: ['col-md']
           }, {
@@ -2095,7 +2095,7 @@ var formOptions = {
             inputType: 'email',
             label: 'E-mail',
             model: 'email',
-            placeholder: 'User\'s e-mail address',
+            placeholder: 'jdoe@gmail.com',
             validator: ['required', 'email'],
             required: true,
             styleClasses: ['col-md-6']
@@ -2107,7 +2107,7 @@ var formOptions = {
               phone: true,
               phoneRegionCode: 'US'
             },
-            placeholder: 'Attendee\'s phone number',
+            placeholder: '551-555-5555',
             required: true,
             styleClasses: ['col-md-6']
           }]
@@ -2198,12 +2198,80 @@ var formOptions = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-form-generator/dist/vfg.js */ "./node_modules/vue-form-generator/dist/vfg.js");
+/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-form-generator/dist/vfg.css */ "./node_modules/vue-form-generator/dist/vfg.css");
+/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cleave.js */ "./node_modules/cleave.js/dist/cleave.js");
+/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cleave_js__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
 //
+//
+//
+//
+
+
+
+
+__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.us */ "./node_modules/cleave.js/dist/addons/cleave-phone.us.js");
+
+__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules/cleave.js/dist/addons/cleave-phone.ca.js"); //todo: this isn't working try adding formOptions or id to computed
+
+
+var optionsIn = {
+  validateAfterLoad: false,
+  validateAfterChanged: true,
+  fieldIdPrefix: 'attendee_' //+ id
+
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "EmergencyContact"
+  name: "EmergencyContact",
+  components: {
+    "vue-form-generator": vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default.a.component
+  },
+  data: function data() {
+    return {
+      formOptions: optionsIn,
+      model: {
+        emergencyContactName: '',
+        emergencyContactRelationship: '',
+        emergencyContactPhone: ''
+      },
+      schema: {
+        groups: [{
+          legend: 'Emergency Contact Info',
+          fields: [{
+            type: 'input',
+            inputType: 'text',
+            label: 'Emergency Contact Name',
+            model: 'emergencyContactName',
+            placeholder: 'Bill Murray',
+            featured: true,
+            required: true
+          }, {
+            type: 'cleave',
+            label: 'Emergency Contact Phone',
+            model: 'emergencyContactPhone',
+            cleaveOptions: {
+              phone: true,
+              phoneRegionCode: 'US'
+            },
+            required: true,
+            placeholder: '555-555-5555'
+          }, {
+            type: 'input',
+            inputType: 'text',
+            label: 'Relationship to Emergency Contact ',
+            model: 'emergencyContactRelationship',
+            required: true,
+            placeholder: 'Father'
+          }]
+        }]
+      }
+    };
+  }
 });
 
 /***/ }),
@@ -40764,7 +40832,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    [
+      _c("vue-form-generator", {
+        attrs: {
+          model: _vm.model,
+          options: _vm.formOptions,
+          schema: _vm.schema
+        }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
