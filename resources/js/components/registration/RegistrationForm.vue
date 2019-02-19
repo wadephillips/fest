@@ -4,6 +4,10 @@
     <form id="registrationForm" :action="postPath" method="post">
       <input type="hidden" name="_token" :value="csrf">
 
+      <attendee></attendee>
+
+
+
       <vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">
       </vue-form-generator>
       <stripe-payment-form purchaserEmail="purchaserEmail"></stripe-payment-form>
@@ -16,6 +20,7 @@
   import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
   import 'vue-form-generator/dist/vfg.css'
   import cleave from 'cleave.js'
+  import Attendee from "./Attendee";
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
 
@@ -24,6 +29,7 @@
   export default {
     name: "RegistrationForm",
     components: {
+      Attendee,
       "vue-form-generator": VueFormGenerator.component,
     },
     // computed: {
