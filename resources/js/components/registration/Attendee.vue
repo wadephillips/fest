@@ -1,13 +1,14 @@
 <template>
   <section>
     <div class="row">
-      <div class="col-3-md">
+
+      <div class="col-md-6">
         <attendee-details></attendee-details>
       </div>
-      <div class="col-3-md">
+      <div class="col-md-3">
         <emergency-contact></emergency-contact>
       </div>
-      <div class="col-3-md">
+      <div class="col-md-3">
         <acupuncture-license></acupuncture-license>
       </div>
     </div>

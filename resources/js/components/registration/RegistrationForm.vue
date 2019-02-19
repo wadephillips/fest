@@ -76,51 +76,51 @@
 
         schema: {
           groups: [
-            {
-              legend: 'Attendee Details',
-              fields: [
-                {
-                  type: 'input',
-                  inputType: 'text',
-                  label: 'ID (disabled text field)',
-                  model: 'id',
-                  readonly: true,
-                  disabled: true
-                },
-                {
-                  type: 'input',
-                  inputType: 'text',
-                  label: 'Name',
-                  model: 'name',
-                  placeholder: 'Attendee name',
-                  featured: true,
-                  required: true
-                },
-                {
-                  type: 'input',
-                  inputType: 'email',
-                  label: 'E-mail',
-                  model: 'email',
-                  placeholder: 'User\'s e-mail address',
-                  validator: ['required','email']
-                },
-                {
-                  type: 'cleave',
-                  label: 'Phone',
-                  model: 'phone',
-                  cleaveOptions: {
-                    phone: true,
-                    phoneRegionCode: 'US'
-                  },
-                  placeholder: 'Attendee\'s phone number'
-                },
-                {
-                  type: 'input',
-                  inputType: '',
-                  label: '',
-                  model: '',
-                  placeholder: ''
-                },
+            // {
+            //   legend: 'Attendee Details',
+            //   fields: [
+            //     {
+            //       type: 'input',
+            //       inputType: 'text',
+            //       label: 'ID (disabled text field)',
+            //       model: 'id',
+            //       readonly: true,
+            //       disabled: true
+            //     },
+            //     {
+            //       type: 'input',
+            //       inputType: 'text',
+            //       label: 'Name',
+            //       model: 'name',
+            //       placeholder: 'Attendee name',
+            //       featured: true,
+            //       required: true
+            //     },
+            //     {
+            //       type: 'input',
+            //       inputType: 'email',
+            //       label: 'E-mail',
+            //       model: 'email',
+            //       placeholder: 'User\'s e-mail address',
+            //       validator: ['required','email']
+            //     },
+            //     {
+            //       type: 'cleave',
+            //       label: 'Phone',
+            //       model: 'phone',
+            //       cleaveOptions: {
+            //         phone: true,
+            //         phoneRegionCode: 'US'
+            //       },
+            //       placeholder: 'Attendee\'s phone number'
+            //     },
+            //     {
+            //       type: 'input',
+            //       inputType: '',
+            //       label: '',
+            //       model: '',
+            //       placeholder: ''
+            //     },
                 // {
                 //   type: 'input',
                 //   inputType: 'password',
@@ -131,8 +131,8 @@
                 //   hint: 'Minimum 6 characters',
                 //   validator: 'string'
                 // }
-              ]
-            },
+            //   ]
+            // },
             {
               legend: 'Emergency Contact Info',
               fields: [

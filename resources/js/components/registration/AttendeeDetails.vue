@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-form-generator :schema="schema" :model="model" :options="formOptions">
+    <vue-form-generator tag="div" :schema="schema" :model="model" :options="formOptions">
     </vue-form-generator>
   </div>
 </template>
@@ -12,6 +12,12 @@
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
 
+  //todo resume: this isn't working try adding formOptions or id to computed
+  let formOptions = {
+        validateAfterLoad: false,
+        validateAfterChanged: true,
+        fieldIdPrefix: 'attendee_'//+ id
+      };
   export default {
     name: "AttendeeDetails",
     components: {
@@ -19,7 +25,10 @@
     },
     data() {
       return {
+
+
         model: {
+          id: 0,
           name: '',
           email: '',
           phone: '',
@@ -42,7 +51,8 @@
                   label: 'ID (disabled text field)',
                   model: 'id',
                   readonly: true,
-                  disabled: true
+                  disabled: true,
+                  styleClasses: ['col-md']
                 },
                 {
                   type: 'input',
@@ -50,8 +60,8 @@
                   label: 'Name',
                   model: 'name',
                   placeholder: 'Attendee name',
-                  featured: true,
-                  required: true
+                  required: true,
+                  styleClasses: ['col-md']
                 },
                 {
                   type: 'input',
@@ -59,7 +69,9 @@
                   label: 'E-mail',
                   model: 'email',
                   placeholder: 'User\'s e-mail address',
-                  validator: ['required','email']
+                  validator: ['required', 'email'],
+                  required: true,
+                  styleClasses: ['col-md-6']
                 },
                 {
                   type: 'cleave',
@@ -69,39 +81,61 @@
                     phone: true,
                     phoneRegionCode: 'US'
                   },
-                  placeholder: 'Attendee\'s phone number'
+                  placeholder: 'Attendee\'s phone number',
+                  required: true,
+                  styleClasses: ['col-md-6']
                 },
+              ],
+            },
+            {
+              styleClasses: ['field-row'],
+              fields: [
                 {
                   type: 'input',
                   inputType: 'text',
                   label: 'Street Address',
                   model: 'address',
-                  placeholder: '123 Any St.'
+                  placeholder: '123 Any St.',
+                  required: true,
+                  styleClasses: [ 'col-md-8'],
                 },
                 {
                   type: 'input',
                   inputType: 'text',
                   label: 'Suite or Unit',
                   model: 'suite',
-                  placeholder: '#987'
+                  placeholder: '#987',
+                  styleClasses: [ 'col-md-4'],
+
                 },
+              ]
+            },
+            {
+              fields: [
                 {
                   type: 'input',
                   inputType: 'text',
                   label: 'Address 2',
                   model: 'address_2',
-                  placeholder: ''
+                  placeholder: '',
+                  styleClasses: ['col-md']
                 },
+              ]
+            },
+            {
+              fields: [
                 {
                   type: 'input',
                   inputType: 'text',
                   label: 'City',
                   model: 'city',
-                  placeholder: 'Anytown'
+                  placeholder: 'Anytown',
+                  required: true,
+                  styleClasses: [ 'col-md-6'],
                 },
                 {
                   type: "select",
-                  label: "State or Province",
+                  label: "State",
                   model: "state",
                   // required: true,
                   values: states,
@@ -109,8 +143,24 @@
                   // validator: validators.required
                   selectOptions: {
                     noneSelectedText: "Select a state/province"
-                  }
+                  },
+                  styleClasses: [ 'col-md-3'],
+                  required: true
                 },
+                {
+                  type: 'input',
+                  inputType: 'text',
+                  label: 'Postal Code',
+                  model: 'postal',
+                  placeholder: '97213',
+                  styleClasses: [ 'col-md-3'],
+                  required: true
+
+                },
+              ]
+            },
+            {
+              fields: [
                 {
                   type: 'select',
                   label: 'Country',
@@ -118,7 +168,9 @@
                   values: countries,
                   selectOptions: {
                     noneSelectedText: "Select a country"
-                  }
+                  },
+                  required: true,
+                  styleClasses: [ 'col-md-4', 'float-right'],
                 },
                 // {
                 //   type: 'input',
@@ -127,7 +179,7 @@
                 //   model: '',
                 //   placeholder: ''
                 // },
-               
+
               ]
             }
           ]
