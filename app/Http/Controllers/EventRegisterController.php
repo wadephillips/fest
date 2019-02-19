@@ -6,12 +6,15 @@ use function abort;
 use App\Attendee;
 use App\Event;
 use App\Http\Requests\EventRegistrationPostRequest;
+use App\Mail\RegistrationSuccessful;
 use App\Payment;
 use function array_has;
 use function collect;
+use function dd;
 use function env;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use function is_null;
 use stdClass;
 use Stripe\Charge;
@@ -56,8 +59,8 @@ class EventRegisterController extends Controller
   {
     try {
       $all = $request->all();
-//      var_dump($all);
-      $description = (isset($all[ 'description' ])) ? $all->description : 'Event Charge';
+
+      $description = (isset($all[ 'description' ])) ? $all['description ']: 'Event Charge';
 
       // validate - done with request
       // attempt to charge the card
@@ -81,16 +84,20 @@ class EventRegisterController extends Controller
         throw new Exception('');
       }
 //      dd($paymentAndAttendees);
+      //if successful persist payment info, attendee info, and then send email to queue, display thank you page
+      //log the payment to and the registration
+
+      // send email
+//      dd($paymentAndAttendees['attendees']);
+      //todo: resume: why is $attendees not available in the emails.registration.blade template? Getting an error when we run a test
+      Mail::to($all['token']['email'])->send(new RegistrationSuccessful($paymentAndAttendees['attendees'], $paymentAndAttendees['payment']));
+
 
     } catch ( Exception $e ) {
       echo $e->getMessage();
       echo $e->getTraceAsString();
 
     }
-    //if successful persist payment info, attendee info, and then send email to queue, display thank you page
-    //log the payment to and the registration
-
-    // send email
 
     // else return them to the registration form with some error message
     return response($request->all(), 200);
@@ -187,9 +194,9 @@ class EventRegisterController extends Controller
     $payment = $this->savePayment($all, $charge, $event); //App\Payment
     $attendees = [];
     foreach ( $all[ 'registrants' ] as $registrant ) {
-      $attendees[] = $this->createRegistration($registrant, $event, $payment); // array of attendees with first being the payee
+      $attendees[] = $this->createRegistration($registrant, $event, $payment); // array of attendees with first being the payor
     }
-    $payment->payee_id = $attendees[0]->id;
+    $payment->payer_id = $attendees[0]->id;
     $payment->save();
 
     return ['payment' => $payment, 'attendees' => $attendees];
