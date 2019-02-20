@@ -4,12 +4,15 @@
     <form id="registrationForm" :action="postPath" method="post">
       <input type="hidden" name="_token" :value="csrf">
 
-      <attendee></attendee>
+      <div v-for="model in models">
+        <attendee :key="models.id" :model="model"></attendee>
+      </div>
+
+      <button @click="addAttendee" type="button" class="btn btn-primary">+</button>
 
 
-
-      <vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">
-      </vue-form-generator>
+      <!--<vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">-->
+      <!--</vue-form-generator>-->
       <stripe-payment-form purchaserEmail="purchaserEmail"></stripe-payment-form>
     </form>
   </div>
@@ -17,12 +20,12 @@
 </template>
 
 <script>
-  import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
-  import 'vue-form-generator/dist/vfg.css'
-  import cleave from 'cleave.js'
+  // import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
+  // import 'vue-form-generator/dist/vfg.css'
+  // import cleave from 'cleave.js'
   import Attendee from "./Attendee";
-  require('cleave.js/dist/addons/cleave-phone.us');
-  require('cleave.js/dist/addons/cleave-phone.ca');
+  // require('cleave.js/dist/addons/cleave-phone.us');
+  // require('cleave.js/dist/addons/cleave-phone.ca');
 
 
 
@@ -30,7 +33,7 @@
     name: "RegistrationForm",
     components: {
       Attendee,
-      "vue-form-generator": VueFormGenerator.component,
+      // "vue-form-generator": VueFormGenerator.component,
     },
     // computed: {
     //   postPath(){
@@ -41,15 +44,21 @@
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         postPath: window.location.pathname,
-        model: [
+        attendees: 1,
+        models: [
           {
-            id: 1,
-            name: 'John Doe',
-            password: 'J0hnD03!x4',
-            skills: ['Javascript', 'VueJS'],
-            email: 'john.doe@gmail.com',
-            status: true,
+            id: 0,
+            name: '',
+            email: '',
             phone: '',
+            address: '',
+            address_2: '',
+            suite: '',
+            city: '',
+            state: '',
+            postal: '',
+            country: '',
+
 
             emergencyContactName: '',
             emergencyContactRelationship: '',
@@ -58,9 +67,6 @@
             licenseNumber: '',
             licenseCountry: '',
             licenseState: '',
-
-
-
 
           },
           // {
@@ -74,132 +80,132 @@
           // }
         ],
 
-        schema: {
-          groups: [
-            // {
-            //   legend: 'Attendee Details',
-            //   fields: [
-            //     {
-            //       type: 'input',
-            //       inputType: 'text',
-            //       label: 'ID (disabled text field)',
-            //       model: 'id',
-            //       readonly: true,
-            //       disabled: true
-            //     },
-            //     {
-            //       type: 'input',
-            //       inputType: 'text',
-            //       label: 'Name',
-            //       model: 'name',
-            //       placeholder: 'Attendee name',
-            //       featured: true,
-            //       required: true
-            //     },
-            //     {
-            //       type: 'input',
-            //       inputType: 'email',
-            //       label: 'E-mail',
-            //       model: 'email',
-            //       placeholder: 'User\'s e-mail address',
-            //       validator: ['required','email']
-            //     },
-            //     {
-            //       type: 'cleave',
-            //       label: 'Phone',
-            //       model: 'phone',
-            //       cleaveOptions: {
-            //         phone: true,
-            //         phoneRegionCode: 'US'
-            //       },
-            //       placeholder: 'Attendee\'s phone number'
-            //     },
-            //     {
-            //       type: 'input',
-            //       inputType: '',
-            //       label: '',
-            //       model: '',
-            //       placeholder: ''
-            //     },
-                // {
-                //   type: 'input',
-                //   inputType: 'password',
-                //   label: 'Password',
-                //   model: 'password',
-                //   min: 6,
-                //   required: true,
-                //   hint: 'Minimum 6 characters',
-                //   validator: 'string'
-                // }
-            //   ]
-            // },
-            // {
-            //   legend: 'Emergency Contact Info',
-            //   fields: [
-            //     {
-            //       type: 'input',
-            //       inputType: 'text',
-            //       label: 'Emergency Contact Name',
-            //       model: 'emergencyContactName',
-            //       // placeholder: 'A name',
-            //       featured: true,
-            //       required: true
-            //     },
-            //     {
-            //       type: 'cleave',
-            //       label: 'Emergency Contact Phone',
-            //       model: 'emergencyContactPhone',
-            //       cleaveOptions: {
-            //         phone: true,
-            //         phoneRegionCode: 'US'
-            //       },
-            //       required: true,
-            //       placeholder: 'Best phone number for contacting'
-            //     },
-            //     {
-            //       type: 'input',
-            //       inputType: 'text',
-            //       label: 'Relationship to Emergency Contact ',
-            //       model: 'emergencyContactRelationship',
-            //       required: true
-            //     },
-            //   ]
-            // },
-            {
-              legend: 'Acupuncture License Info',
-              fields: [
-                {
-                  type: "select",
-                  label: "State or Province",
-                  model: "licenseState",
-                  // required: true,
-                  values: states,
-                  // default: "en-US",
-                  // validator: validators.required
-                  selectOptions: {
-                    noneSelectedText: "Select a state/province"
-                  }
-                },
-                {
-                  type: 'select',
-                  label: 'Country',
-                  model: 'licenseCountry',
-                  values: countries,
-                  selectOptions: {
-                    noneSelectedText: "Select a country"
-                  }
-                },
-                {
-                  type: 'input',
-                  inputType: 'text',
-                  label: 'License Number',
-                  model: 'licenseNumber',
-                  placeholder: ''
-                },
-              ]
-            }
-          ]
-        },
+        // schema: {
+        //   groups: [
+        //     {
+        //       legend: 'Attendee Details',
+        //       fields: [
+        //         {
+        //           type: 'input',
+        //           inputType: 'text',
+        //           label: 'ID (disabled text field)',
+        //           model: 'id',
+        //           readonly: true,
+        //           disabled: true
+        //         },
+        //         {
+        //           type: 'input',
+        //           inputType: 'text',
+        //           label: 'Name',
+        //           model: 'name',
+        //           placeholder: 'Attendee name',
+        //           featured: true,
+        //           required: true
+        //         },
+        //         {
+        //           type: 'input',
+        //           inputType: 'email',
+        //           label: 'E-mail',
+        //           model: 'email',
+        //           placeholder: 'User\'s e-mail address',
+        //           validator: ['required','email']
+        //         },
+        //         {
+        //           type: 'cleave',
+        //           label: 'Phone',
+        //           model: 'phone',
+        //           cleaveOptions: {
+        //             phone: true,
+        //             phoneRegionCode: 'US'
+        //           },
+        //           placeholder: 'Attendee\'s phone number'
+        //         },
+        //         {
+        //           type: 'input',
+        //           inputType: '',
+        //           label: '',
+        //           model: '',
+        //           placeholder: ''
+        //         },
+        //         {
+        //           type: 'input',
+        //           inputType: 'password',
+        //           label: 'Password',
+        //           model: 'password',
+        //           min: 6,
+        //           required: true,
+        //           hint: 'Minimum 6 characters',
+        //           validator: 'string'
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       legend: 'Emergency Contact Info',
+        //       fields: [
+        //         {
+        //           type: 'input',
+        //           inputType: 'text',
+        //           label: 'Emergency Contact Name',
+        //           model: 'emergencyContactName',
+        //           // placeholder: 'A name',
+        //           featured: true,
+        //           required: true
+        //         },
+        //         {
+        //           type: 'cleave',
+        //           label: 'Emergency Contact Phone',
+        //           model: 'emergencyContactPhone',
+        //           cleaveOptions: {
+        //             phone: true,
+        //             phoneRegionCode: 'US'
+        //           },
+        //           required: true,
+        //           placeholder: 'Best phone number for contacting'
+        //         },
+        //         {
+        //           type: 'input',
+        //           inputType: 'text',
+        //           label: 'Relationship to Emergency Contact ',
+        //           model: 'emergencyContactRelationship',
+        //           required: true
+        //         },
+        //       ]
+        //     },
+        //     {
+        //       legend: 'Acupuncture License Info',
+        //       fields: [
+        //         {
+        //           type: "select",
+        //           label: "State or Province",
+        //           model: "licenseState",
+        //           // required: true,
+        //           values: states,
+        //           // default: "en-US",
+        //           // validator: validators.required
+        //           selectOptions: {
+        //             noneSelectedText: "Select a state/province"
+        //           }
+        //         },
+        //         {
+        //           type: 'select',
+        //           label: 'Country',
+        //           model: 'licenseCountry',
+        //           values: countries,
+        //           selectOptions: {
+        //             noneSelectedText: "Select a country"
+        //           }
+        //         },
+        //         {
+        //           type: 'input',
+        //           inputType: 'text',
+        //           label: 'License Number',
+        //           model: 'licenseNumber',
+        //           placeholder: ''
+        //         },
+        //       ]
+        //     }
+        //   ]
+        // },
 
         formOptions: {
           validateAfterLoad: true,
@@ -209,7 +215,29 @@
       }
     },
     methods: {
-
+      addAttendee() {
+        this.attendees += 1;
+        let index = this.attendees - 1;
+        this.models.push({
+          "id": index,
+          "name": "",
+          "email": "",
+          "phone": "",
+          "address": "",
+          "address_2": "",
+          "suite": "",
+          "city": "",
+          "state": "",
+          "postal": "",
+          "country": "",
+          "emergencyContactName": "",
+          "emergencyContactRelationship": "",
+          "emergencyContactPhone": "",
+          "licenseNumber": "",
+          "licenseCountry": "",
+          "licenseState": "",
+        });
+      }
     },
     computed: {
       purchaserEmail() {

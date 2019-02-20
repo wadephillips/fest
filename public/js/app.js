@@ -1999,6 +1999,7 @@ var optionsIn = {
   components: {
     "vue-form-generator": vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default.a.component
   },
+  props: ['model-id'],
   data: function data() {
     return {
       acupuncturist: null,
@@ -2091,6 +2092,7 @@ __webpack_require__.r(__webpack_exports__);
     EmergencyContact: _EmergencyContact__WEBPACK_IMPORTED_MODULE_1__["default"],
     AttendeeDetails: _AttendeeDetails__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  props: ['model'],
   data: function data() {
     return {};
   }
@@ -2140,11 +2142,16 @@ var optionsIn = {
   components: {
     "vue-form-generator": vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default.a.component
   },
+  props: ['model-id'],
   data: function data() {
     return {
-      formOptions: optionsIn,
+      formOptions: {
+        validateAfterLoad: false,
+        validateAfterChanged: true,
+        fieldIdPrefix: 'attendee_'
+      },
+      // formOptions: optionsIn
       model: {
-        id: 0,
         name: '',
         email: '',
         phone: '',
@@ -2315,6 +2322,7 @@ var optionsIn = {
   components: {
     "vue-form-generator": vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default.a.component
   },
+  props: ['model-id'],
   data: function data() {
     return {
       formOptions: optionsIn,
@@ -2369,13 +2377,7 @@ var optionsIn = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-form-generator/dist/vfg.js */ "./node_modules/vue-form-generator/dist/vfg.js");
-/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-form-generator/dist/vfg.css */ "./node_modules/vue-form-generator/dist/vfg.css");
-/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cleave.js */ "./node_modules/cleave.js/dist/cleave.js");
-/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cleave_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Attendee__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Attendee */ "./resources/js/components/registration/Attendee.vue");
+/* harmony import */ var _Attendee__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Attendee */ "./resources/js/components/registration/Attendee.vue");
 //
 //
 //
@@ -2394,20 +2396,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
-
-
-
-
-__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.us */ "./node_modules/cleave.js/dist/addons/cleave-phone.us.js");
-
-__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules/cleave.js/dist/addons/cleave-phone.ca.js");
+//
+//
+//
+// import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
+// import 'vue-form-generator/dist/vfg.css'
+// import cleave from 'cleave.js'
+ // require('cleave.js/dist/addons/cleave-phone.us');
+// require('cleave.js/dist/addons/cleave-phone.ca');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "RegistrationForm",
   components: {
-    Attendee: _Attendee__WEBPACK_IMPORTED_MODULE_3__["default"],
-    "vue-form-generator": vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default.a.component
+    Attendee: _Attendee__WEBPACK_IMPORTED_MODULE_0__["default"] // "vue-form-generator": VueFormGenerator.component,
+
   },
   // computed: {
   //   postPath(){
@@ -2418,14 +2420,19 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       postPath: window.location.pathname,
-      model: [{
-        id: 1,
-        name: 'John Doe',
-        password: 'J0hnD03!x4',
-        skills: ['Javascript', 'VueJS'],
-        email: 'john.doe@gmail.com',
-        status: true,
+      attendees: 1,
+      models: [{
+        id: 0,
+        name: '',
+        email: '',
         phone: '',
+        address: '',
+        address_2: '',
+        suite: '',
+        city: '',
+        state: '',
+        postal: '',
+        country: '',
         emergencyContactName: '',
         emergencyContactRelationship: '',
         emergencyContactPhone: '',
@@ -2433,126 +2440,132 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
         licenseCountry: '',
         licenseState: ''
       }],
-      schema: {
-        groups: [// {
-        //   legend: 'Attendee Details',
-        //   fields: [
-        //     {
-        //       type: 'input',
-        //       inputType: 'text',
-        //       label: 'ID (disabled text field)',
-        //       model: 'id',
-        //       readonly: true,
-        //       disabled: true
-        //     },
-        //     {
-        //       type: 'input',
-        //       inputType: 'text',
-        //       label: 'Name',
-        //       model: 'name',
-        //       placeholder: 'Attendee name',
-        //       featured: true,
-        //       required: true
-        //     },
-        //     {
-        //       type: 'input',
-        //       inputType: 'email',
-        //       label: 'E-mail',
-        //       model: 'email',
-        //       placeholder: 'User\'s e-mail address',
-        //       validator: ['required','email']
-        //     },
-        //     {
-        //       type: 'cleave',
-        //       label: 'Phone',
-        //       model: 'phone',
-        //       cleaveOptions: {
-        //         phone: true,
-        //         phoneRegionCode: 'US'
-        //       },
-        //       placeholder: 'Attendee\'s phone number'
-        //     },
-        //     {
-        //       type: 'input',
-        //       inputType: '',
-        //       label: '',
-        //       model: '',
-        //       placeholder: ''
-        //     },
-        // {
-        //   type: 'input',
-        //   inputType: 'password',
-        //   label: 'Password',
-        //   model: 'password',
-        //   min: 6,
-        //   required: true,
-        //   hint: 'Minimum 6 characters',
-        //   validator: 'string'
-        // }
-        //   ]
-        // },
-        // {
-        //   legend: 'Emergency Contact Info',
-        //   fields: [
-        //     {
-        //       type: 'input',
-        //       inputType: 'text',
-        //       label: 'Emergency Contact Name',
-        //       model: 'emergencyContactName',
-        //       // placeholder: 'A name',
-        //       featured: true,
-        //       required: true
-        //     },
-        //     {
-        //       type: 'cleave',
-        //       label: 'Emergency Contact Phone',
-        //       model: 'emergencyContactPhone',
-        //       cleaveOptions: {
-        //         phone: true,
-        //         phoneRegionCode: 'US'
-        //       },
-        //       required: true,
-        //       placeholder: 'Best phone number for contacting'
-        //     },
-        //     {
-        //       type: 'input',
-        //       inputType: 'text',
-        //       label: 'Relationship to Emergency Contact ',
-        //       model: 'emergencyContactRelationship',
-        //       required: true
-        //     },
-        //   ]
-        // },
-        {
-          legend: 'Acupuncture License Info',
-          fields: [{
-            type: "select",
-            label: "State or Province",
-            model: "licenseState",
-            // required: true,
-            values: states,
-            // default: "en-US",
-            // validator: validators.required
-            selectOptions: {
-              noneSelectedText: "Select a state/province"
-            }
-          }, {
-            type: 'select',
-            label: 'Country',
-            model: 'licenseCountry',
-            values: countries,
-            selectOptions: {
-              noneSelectedText: "Select a country"
-            }
-          }, {
-            type: 'input',
-            inputType: 'text',
-            label: 'License Number',
-            model: 'licenseNumber',
-            placeholder: ''
-          }]
-        }]
-      },
+      // schema: {
+      //   groups: [
+      //     {
+      //       legend: 'Attendee Details',
+      //       fields: [
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'ID (disabled text field)',
+      //           model: 'id',
+      //           readonly: true,
+      //           disabled: true
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'Name',
+      //           model: 'name',
+      //           placeholder: 'Attendee name',
+      //           featured: true,
+      //           required: true
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'email',
+      //           label: 'E-mail',
+      //           model: 'email',
+      //           placeholder: 'User\'s e-mail address',
+      //           validator: ['required','email']
+      //         },
+      //         {
+      //           type: 'cleave',
+      //           label: 'Phone',
+      //           model: 'phone',
+      //           cleaveOptions: {
+      //             phone: true,
+      //             phoneRegionCode: 'US'
+      //           },
+      //           placeholder: 'Attendee\'s phone number'
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: '',
+      //           label: '',
+      //           model: '',
+      //           placeholder: ''
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'password',
+      //           label: 'Password',
+      //           model: 'password',
+      //           min: 6,
+      //           required: true,
+      //           hint: 'Minimum 6 characters',
+      //           validator: 'string'
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       legend: 'Emergency Contact Info',
+      //       fields: [
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'Emergency Contact Name',
+      //           model: 'emergencyContactName',
+      //           // placeholder: 'A name',
+      //           featured: true,
+      //           required: true
+      //         },
+      //         {
+      //           type: 'cleave',
+      //           label: 'Emergency Contact Phone',
+      //           model: 'emergencyContactPhone',
+      //           cleaveOptions: {
+      //             phone: true,
+      //             phoneRegionCode: 'US'
+      //           },
+      //           required: true,
+      //           placeholder: 'Best phone number for contacting'
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'Relationship to Emergency Contact ',
+      //           model: 'emergencyContactRelationship',
+      //           required: true
+      //         },
+      //       ]
+      //     },
+      //     {
+      //       legend: 'Acupuncture License Info',
+      //       fields: [
+      //         {
+      //           type: "select",
+      //           label: "State or Province",
+      //           model: "licenseState",
+      //           // required: true,
+      //           values: states,
+      //           // default: "en-US",
+      //           // validator: validators.required
+      //           selectOptions: {
+      //             noneSelectedText: "Select a state/province"
+      //           }
+      //         },
+      //         {
+      //           type: 'select',
+      //           label: 'Country',
+      //           model: 'licenseCountry',
+      //           values: countries,
+      //           selectOptions: {
+      //             noneSelectedText: "Select a country"
+      //           }
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'License Number',
+      //           model: 'licenseNumber',
+      //           placeholder: ''
+      //         },
+      //       ]
+      //     }
+      //   ]
+      // },
       formOptions: {
         validateAfterLoad: true,
         validateAfterChanged: true,
@@ -2560,7 +2573,31 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
       }
     };
   },
-  methods: {},
+  methods: {
+    addAttendee: function addAttendee() {
+      this.attendees += 1;
+      var index = this.attendees - 1;
+      this.models.push({
+        "id": index,
+        "name": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "address_2": "",
+        "suite": "",
+        "city": "",
+        "state": "",
+        "postal": "",
+        "country": "",
+        "emergencyContactName": "",
+        "emergencyContactRelationship": "",
+        "emergencyContactPhone": "",
+        "licenseNumber": "",
+        "licenseCountry": "",
+        "licenseState": ""
+      });
+    }
+  },
   computed: {
     purchaserEmail: function purchaserEmail() {
       return model[0].email;
@@ -40921,12 +40958,27 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("section", [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [_c("attendee-details")], 1),
+      _c(
+        "div",
+        { staticClass: "col-md-6" },
+        [_c("attendee-details", { attrs: { "model-id": this.model.id } })],
+        1
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "col-md-12" }, [_c("emergency-contact")], 1),
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [_c("emergency-contact", { attrs: { "model-id": this.model.id } })],
+          1
+        ),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-12" }, [_c("acupuncture-license")], 1)
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [_c("acupuncture-license", { attrs: { "model-id": this.model.id } })],
+          1
+        )
       ])
     ])
   ])
@@ -41038,21 +41090,29 @@ var render = function() {
           domProps: { value: _vm.csrf }
         }),
         _vm._v(" "),
-        _c("attendee"),
-        _vm._v(" "),
-        _c("vue-form-generator", {
-          attrs: {
-            schema: _vm.schema,
-            model: _vm.model[0],
-            options: _vm.formOptions
-          }
+        _vm._l(_vm.models, function(model) {
+          return _c(
+            "div",
+            [_c("attendee", { key: _vm.models.id, attrs: { model: model } })],
+            1
+          )
         }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button" },
+            on: { click: _vm.addAttendee }
+          },
+          [_vm._v("+")]
+        ),
         _vm._v(" "),
         _c("stripe-payment-form", {
           attrs: { purchaserEmail: "purchaserEmail" }
         })
       ],
-      1
+      2
     )
   ])
 }

@@ -23,13 +23,16 @@
     components: {
       "vue-form-generator": VueFormGenerator.component,
     },
+    props:['model-id'],
     data() {
       return {
-        formOptions: optionsIn,
-
-
+        formOptions: {
+          validateAfterLoad: false,
+          validateAfterChanged: true,
+          fieldIdPrefix: 'attendee_'
+        },
+        // formOptions: optionsIn
         model: {
-          id: 0,
           name: '',
           email: '',
           phone: '',

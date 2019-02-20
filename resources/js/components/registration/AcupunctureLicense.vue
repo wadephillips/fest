@@ -30,6 +30,7 @@
     components: {
       "vue-form-generator": VueFormGenerator.component,
     },
+    props:['model-id'],
     data() {
       return {
         acupuncturist: null,
