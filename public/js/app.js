@@ -1952,10 +1952,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/RegistrationForm.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/RegistrationForm.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/AcupunctureLicense.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/AcupunctureLicense.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1980,7 +1980,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -1989,104 +1988,30 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.us */ "./node_modules
 
 __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules/cleave.js/dist/addons/cleave-phone.ca.js");
 
+var optionsIn = {
+  validateAfterLoad: false,
+  validateAfterChanged: true,
+  fieldIdPrefix: 'attendee_' // model-id added in created()
+
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "RegistrationForm",
+  name: "AcupunctureLicense",
   components: {
     "vue-form-generator": vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default.a.component
   },
-  // computed: {
-  //   postPath(){
-  //     return window.location.pathname;
-  //   }
-  // },
+  props: ['model-id'],
   data: function data() {
     return {
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      postPath: window.location.pathname,
-      model: [{
-        id: 1,
-        name: 'John Doe',
-        password: 'J0hnD03!x4',
-        skills: ['Javascript', 'VueJS'],
-        email: 'john.doe@gmail.com',
-        status: true,
-        phone: '',
-        emergencyContactName: '',
-        emergencyContactRelationship: '',
-        emergencyContactPhone: '',
+      acupuncturist: null,
+      formOptions: optionsIn,
+      model: {
+        id: null,
         licenseNumber: '',
         licenseCountry: '',
         licenseState: ''
-      }],
+      },
       schema: {
         groups: [{
-          legend: 'Attendee Details',
-          fields: [{
-            type: 'input',
-            inputType: 'text',
-            label: 'ID (disabled text field)',
-            model: 'id',
-            readonly: true,
-            disabled: true
-          }, {
-            type: 'input',
-            inputType: 'text',
-            label: 'Name',
-            model: 'name',
-            placeholder: 'Attendee name',
-            featured: true,
-            required: true
-          }, {
-            type: 'input',
-            inputType: 'email',
-            label: 'E-mail',
-            model: 'email',
-            placeholder: 'User\'s e-mail address',
-            validator: ['required', 'email']
-          }, {
-            type: 'cleave',
-            label: 'Phone',
-            model: 'phone',
-            cleaveOptions: {
-              phone: true,
-              phoneRegionCode: 'US'
-            },
-            placeholder: 'Attendee\'s phone number'
-          }, {
-            type: 'input',
-            inputType: '',
-            label: '',
-            model: '',
-            placeholder: ''
-          }]
-        }, {
-          legend: 'Emergency Contact Info',
-          fields: [{
-            type: 'input',
-            inputType: 'text',
-            label: 'Emergency Contact Name',
-            model: 'emergencyContactName',
-            // placeholder: 'A name',
-            featured: true,
-            required: true
-          }, {
-            type: 'cleave',
-            label: 'Emergency Contact Phone',
-            model: 'emergencyContactPhone',
-            cleaveOptions: {
-              phone: true,
-              phoneRegionCode: 'US'
-            },
-            required: true,
-            placeholder: 'Best phone number for contacting'
-          }, {
-            type: 'input',
-            inputType: 'text',
-            label: 'Relationship to Emergency Contact ',
-            model: 'emergencyContactRelationship',
-            required: true
-          }]
-        }, {
           legend: 'Acupuncture License Info',
           fields: [{
             type: "select",
@@ -2098,7 +2023,16 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
             // validator: validators.required
             selectOptions: {
               noneSelectedText: "Select a state/province"
-            }
+            },
+            placeholder: 'Select a state/province',
+            styleClasses: ['col-md-8']
+          }, {
+            type: 'input',
+            inputType: 'text',
+            label: 'License Number',
+            model: 'licenseNumber',
+            placeholder: '213BA',
+            styleClasses: ['col-md-4']
           }, {
             type: 'select',
             label: 'Country',
@@ -2106,16 +2040,559 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
             values: countries,
             selectOptions: {
               noneSelectedText: "Select a country"
-            }
+            },
+            styleClasses: ['col-md-8']
+          }]
+        }]
+      }
+    };
+  },
+  created: function created() {
+    var self = this;
+    this.model.id = this.modelId;
+    this.formOptions.fieldIdPrefix += this.modelId + '_';
+  },
+  methods: {
+    formUpdated: function formUpdated() {
+      Bus.$emit('updateAttendeeModel', this.model);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/Attendee.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/Attendee.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AttendeeDetails__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AttendeeDetails */ "./resources/js/components/registration/AttendeeDetails.vue");
+/* harmony import */ var _EmergencyContact__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EmergencyContact */ "./resources/js/components/registration/EmergencyContact.vue");
+/* harmony import */ var _AcupunctureLicense__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AcupunctureLicense */ "./resources/js/components/registration/AcupunctureLicense.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Attendee",
+  components: {
+    AcupunctureLicense: _AcupunctureLicense__WEBPACK_IMPORTED_MODULE_2__["default"],
+    EmergencyContact: _EmergencyContact__WEBPACK_IMPORTED_MODULE_1__["default"],
+    AttendeeDetails: _AttendeeDetails__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: ['model'],
+  data: function data() {
+    return {};
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/AttendeeDetails.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/AttendeeDetails.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-form-generator/dist/vfg.js */ "./node_modules/vue-form-generator/dist/vfg.js");
+/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-form-generator/dist/vfg.css */ "./node_modules/vue-form-generator/dist/vfg.css");
+/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cleave.js */ "./node_modules/cleave.js/dist/cleave.js");
+/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cleave_js__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.us */ "./node_modules/cleave.js/dist/addons/cleave-phone.us.js");
+
+__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules/cleave.js/dist/addons/cleave-phone.ca.js"); //todo: this isn't working try adding formOptions or id to computed
+
+
+var optionsIn = {
+  validateAfterLoad: false,
+  validateAfterChanged: false,
+  fieldIdPrefix: 'attendee_' //+ id
+
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "AttendeeDetails",
+  components: {
+    "vue-form-generator": vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default.a.component
+  },
+  props: ['model-id'],
+  data: function data() {
+    return {
+      formOptions: {
+        validateAfterLoad: false,
+        validateAfterChanged: true,
+        fieldIdPrefix: 'attendee_'
+      },
+      // formOptions: optionsIn
+      model: {
+        id: null,
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        address_2: '',
+        suite: '',
+        city: '',
+        state: '',
+        postal: '',
+        country: ''
+      },
+      schema: {
+        groups: [{
+          legend: 'Attendee Details',
+          fields: [{
+            type: 'input',
+            inputType: 'text',
+            label: 'Name',
+            model: 'name',
+            placeholder: 'Jane Doe',
+            required: true,
+            styleClasses: ['col-md']
+          }, {
+            type: 'input',
+            inputType: 'email',
+            label: 'E-mail',
+            model: 'email',
+            placeholder: 'jdoe@gmail.com',
+            validator: ['required', 'email'],
+            required: true,
+            styleClasses: ['col-md-6']
+          }, {
+            type: 'cleave',
+            label: 'Phone',
+            model: 'phone',
+            cleaveOptions: {
+              phone: true,
+              phoneRegionCode: 'US'
+            },
+            placeholder: '551-555-5555',
+            required: true,
+            styleClasses: ['col-md-6']
+          }]
+        }, {
+          styleClasses: ['field-row'],
+          fields: [{
+            type: 'input',
+            inputType: 'text',
+            label: 'Street Address',
+            model: 'address',
+            placeholder: '123 Any St.',
+            required: true,
+            styleClasses: ['col-md-8']
           }, {
             type: 'input',
             inputType: 'text',
-            label: 'License Number',
-            model: 'licenseNumber',
-            placeholder: ''
+            label: 'Suite or Unit',
+            model: 'suite',
+            placeholder: '#987',
+            styleClasses: ['col-md-4']
+          }]
+        }, {
+          fields: [{
+            type: 'input',
+            inputType: 'text',
+            label: 'Address 2',
+            model: 'address_2',
+            placeholder: '',
+            styleClasses: ['col-md']
+          }]
+        }, {
+          fields: [{
+            type: 'input',
+            inputType: 'text',
+            label: 'City',
+            model: 'city',
+            placeholder: 'Anytown',
+            required: true,
+            styleClasses: ['col-md-6']
+          }, {
+            type: "select",
+            label: "State",
+            model: "state",
+            // required: true,
+            values: states,
+            // default: "en-US",
+            // validator: validators.required
+            selectOptions: {
+              noneSelectedText: "Select a state/province"
+            },
+            styleClasses: ['col-md-3'],
+            required: true
+          }, {
+            type: 'input',
+            inputType: 'text',
+            label: 'Postal Code',
+            model: 'postal',
+            placeholder: '97213',
+            styleClasses: ['col-md-3'],
+            required: true
+          }]
+        }, {
+          fields: [{
+            type: 'select',
+            label: 'Country',
+            model: 'country',
+            values: countries,
+            selectOptions: {
+              noneSelectedText: "Select a country"
+            },
+            required: true,
+            styleClasses: ['col-md-4', 'float-right']
           }]
         }]
+      }
+    };
+  },
+  created: function created() {
+    var self = this;
+    this.model.id = this.modelId;
+    this.formOptions.fieldIdPrefix += this.modelId + '_';
+  },
+  methods: {
+    formUpdated: function formUpdated() {
+      Bus.$emit('updateAttendeeModel', this.model);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/EmergencyContact.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/EmergencyContact.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-form-generator/dist/vfg.js */ "./node_modules/vue-form-generator/dist/vfg.js");
+/* harmony import */ var vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-form-generator/dist/vfg.css */ "./node_modules/vue-form-generator/dist/vfg.css");
+/* harmony import */ var vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_form_generator_dist_vfg_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cleave.js */ "./node_modules/cleave.js/dist/cleave.js");
+/* harmony import */ var cleave_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cleave_js__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.us */ "./node_modules/cleave.js/dist/addons/cleave-phone.us.js");
+
+__webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules/cleave.js/dist/addons/cleave-phone.ca.js"); //todo: this isn't working try adding formOptions or id to computed
+
+
+var optionsIn = {
+  validateAfterLoad: false,
+  validateAfterChanged: true,
+  fieldIdPrefix: 'attendee_' //+ id
+
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "EmergencyContact",
+  components: {
+    "vue-form-generator": vue_form_generator_dist_vfg_js__WEBPACK_IMPORTED_MODULE_0___default.a.component
+  },
+  props: ['model-id'],
+  data: function data() {
+    return {
+      formOptions: optionsIn,
+      model: {
+        id: null,
+        emergencyContactName: '',
+        emergencyContactRelationship: '',
+        emergencyContactPhone: ''
       },
+      schema: {
+        groups: [{
+          legend: 'Emergency Contact Info',
+          fields: [{
+            type: 'input',
+            inputType: 'text',
+            label: 'Emergency Contact Name',
+            model: 'emergencyContactName',
+            placeholder: 'Bill Murray',
+            featured: true,
+            required: true
+          }, {
+            type: 'cleave',
+            label: 'Emergency Contact Phone',
+            model: 'emergencyContactPhone',
+            cleaveOptions: {
+              phone: true,
+              phoneRegionCode: 'US'
+            },
+            required: true,
+            placeholder: '555-555-5555'
+          }, {
+            type: 'input',
+            inputType: 'text',
+            label: 'Relationship to Emergency Contact ',
+            model: 'emergencyContactRelationship',
+            required: true,
+            placeholder: 'Father'
+          }]
+        }]
+      }
+    };
+  },
+  created: function created() {
+    var self = this;
+    this.model.id = this.modelId;
+    this.formOptions.fieldIdPrefix += this.modelId + '_';
+  },
+  methods: {
+    formUpdated: function formUpdated() {
+      Bus.$emit('updateAttendeeModel', this.model);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/RegistrationForm.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/RegistrationForm.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Attendee__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Attendee */ "./resources/js/components/registration/Attendee.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
+// import 'vue-form-generator/dist/vfg.css'
+// import cleave from 'cleave.js'
+ // require('cleave.js/dist/addons/cleave-phone.us');
+// require('cleave.js/dist/addons/cleave-phone.ca');
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "RegistrationForm",
+  components: {
+    Attendee: _Attendee__WEBPACK_IMPORTED_MODULE_0__["default"] // "vue-form-generator": VueFormGenerator.component,
+
+  },
+  // computed: {
+  //   postPath(){
+  //     return window.location.pathname;
+  //   }
+  // },
+  data: function data() {
+    return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      postPath: window.location.pathname,
+      attendees: 1,
+      models: [{
+        id: 0,
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        address_2: '',
+        suite: '',
+        city: '',
+        state: '',
+        postal: '',
+        country: '',
+        emergencyContactName: '',
+        emergencyContactRelationship: '',
+        emergencyContactPhone: '',
+        licenseNumber: '',
+        licenseCountry: '',
+        licenseState: ''
+      }],
+      // schema: {
+      //   groups: [
+      //     {
+      //       legend: 'Attendee Details',
+      //       fields: [
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'ID (disabled text field)',
+      //           model: 'id',
+      //           readonly: true,
+      //           disabled: true
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'Name',
+      //           model: 'name',
+      //           placeholder: 'Attendee name',
+      //           featured: true,
+      //           required: true
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'email',
+      //           label: 'E-mail',
+      //           model: 'email',
+      //           placeholder: 'User\'s e-mail address',
+      //           validator: ['required','email']
+      //         },
+      //         {
+      //           type: 'cleave',
+      //           label: 'Phone',
+      //           model: 'phone',
+      //           cleaveOptions: {
+      //             phone: true,
+      //             phoneRegionCode: 'US'
+      //           },
+      //           placeholder: 'Attendee\'s phone number'
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: '',
+      //           label: '',
+      //           model: '',
+      //           placeholder: ''
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'password',
+      //           label: 'Password',
+      //           model: 'password',
+      //           min: 6,
+      //           required: true,
+      //           hint: 'Minimum 6 characters',
+      //           validator: 'string'
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       legend: 'Emergency Contact Info',
+      //       fields: [
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'Emergency Contact Name',
+      //           model: 'emergencyContactName',
+      //           // placeholder: 'A name',
+      //           featured: true,
+      //           required: true
+      //         },
+      //         {
+      //           type: 'cleave',
+      //           label: 'Emergency Contact Phone',
+      //           model: 'emergencyContactPhone',
+      //           cleaveOptions: {
+      //             phone: true,
+      //             phoneRegionCode: 'US'
+      //           },
+      //           required: true,
+      //           placeholder: 'Best phone number for contacting'
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'Relationship to Emergency Contact ',
+      //           model: 'emergencyContactRelationship',
+      //           required: true
+      //         },
+      //       ]
+      //     },
+      //     {
+      //       legend: 'Acupuncture License Info',
+      //       fields: [
+      //         {
+      //           type: "select",
+      //           label: "State or Province",
+      //           model: "licenseState",
+      //           // required: true,
+      //           values: states,
+      //           // default: "en-US",
+      //           // validator: validators.required
+      //           selectOptions: {
+      //             noneSelectedText: "Select a state/province"
+      //           }
+      //         },
+      //         {
+      //           type: 'select',
+      //           label: 'Country',
+      //           model: 'licenseCountry',
+      //           values: countries,
+      //           selectOptions: {
+      //             noneSelectedText: "Select a country"
+      //           }
+      //         },
+      //         {
+      //           type: 'input',
+      //           inputType: 'text',
+      //           label: 'License Number',
+      //           model: 'licenseNumber',
+      //           placeholder: ''
+      //         },
+      //       ]
+      //     }
+      //   ]
+      // },
       formOptions: {
         validateAfterLoad: true,
         validateAfterChanged: true,
@@ -2123,7 +2600,34 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
       }
     };
   },
-  methods: {},
+  methods: {
+    hi: function hi() {
+      console.log('hiz');
+    },
+    addAttendee: function addAttendee() {
+      this.attendees += 1;
+      var index = this.attendees - 1;
+      this.models.push({
+        "id": index,
+        "name": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "address_2": "",
+        "suite": "",
+        "city": "",
+        "state": "",
+        "postal": "",
+        "country": "",
+        "emergencyContactName": "",
+        "emergencyContactRelationship": "",
+        "emergencyContactPhone": "",
+        "licenseNumber": "",
+        "licenseCountry": "",
+        "licenseState": ""
+      });
+    }
+  },
   computed: {
     purchaserEmail: function purchaserEmail() {
       return model[0].email;
@@ -2131,8 +2635,18 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
   },
   mounted: function mounted() {
     var self = this;
+    var modelId = 0;
     Bus.$on('stripe_done', function (payload) {
       $('#registrationForm').submit();
+    });
+    Bus.$on('updateAttendeeModel', function (payload) {
+      modelId = payload.id; // delete payload.id;
+
+      for (var k in payload) {
+        if (k !== 'id' && payload.hasOwnProperty(k)) {
+          self.models[modelId][k] = payload[k];
+        }
+      }
     });
   }
 });
@@ -40376,6 +40890,239 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/AcupunctureLicense.vue?vue&type=template&id=41af723b&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/AcupunctureLicense.vue?vue&type=template&id=41af723b&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "form-group" }, [
+        _c("span", { staticClass: "switch switch-sm" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.acupuncturist,
+                expression: "acupuncturist"
+              }
+            ],
+            key: _vm.modelId,
+            staticClass: "switch",
+            attrs: { type: "checkbox", id: _vm.modelId + "-acu-switch" },
+            domProps: {
+              checked: Array.isArray(_vm.acupuncturist)
+                ? _vm._i(_vm.acupuncturist, null) > -1
+                : _vm.acupuncturist
+            },
+            on: {
+              change: function($event) {
+                var $$a = _vm.acupuncturist,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = null,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.acupuncturist = $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      (_vm.acupuncturist = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
+                  }
+                } else {
+                  _vm.acupuncturist = $$c
+                }
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: _vm.modelId + "-acu-switch" } }, [
+            _vm._v("Acupuncturist")
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("vue-form-generator", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.acupuncturist,
+            expression: "acupuncturist"
+          }
+        ],
+        key: _vm.modelId,
+        attrs: {
+          model: _vm.model,
+          options: _vm.formOptions,
+          schema: _vm.schema
+        },
+        on: { validated: _vm.formUpdated }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/Attendee.vue?vue&type=template&id=c23adf96&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/Attendee.vue?vue&type=template&id=c23adf96&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", [
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-md-6" },
+        [
+          _c("attendee-details", {
+            key: this.model.id,
+            attrs: { "model-id": this.model.id }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [
+            _c("emergency-contact", {
+              key: this.model.id,
+              attrs: { "model-id": this.model.id }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [
+            _c("acupuncture-license", {
+              key: this.model.id,
+              attrs: { "model-id": this.model.id }
+            })
+          ],
+          1
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/AttendeeDetails.vue?vue&type=template&id=39dc637d&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/AttendeeDetails.vue?vue&type=template&id=39dc637d&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("vue-form-generator", {
+        attrs: {
+          tag: "div",
+          schema: _vm.schema,
+          model: _vm.model,
+          options: _vm.formOptions
+        },
+        on: { validated: _vm.formUpdated }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/EmergencyContact.vue?vue&type=template&id=f824c16c&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/EmergencyContact.vue?vue&type=template&id=f824c16c&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("vue-form-generator", {
+        attrs: {
+          model: _vm.model,
+          options: _vm.formOptions,
+          schema: _vm.schema
+        },
+        on: { validated: _vm.formUpdated }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/RegistrationForm.vue?vue&type=template&id=54f1ac18&scoped=true&":
 /*!********************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/registration/RegistrationForm.vue?vue&type=template&id=54f1ac18&scoped=true& ***!
@@ -40403,19 +41150,29 @@ var render = function() {
           domProps: { value: _vm.csrf }
         }),
         _vm._v(" "),
-        _c("vue-form-generator", {
-          attrs: {
-            schema: _vm.schema,
-            model: _vm.model[0],
-            options: _vm.formOptions
-          }
+        _vm._l(_vm.models, function(model) {
+          return _c(
+            "div",
+            [_c("attendee", { key: _vm.models.id, attrs: { model: model } })],
+            1
+          )
         }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button" },
+            on: { click: _vm.addAttendee }
+          },
+          [_vm._v("+")]
+        ),
         _vm._v(" "),
         _c("stripe-payment-form", {
           attrs: { purchaserEmail: "purchaserEmail" }
         })
       ],
-      1
+      2
     )
   ])
 }
@@ -52006,6 +52763,10 @@ var map = {
 	"./components/NavMenu.vue": "./resources/js/components/NavMenu.vue",
 	"./components/Presenter.vue": "./resources/js/components/Presenter.vue",
 	"./components/RegistrationPage.vue": "./resources/js/components/RegistrationPage.vue",
+	"./components/registration/AcupunctureLicense.vue": "./resources/js/components/registration/AcupunctureLicense.vue",
+	"./components/registration/Attendee.vue": "./resources/js/components/registration/Attendee.vue",
+	"./components/registration/AttendeeDetails.vue": "./resources/js/components/registration/AttendeeDetails.vue",
+	"./components/registration/EmergencyContact.vue": "./resources/js/components/registration/EmergencyContact.vue",
 	"./components/registration/RegistrationForm.vue": "./resources/js/components/registration/RegistrationForm.vue",
 	"./components/registration/StripePaymentForm.vue": "./resources/js/components/registration/StripePaymentForm.vue"
 };
@@ -52708,6 +53469,282 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegistrationPage_vue_vue_type_template_id_1eb99953_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegistrationPage_vue_vue_type_template_id_1eb99953_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/AcupunctureLicense.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/registration/AcupunctureLicense.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AcupunctureLicense_vue_vue_type_template_id_41af723b_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AcupunctureLicense.vue?vue&type=template&id=41af723b&scoped=true& */ "./resources/js/components/registration/AcupunctureLicense.vue?vue&type=template&id=41af723b&scoped=true&");
+/* harmony import */ var _AcupunctureLicense_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AcupunctureLicense.vue?vue&type=script&lang=js& */ "./resources/js/components/registration/AcupunctureLicense.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AcupunctureLicense_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AcupunctureLicense_vue_vue_type_template_id_41af723b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AcupunctureLicense_vue_vue_type_template_id_41af723b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "41af723b",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/registration/AcupunctureLicense.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/AcupunctureLicense.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/registration/AcupunctureLicense.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AcupunctureLicense_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AcupunctureLicense.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/AcupunctureLicense.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AcupunctureLicense_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/AcupunctureLicense.vue?vue&type=template&id=41af723b&scoped=true&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/registration/AcupunctureLicense.vue?vue&type=template&id=41af723b&scoped=true& ***!
+  \****************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AcupunctureLicense_vue_vue_type_template_id_41af723b_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AcupunctureLicense.vue?vue&type=template&id=41af723b&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/AcupunctureLicense.vue?vue&type=template&id=41af723b&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AcupunctureLicense_vue_vue_type_template_id_41af723b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AcupunctureLicense_vue_vue_type_template_id_41af723b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/Attendee.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/registration/Attendee.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Attendee_vue_vue_type_template_id_c23adf96_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Attendee.vue?vue&type=template&id=c23adf96&scoped=true& */ "./resources/js/components/registration/Attendee.vue?vue&type=template&id=c23adf96&scoped=true&");
+/* harmony import */ var _Attendee_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Attendee.vue?vue&type=script&lang=js& */ "./resources/js/components/registration/Attendee.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Attendee_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Attendee_vue_vue_type_template_id_c23adf96_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Attendee_vue_vue_type_template_id_c23adf96_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "c23adf96",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/registration/Attendee.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/Attendee.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/registration/Attendee.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Attendee_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Attendee.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/Attendee.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Attendee_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/Attendee.vue?vue&type=template&id=c23adf96&scoped=true&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/registration/Attendee.vue?vue&type=template&id=c23adf96&scoped=true& ***!
+  \******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Attendee_vue_vue_type_template_id_c23adf96_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Attendee.vue?vue&type=template&id=c23adf96&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/Attendee.vue?vue&type=template&id=c23adf96&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Attendee_vue_vue_type_template_id_c23adf96_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Attendee_vue_vue_type_template_id_c23adf96_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/AttendeeDetails.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/registration/AttendeeDetails.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AttendeeDetails_vue_vue_type_template_id_39dc637d_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AttendeeDetails.vue?vue&type=template&id=39dc637d&scoped=true& */ "./resources/js/components/registration/AttendeeDetails.vue?vue&type=template&id=39dc637d&scoped=true&");
+/* harmony import */ var _AttendeeDetails_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AttendeeDetails.vue?vue&type=script&lang=js& */ "./resources/js/components/registration/AttendeeDetails.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AttendeeDetails_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AttendeeDetails_vue_vue_type_template_id_39dc637d_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AttendeeDetails_vue_vue_type_template_id_39dc637d_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "39dc637d",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/registration/AttendeeDetails.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/AttendeeDetails.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/registration/AttendeeDetails.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AttendeeDetails_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AttendeeDetails.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/AttendeeDetails.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AttendeeDetails_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/AttendeeDetails.vue?vue&type=template&id=39dc637d&scoped=true&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/registration/AttendeeDetails.vue?vue&type=template&id=39dc637d&scoped=true& ***!
+  \*************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AttendeeDetails_vue_vue_type_template_id_39dc637d_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AttendeeDetails.vue?vue&type=template&id=39dc637d&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/AttendeeDetails.vue?vue&type=template&id=39dc637d&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AttendeeDetails_vue_vue_type_template_id_39dc637d_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AttendeeDetails_vue_vue_type_template_id_39dc637d_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/EmergencyContact.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/registration/EmergencyContact.vue ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EmergencyContact_vue_vue_type_template_id_f824c16c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EmergencyContact.vue?vue&type=template&id=f824c16c&scoped=true& */ "./resources/js/components/registration/EmergencyContact.vue?vue&type=template&id=f824c16c&scoped=true&");
+/* harmony import */ var _EmergencyContact_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EmergencyContact.vue?vue&type=script&lang=js& */ "./resources/js/components/registration/EmergencyContact.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EmergencyContact_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EmergencyContact_vue_vue_type_template_id_f824c16c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EmergencyContact_vue_vue_type_template_id_f824c16c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "f824c16c",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/registration/EmergencyContact.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/EmergencyContact.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/registration/EmergencyContact.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContact_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EmergencyContact.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/EmergencyContact.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContact_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/registration/EmergencyContact.vue?vue&type=template&id=f824c16c&scoped=true&":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/components/registration/EmergencyContact.vue?vue&type=template&id=f824c16c&scoped=true& ***!
+  \**************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContact_vue_vue_type_template_id_f824c16c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EmergencyContact.vue?vue&type=template&id=f824c16c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/registration/EmergencyContact.vue?vue&type=template&id=f824c16c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContact_vue_vue_type_template_id_f824c16c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContact_vue_vue_type_template_id_f824c16c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
