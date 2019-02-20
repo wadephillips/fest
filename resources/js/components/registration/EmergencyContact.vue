@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-form-generator :model="model" :options="formOptions" :schema="schema">
+    <vue-form-generator @validated="formUpdated" :model="model" :options="formOptions" :schema="schema">
     </vue-form-generator>
   </div>
 </template>
@@ -30,6 +30,7 @@
       return {
         formOptions: optionsIn,
         model: {
+          id: null,
           emergencyContactName: '',
           emergencyContactRelationship: '',
           emergencyContactPhone: ''
@@ -72,6 +73,18 @@
           ]
         }
       }
+    },
+    created(){
+      let self = this;
+
+      this.model.id = this.modelId;
+      this.formOptions.fieldIdPrefix += this.modelId + '_';
+
+    },
+    methods: {
+      formUpdated: function () {
+        Bus.$emit('updateAttendeeModel', this.model);
+      },
     }
   }
 </script>

@@ -215,6 +215,9 @@
       }
     },
     methods: {
+      hi() {
+        console.log('hiz');
+      },
       addAttendee() {
         this.attendees += 1;
         let index = this.attendees - 1;
@@ -246,8 +249,19 @@
     },
     mounted() {
       let self = this;
+      let modelId = 0;
       Bus.$on('stripe_done', (payload) => {
         $('#registrationForm').submit();
+      });
+
+      Bus.$on('updateAttendeeModel', (payload) => {
+        modelId = payload.id;
+        // delete payload.id;
+        for (let k in payload) {
+          if (k !== 'id' && payload.hasOwnProperty(k)) {
+            self.models[modelId][k] = payload[k];
+          }
+        }
       });
     }
   }

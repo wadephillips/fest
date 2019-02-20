@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="form-group">
+    <div class="form-group" >
       <span class="switch switch-sm">
-        <input v-model="acupuncturist" type="checkbox" class="switch" id="acupuncturist-switch">
-        <label for="acupuncturist-switch">Acupuncturist</label>
+        <input :key="modelId" v-model="acupuncturist"  type="checkbox" class="switch" :id="modelId + '-acu-switch'">
+        <label :for="modelId + '-acu-switch'">Acupuncturist</label>
       </span>
     </div>
-    <vue-form-generator v-show="acupuncturist" :model="model" :options="formOptions" :schema="schema">
+    <vue-form-generator :key="modelId" @validated="formUpdated" v-show="acupuncturist" :model="model" :options="formOptions" :schema="schema">
     </vue-form-generator>
   </div>
 </template>
@@ -23,7 +23,7 @@
   let optionsIn = {
     validateAfterLoad: false,
     validateAfterChanged: true,
-    fieldIdPrefix: 'attendee_'//+ id
+    fieldIdPrefix: 'attendee_'// model-id added in created()
   };
   export default {
     name: "AcupunctureLicense",
@@ -36,6 +36,7 @@
         acupuncturist: null,
         formOptions: optionsIn,
         model: {
+          id: null,
           licenseNumber: '',
           licenseCountry: '',
           licenseState: '',
@@ -84,6 +85,18 @@
           ]
         }
       }
+    },
+    created(){
+      let self = this;
+
+      this.model.id = this.modelId;
+      this.formOptions.fieldIdPrefix += this.modelId + '_';
+
+    },
+    methods: {
+      formUpdated: function () {
+        Bus.$emit('updateAttendeeModel', this.model);
+      },
     }
   }
 </script>

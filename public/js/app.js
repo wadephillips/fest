@@ -1991,7 +1991,7 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
 var optionsIn = {
   validateAfterLoad: false,
   validateAfterChanged: true,
-  fieldIdPrefix: 'attendee_' //+ id
+  fieldIdPrefix: 'attendee_' // model-id added in created()
 
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2005,6 +2005,7 @@ var optionsIn = {
       acupuncturist: null,
       formOptions: optionsIn,
       model: {
+        id: null,
         licenseNumber: '',
         licenseCountry: '',
         licenseState: ''
@@ -2045,6 +2046,16 @@ var optionsIn = {
         }]
       }
     };
+  },
+  created: function created() {
+    var self = this;
+    this.model.id = this.modelId;
+    this.formOptions.fieldIdPrefix += this.modelId + '_';
+  },
+  methods: {
+    formUpdated: function formUpdated() {
+      Bus.$emit('updateAttendeeModel', this.model);
+    }
   }
 });
 
@@ -2122,6 +2133,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2133,7 +2145,7 @@ __webpack_require__(/*! cleave.js/dist/addons/cleave-phone.ca */ "./node_modules
 
 var optionsIn = {
   validateAfterLoad: false,
-  validateAfterChanged: true,
+  validateAfterChanged: false,
   fieldIdPrefix: 'attendee_' //+ id
 
 };
@@ -2152,6 +2164,7 @@ var optionsIn = {
       },
       // formOptions: optionsIn
       model: {
+        id: null,
         name: '',
         email: '',
         phone: '',
@@ -2166,14 +2179,7 @@ var optionsIn = {
       schema: {
         groups: [{
           legend: 'Attendee Details',
-          fields: [// {
-          //   type: 'input',
-          //   inputType: 'hidden',
-          //   model: 'id',
-          //   readonly: true,
-          //   disabled: true,
-          // },
-          {
+          fields: [{
             type: 'input',
             inputType: 'text',
             label: 'Name',
@@ -2264,7 +2270,7 @@ var optionsIn = {
           fields: [{
             type: 'select',
             label: 'Country',
-            model: 'licenseCountry',
+            model: 'country',
             values: countries,
             selectOptions: {
               noneSelectedText: "Select a country"
@@ -2275,6 +2281,16 @@ var optionsIn = {
         }]
       }
     };
+  },
+  created: function created() {
+    var self = this;
+    this.model.id = this.modelId;
+    this.formOptions.fieldIdPrefix += this.modelId + '_';
+  },
+  methods: {
+    formUpdated: function formUpdated() {
+      Bus.$emit('updateAttendeeModel', this.model);
+    }
   }
 });
 
@@ -2327,6 +2343,7 @@ var optionsIn = {
     return {
       formOptions: optionsIn,
       model: {
+        id: null,
         emergencyContactName: '',
         emergencyContactRelationship: '',
         emergencyContactPhone: ''
@@ -2363,6 +2380,16 @@ var optionsIn = {
         }]
       }
     };
+  },
+  created: function created() {
+    var self = this;
+    this.model.id = this.modelId;
+    this.formOptions.fieldIdPrefix += this.modelId + '_';
+  },
+  methods: {
+    formUpdated: function formUpdated() {
+      Bus.$emit('updateAttendeeModel', this.model);
+    }
   }
 });
 
@@ -2574,6 +2601,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    hi: function hi() {
+      console.log('hiz');
+    },
     addAttendee: function addAttendee() {
       this.attendees += 1;
       var index = this.attendees - 1;
@@ -2605,8 +2635,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var self = this;
+    var modelId = 0;
     Bus.$on('stripe_done', function (payload) {
       $('#registrationForm').submit();
+    });
+    Bus.$on('updateAttendeeModel', function (payload) {
+      modelId = payload.id; // delete payload.id;
+
+      for (var k in payload) {
+        if (k !== 'id' && payload.hasOwnProperty(k)) {
+          self.models[modelId][k] = payload[k];
+        }
+      }
     });
   }
 });
@@ -40879,8 +40919,9 @@ var render = function() {
                 expression: "acupuncturist"
               }
             ],
+            key: _vm.modelId,
             staticClass: "switch",
-            attrs: { type: "checkbox", id: "acupuncturist-switch" },
+            attrs: { type: "checkbox", id: _vm.modelId + "-acu-switch" },
             domProps: {
               checked: Array.isArray(_vm.acupuncturist)
                 ? _vm._i(_vm.acupuncturist, null) > -1
@@ -40909,7 +40950,7 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("label", { attrs: { for: "acupuncturist-switch" } }, [
+          _c("label", { attrs: { for: _vm.modelId + "-acu-switch" } }, [
             _vm._v("Acupuncturist")
           ])
         ])
@@ -40924,11 +40965,13 @@ var render = function() {
             expression: "acupuncturist"
           }
         ],
+        key: _vm.modelId,
         attrs: {
           model: _vm.model,
           options: _vm.formOptions,
           schema: _vm.schema
-        }
+        },
+        on: { validated: _vm.formUpdated }
       })
     ],
     1
@@ -40961,7 +41004,12 @@ var render = function() {
       _c(
         "div",
         { staticClass: "col-md-6" },
-        [_c("attendee-details", { attrs: { "model-id": this.model.id } })],
+        [
+          _c("attendee-details", {
+            key: this.model.id,
+            attrs: { "model-id": this.model.id }
+          })
+        ],
         1
       ),
       _vm._v(" "),
@@ -40969,14 +41017,24 @@ var render = function() {
         _c(
           "div",
           { staticClass: "col-md-12" },
-          [_c("emergency-contact", { attrs: { "model-id": this.model.id } })],
+          [
+            _c("emergency-contact", {
+              key: this.model.id,
+              attrs: { "model-id": this.model.id }
+            })
+          ],
           1
         ),
         _vm._v(" "),
         _c(
           "div",
           { staticClass: "col-md-12" },
-          [_c("acupuncture-license", { attrs: { "model-id": this.model.id } })],
+          [
+            _c("acupuncture-license", {
+              key: this.model.id,
+              attrs: { "model-id": this.model.id }
+            })
+          ],
           1
         )
       ])
@@ -41014,7 +41072,8 @@ var render = function() {
           schema: _vm.schema,
           model: _vm.model,
           options: _vm.formOptions
-        }
+        },
+        on: { validated: _vm.formUpdated }
       })
     ],
     1
@@ -41050,7 +41109,8 @@ var render = function() {
           model: _vm.model,
           options: _vm.formOptions,
           schema: _vm.schema
-        }
+        },
+        on: { validated: _vm.formUpdated }
       })
     ],
     1

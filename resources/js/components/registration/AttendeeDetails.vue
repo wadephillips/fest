@@ -1,7 +1,8 @@
 <template>
   <div>
-    <vue-form-generator tag="div" :schema="schema" :model="model" :options="formOptions">
+    <vue-form-generator @validated="formUpdated"  tag="div" :schema="schema" :model="model" :options="formOptions">
     </vue-form-generator>
+
   </div>
 </template>
 
@@ -15,7 +16,7 @@
   //todo: this isn't working try adding formOptions or id to computed
   let optionsIn = {
         validateAfterLoad: false,
-        validateAfterChanged: true,
+        validateAfterChanged:false,
         fieldIdPrefix: 'attendee_'//+ id
       };
   export default {
@@ -33,6 +34,7 @@
         },
         // formOptions: optionsIn
         model: {
+          id: null,
           name: '',
           email: '',
           phone: '',
@@ -49,13 +51,6 @@
             {
               legend: 'Attendee Details',
               fields: [
-                // {
-                //   type: 'input',
-                //   inputType: 'hidden',
-                //   model: 'id',
-                //   readonly: true,
-                //   disabled: true,
-                // },
                 {
                   type: 'input',
                   inputType: 'text',
@@ -166,7 +161,7 @@
                 {
                   type: 'select',
                   label: 'Country',
-                  model: 'licenseCountry',
+                  model: 'country',
                   values: countries,
                   selectOptions: {
                     noneSelectedText: "Select a country"
@@ -188,6 +183,18 @@
         }
       }
     },
+    created(){
+      let self = this;
+
+      this.model.id = this.modelId;
+      this.formOptions.fieldIdPrefix += this.modelId + '_';
+
+    },
+    methods: {
+      formUpdated: function () {
+        Bus.$emit('updateAttendeeModel', this.model);
+      },
+    }
 
   }
 </script>
