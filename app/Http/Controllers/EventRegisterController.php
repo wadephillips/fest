@@ -43,9 +43,10 @@ class EventRegisterController extends Controller
    * @param Event $event
    * @return \Illuminate\Http\Response
    */
-  public function show($event) //todo add type hint
+  public function show(Event $event)
   {
-    return view('event.register');
+
+    return view('event.register', compact('event'));
   }
 
   /**
@@ -70,7 +71,6 @@ class EventRegisterController extends Controller
       $charge = null;
 
       $charge = $this->chargeStripeToken($tokenId, $total, $description);
-//      var_dump($charge);
       $paymentAndAttendees = null;
 
       if ( is_null($charge) ) {

@@ -23,7 +23,7 @@
 <script>
   export default {
     name: "StripePaymentForm",
-    props: ['purchaserEmail'],
+    props: ['purchaserEmail', 'models', 'postPath', 'eventName'],
     data() {
       return {
         image: '/img/poca_logo.png',
@@ -43,7 +43,28 @@
         // token - is the token object
         // args - is an object containing the billing and shipping address if enabled
         console.log(token, args);
-        Bus.$emit('stripe_done', {token,  args});
+        let attendeeCount = this.models.length;
+        let description = 'Register ' + attendeeCount;
+        let noun = (attendeeCount > 1)? ' attenedees ' :' attendee ';
+        description += noun + 'for ' + this.eventName;
+        let payload = {
+          registrants: this.models,
+          token: token,
+          args: args,
+          description: description,
+          total: 99999, //todo set the total
+
+        };
+        let registration = axios.post(this.postPath, payload)
+            .then( (response) => {
+          //if successful
+          if (response.status === 200) {
+            // $(self.modalId).modal('hide'); todo
+            console.log(response);
+          }
+          // return response.data.note;
+        });
+        // Bus.$emit('stripe_done', {token,  args});
         // do stuff...
       },
       opened () {
