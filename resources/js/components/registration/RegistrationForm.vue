@@ -1,11 +1,11 @@
 <template>
 
   <div class="container">
-    <form id="registrationForm" :action="postPath" method="post">
+    <form @submit.prevent="handleSubmit" id="registrationForm" >
       <input type="hidden" name="_token" :value="csrf">
 
-      <div v-for="model in models">
-        <attendee :key="models.id" :model="model"></attendee>
+      <div v-for="model in formModels">
+        <attendee :key="model.id" :model="model"></attendee>
       </div>
 
       <button @click="addAttendee" type="button" class="btn btn-primary">+</button>
@@ -13,7 +13,13 @@
 
       <!--<vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">-->
       <!--</vue-form-generator>-->
-      <stripe-payment-form purchaserEmail="purchaserEmail"></stripe-payment-form>
+      <stripe-payment-form
+          purchaserEmail="purchaserEmail"
+          :models="formModels"
+          :postPath="postPath"
+          :event-name="eventName"
+          :total="total"
+      ></stripe-payment-form>
     </form>
   </div>
 
@@ -24,10 +30,15 @@
   // import 'vue-form-generator/dist/vfg.css'
   // import cleave from 'cleave.js'
   import Attendee from "./Attendee";
+  import StripePaymentForm from "./StripePaymentForm";
   // require('cleave.js/dist/addons/cleave-phone.us');
   // require('cleave.js/dist/addons/cleave-phone.ca');
 
 
+  window.axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  };
 
   export default {
     name: "RegistrationForm",
@@ -35,17 +46,13 @@
       Attendee,
       // "vue-form-generator": VueFormGenerator.component,
     },
-    // computed: {
-    //   postPath(){
-    //     return window.location.pathname;
-    //   }
-    // },
+    props: ['eventName'],
     data () {
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         postPath: window.location.pathname,
         attendees: 1,
-        models: [
+        formModels: [
           {
             id: 0,
             name: '',
@@ -60,152 +67,20 @@
             country: '',
 
 
-            emergencyContactName: '',
-            emergencyContactRelationship: '',
-            emergencyContactPhone: '',
+            emergency_contact_name: '',
+            emergency_contact_relationship: '',
+            emergency_contact_phone: '',
 
-            licenseNumber: '',
-            licenseCountry: '',
-            licenseState: '',
+            license_number: '',
+            license_country: '',
+            license_state: '',
+
+            amount: 20042
 
           },
-          // {
-          //   id: 2,
-          //   name: 'Jane Doe',
-          //   password: 'J0hnD03!x4',
-          //   skills: ['VueJS'],
-          //   email: 'jane.doe@gmail.com',
-          //   status: false
-          //
-          // }
-        ],
 
-        // schema: {
-        //   groups: [
-        //     {
-        //       legend: 'Attendee Details',
-        //       fields: [
-        //         {
-        //           type: 'input',
-        //           inputType: 'text',
-        //           label: 'ID (disabled text field)',
-        //           model: 'id',
-        //           readonly: true,
-        //           disabled: true
-        //         },
-        //         {
-        //           type: 'input',
-        //           inputType: 'text',
-        //           label: 'Name',
-        //           model: 'name',
-        //           placeholder: 'Attendee name',
-        //           featured: true,
-        //           required: true
-        //         },
-        //         {
-        //           type: 'input',
-        //           inputType: 'email',
-        //           label: 'E-mail',
-        //           model: 'email',
-        //           placeholder: 'User\'s e-mail address',
-        //           validator: ['required','email']
-        //         },
-        //         {
-        //           type: 'cleave',
-        //           label: 'Phone',
-        //           model: 'phone',
-        //           cleaveOptions: {
-        //             phone: true,
-        //             phoneRegionCode: 'US'
-        //           },
-        //           placeholder: 'Attendee\'s phone number'
-        //         },
-        //         {
-        //           type: 'input',
-        //           inputType: '',
-        //           label: '',
-        //           model: '',
-        //           placeholder: ''
-        //         },
-        //         {
-        //           type: 'input',
-        //           inputType: 'password',
-        //           label: 'Password',
-        //           model: 'password',
-        //           min: 6,
-        //           required: true,
-        //           hint: 'Minimum 6 characters',
-        //           validator: 'string'
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       legend: 'Emergency Contact Info',
-        //       fields: [
-        //         {
-        //           type: 'input',
-        //           inputType: 'text',
-        //           label: 'Emergency Contact Name',
-        //           model: 'emergencyContactName',
-        //           // placeholder: 'A name',
-        //           featured: true,
-        //           required: true
-        //         },
-        //         {
-        //           type: 'cleave',
-        //           label: 'Emergency Contact Phone',
-        //           model: 'emergencyContactPhone',
-        //           cleaveOptions: {
-        //             phone: true,
-        //             phoneRegionCode: 'US'
-        //           },
-        //           required: true,
-        //           placeholder: 'Best phone number for contacting'
-        //         },
-        //         {
-        //           type: 'input',
-        //           inputType: 'text',
-        //           label: 'Relationship to Emergency Contact ',
-        //           model: 'emergencyContactRelationship',
-        //           required: true
-        //         },
-        //       ]
-        //     },
-        //     {
-        //       legend: 'Acupuncture License Info',
-        //       fields: [
-        //         {
-        //           type: "select",
-        //           label: "State or Province",
-        //           model: "licenseState",
-        //           // required: true,
-        //           values: states,
-        //           // default: "en-US",
-        //           // validator: validators.required
-        //           selectOptions: {
-        //             noneSelectedText: "Select a state/province"
-        //           }
-        //         },
-        //         {
-        //           type: 'select',
-        //           label: 'Country',
-        //           model: 'licenseCountry',
-        //           values: countries,
-        //           selectOptions: {
-        //             noneSelectedText: "Select a country"
-        //           }
-        //         },
-        //         {
-        //           type: 'input',
-        //           inputType: 'text',
-        //           label: 'License Number',
-        //           model: 'licenseNumber',
-        //           placeholder: ''
-        //         },
-        //       ]
-        //     }
-        //   ]
-        // },
+        ],
+        processorInfo: {},
 
         formOptions: {
           validateAfterLoad: true,
@@ -215,13 +90,30 @@
       }
     },
     methods: {
-      hi() {
-        console.log('hiz');
+      handleSubmit() {
+        console.log('hi');
+        let payload = {
+          models: this.formModels,
+          token: this.processorInfo.token,
+          args: this.processorInfo.args
+        }
+        // let note = axios.post(this.postPath,);
+        console.log(payload);
+
+        //     .then( (response) => {
+        //   //if successful
+        //   if (response.status === 200) {
+        //     // $(self.modalId).modal('hide'); todo
+        //     Bus.$emit('noteUpdate', response.data.note);
+        //   }
+        //   return response.data.note;
+        // });
+
       },
       addAttendee() {
         this.attendees += 1;
         let index = this.attendees - 1;
-        this.models.push({
+        this.formModels.push({
           "id": index,
           "name": "",
           "email": "",
@@ -233,24 +125,38 @@
           "state": "",
           "postal": "",
           "country": "",
-          "emergencyContactName": "",
-          "emergencyContactRelationship": "",
-          "emergencyContactPhone": "",
-          "licenseNumber": "",
-          "licenseCountry": "",
-          "licenseState": "",
+          "emergency_contact_name": "",
+          "emergency_contact_relationship": "",
+          "emergency_contact_phone": "",
+          "license_number": "",
+          "license_country": "",
+          "license_state": "",
+          "amount": 20042
         });
       }
     },
     computed: {
       purchaserEmail() {
-        return model[0].email;
+        return formModels[0].email;
+      },
+      total() {
+        let total = 0;
+        this.formModels.forEach((model) => {
+          total += model.amount;
+        });
+        return total;
       }
     },
     mounted() {
       let self = this;
       let modelId = 0;
       Bus.$on('stripe_done', (payload) => {
+
+        // put Stripe token object in data
+        self.processorInfo.token = payload.token;
+        //put stripe args object in data
+        self.processorInfo.args = payload.args;
+
         $('#registrationForm').submit();
       });
 
@@ -259,11 +165,12 @@
         // delete payload.id;
         for (let k in payload) {
           if (k !== 'id' && payload.hasOwnProperty(k)) {
-            self.models[modelId][k] = payload[k];
+            self.formModels[modelId][k] = payload[k];
           }
         }
       });
-    }
+    },
+
   }
 </script>
 

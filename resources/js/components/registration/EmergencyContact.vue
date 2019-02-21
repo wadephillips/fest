@@ -31,9 +31,9 @@
         formOptions: optionsIn,
         model: {
           id: null,
-          emergencyContactName: '',
-          emergencyContactRelationship: '',
-          emergencyContactPhone: ''
+          emergency_contact_name: '',
+          emergency_contact_relationship: '',
+          emergency_contact_phone: ''
         },
         schema: {
           groups: [
@@ -44,7 +44,7 @@
                   type: 'input',
                   inputType: 'text',
                   label: 'Emergency Contact Name',
-                  model: 'emergencyContactName',
+                  model: 'emergency_contact_name',
                   placeholder: 'Bill Murray',
                   featured: true,
                   required: true
@@ -52,7 +52,7 @@
                 {
                   type: 'cleave',
                   label: 'Emergency Contact Phone',
-                  model: 'emergencyContactPhone',
+                  model: 'emergency_contact_phone',
                   cleaveOptions: {
                     phone: true,
                     phoneRegionCode: 'US'
@@ -64,7 +64,7 @@
                   type: 'input',
                   inputType: 'text',
                   label: 'Relationship to Emergency Contact ',
-                  model: 'emergencyContactRelationship',
+                  model: 'emergency_contact_relationship',
                   required: true,
                   placeholder: 'Father'
                 },

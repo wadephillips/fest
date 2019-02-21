@@ -1939,6 +1939,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 // import StripePaymentForm from "./registration/StripePaymentForm";
 
 
@@ -1947,7 +1951,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     NavMenu: _NavMenu__WEBPACK_IMPORTED_MODULE_1__["default"],
     RegistrationForm: _registration_RegistrationForm__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
+  },
+  props: ['event']
 });
 
 /***/ }),
@@ -2006,9 +2011,9 @@ var optionsIn = {
       formOptions: optionsIn,
       model: {
         id: null,
-        licenseNumber: '',
-        licenseCountry: '',
-        licenseState: ''
+        license_number: '',
+        license_country: '',
+        license_state: ''
       },
       schema: {
         groups: [{
@@ -2016,7 +2021,7 @@ var optionsIn = {
           fields: [{
             type: "select",
             label: "State or Province",
-            model: "licenseState",
+            model: "license_state",
             // required: true,
             values: states,
             // default: "en-US",
@@ -2030,13 +2035,13 @@ var optionsIn = {
             type: 'input',
             inputType: 'text',
             label: 'License Number',
-            model: 'licenseNumber',
+            model: 'license_number',
             placeholder: '213BA',
             styleClasses: ['col-md-4']
           }, {
             type: 'select',
             label: 'Country',
-            model: 'licenseCountry',
+            model: 'license_country',
             values: countries,
             selectOptions: {
               noneSelectedText: "Select a country"
@@ -2344,9 +2349,9 @@ var optionsIn = {
       formOptions: optionsIn,
       model: {
         id: null,
-        emergencyContactName: '',
-        emergencyContactRelationship: '',
-        emergencyContactPhone: ''
+        emergency_contact_name: '',
+        emergency_contact_relationship: '',
+        emergency_contact_phone: ''
       },
       schema: {
         groups: [{
@@ -2355,14 +2360,14 @@ var optionsIn = {
             type: 'input',
             inputType: 'text',
             label: 'Emergency Contact Name',
-            model: 'emergencyContactName',
+            model: 'emergency_contact_name',
             placeholder: 'Bill Murray',
             featured: true,
             required: true
           }, {
             type: 'cleave',
             label: 'Emergency Contact Phone',
-            model: 'emergencyContactPhone',
+            model: 'emergency_contact_phone',
             cleaveOptions: {
               phone: true,
               phoneRegionCode: 'US'
@@ -2373,7 +2378,7 @@ var optionsIn = {
             type: 'input',
             inputType: 'text',
             label: 'Relationship to Emergency Contact ',
-            model: 'emergencyContactRelationship',
+            model: 'emergency_contact_relationship',
             required: true,
             placeholder: 'Father'
           }]
@@ -2405,6 +2410,13 @@ var optionsIn = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Attendee__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Attendee */ "./resources/js/components/registration/Attendee.vue");
+/* harmony import */ var _StripePaymentForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StripePaymentForm */ "./resources/js/components/registration/StripePaymentForm.vue");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2429,26 +2441,27 @@ __webpack_require__.r(__webpack_exports__);
 // import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
 // import 'vue-form-generator/dist/vfg.css'
 // import cleave from 'cleave.js'
+
  // require('cleave.js/dist/addons/cleave-phone.us');
 // require('cleave.js/dist/addons/cleave-phone.ca');
 
+window.axios.defaults.headers.common = {
+  'X-Requested-With': 'XMLHttpRequest',
+  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "RegistrationForm",
   components: {
     Attendee: _Attendee__WEBPACK_IMPORTED_MODULE_0__["default"] // "vue-form-generator": VueFormGenerator.component,
 
   },
-  // computed: {
-  //   postPath(){
-  //     return window.location.pathname;
-  //   }
-  // },
+  props: ['eventName'],
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       postPath: window.location.pathname,
       attendees: 1,
-      models: [{
+      formModels: [{
         id: 0,
         name: '',
         email: '',
@@ -2460,139 +2473,15 @@ __webpack_require__.r(__webpack_exports__);
         state: '',
         postal: '',
         country: '',
-        emergencyContactName: '',
-        emergencyContactRelationship: '',
-        emergencyContactPhone: '',
-        licenseNumber: '',
-        licenseCountry: '',
-        licenseState: ''
+        emergency_contact_name: '',
+        emergency_contact_relationship: '',
+        emergency_contact_phone: '',
+        license_number: '',
+        license_country: '',
+        license_state: '',
+        amount: 20042
       }],
-      // schema: {
-      //   groups: [
-      //     {
-      //       legend: 'Attendee Details',
-      //       fields: [
-      //         {
-      //           type: 'input',
-      //           inputType: 'text',
-      //           label: 'ID (disabled text field)',
-      //           model: 'id',
-      //           readonly: true,
-      //           disabled: true
-      //         },
-      //         {
-      //           type: 'input',
-      //           inputType: 'text',
-      //           label: 'Name',
-      //           model: 'name',
-      //           placeholder: 'Attendee name',
-      //           featured: true,
-      //           required: true
-      //         },
-      //         {
-      //           type: 'input',
-      //           inputType: 'email',
-      //           label: 'E-mail',
-      //           model: 'email',
-      //           placeholder: 'User\'s e-mail address',
-      //           validator: ['required','email']
-      //         },
-      //         {
-      //           type: 'cleave',
-      //           label: 'Phone',
-      //           model: 'phone',
-      //           cleaveOptions: {
-      //             phone: true,
-      //             phoneRegionCode: 'US'
-      //           },
-      //           placeholder: 'Attendee\'s phone number'
-      //         },
-      //         {
-      //           type: 'input',
-      //           inputType: '',
-      //           label: '',
-      //           model: '',
-      //           placeholder: ''
-      //         },
-      //         {
-      //           type: 'input',
-      //           inputType: 'password',
-      //           label: 'Password',
-      //           model: 'password',
-      //           min: 6,
-      //           required: true,
-      //           hint: 'Minimum 6 characters',
-      //           validator: 'string'
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       legend: 'Emergency Contact Info',
-      //       fields: [
-      //         {
-      //           type: 'input',
-      //           inputType: 'text',
-      //           label: 'Emergency Contact Name',
-      //           model: 'emergencyContactName',
-      //           // placeholder: 'A name',
-      //           featured: true,
-      //           required: true
-      //         },
-      //         {
-      //           type: 'cleave',
-      //           label: 'Emergency Contact Phone',
-      //           model: 'emergencyContactPhone',
-      //           cleaveOptions: {
-      //             phone: true,
-      //             phoneRegionCode: 'US'
-      //           },
-      //           required: true,
-      //           placeholder: 'Best phone number for contacting'
-      //         },
-      //         {
-      //           type: 'input',
-      //           inputType: 'text',
-      //           label: 'Relationship to Emergency Contact ',
-      //           model: 'emergencyContactRelationship',
-      //           required: true
-      //         },
-      //       ]
-      //     },
-      //     {
-      //       legend: 'Acupuncture License Info',
-      //       fields: [
-      //         {
-      //           type: "select",
-      //           label: "State or Province",
-      //           model: "licenseState",
-      //           // required: true,
-      //           values: states,
-      //           // default: "en-US",
-      //           // validator: validators.required
-      //           selectOptions: {
-      //             noneSelectedText: "Select a state/province"
-      //           }
-      //         },
-      //         {
-      //           type: 'select',
-      //           label: 'Country',
-      //           model: 'licenseCountry',
-      //           values: countries,
-      //           selectOptions: {
-      //             noneSelectedText: "Select a country"
-      //           }
-      //         },
-      //         {
-      //           type: 'input',
-      //           inputType: 'text',
-      //           label: 'License Number',
-      //           model: 'licenseNumber',
-      //           placeholder: ''
-      //         },
-      //       ]
-      //     }
-      //   ]
-      // },
+      processorInfo: {},
       formOptions: {
         validateAfterLoad: true,
         validateAfterChanged: true,
@@ -2601,13 +2490,27 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    hi: function hi() {
-      console.log('hiz');
+    handleSubmit: function handleSubmit() {
+      console.log('hi');
+      var payload = {
+        models: this.formModels,
+        token: this.processorInfo.token,
+        args: this.processorInfo.args // let note = axios.post(this.postPath,);
+
+      };
+      console.log(payload); //     .then( (response) => {
+      //   //if successful
+      //   if (response.status === 200) {
+      //     // $(self.modalId).modal('hide'); todo
+      //     Bus.$emit('noteUpdate', response.data.note);
+      //   }
+      //   return response.data.note;
+      // });
     },
     addAttendee: function addAttendee() {
       this.attendees += 1;
       var index = this.attendees - 1;
-      this.models.push({
+      this.formModels.push({
         "id": index,
         "name": "",
         "email": "",
@@ -2619,24 +2522,36 @@ __webpack_require__.r(__webpack_exports__);
         "state": "",
         "postal": "",
         "country": "",
-        "emergencyContactName": "",
-        "emergencyContactRelationship": "",
-        "emergencyContactPhone": "",
-        "licenseNumber": "",
-        "licenseCountry": "",
-        "licenseState": ""
+        "emergency_contact_name": "",
+        "emergency_contact_relationship": "",
+        "emergency_contact_phone": "",
+        "license_number": "",
+        "license_country": "",
+        "license_state": "",
+        "amount": 20042
       });
     }
   },
   computed: {
     purchaserEmail: function purchaserEmail() {
-      return model[0].email;
+      return formModels[0].email;
+    },
+    total: function total() {
+      var total = 0;
+      this.formModels.forEach(function (model) {
+        total += model.amount;
+      });
+      return total;
     }
   },
   mounted: function mounted() {
     var self = this;
     var modelId = 0;
     Bus.$on('stripe_done', function (payload) {
+      // put Stripe token object in data
+      self.processorInfo.token = payload.token; //put stripe args object in data
+
+      self.processorInfo.args = payload.args;
       $('#registrationForm').submit();
     });
     Bus.$on('updateAttendeeModel', function (payload) {
@@ -2644,7 +2559,7 @@ __webpack_require__.r(__webpack_exports__);
 
       for (var k in payload) {
         if (k !== 'id' && payload.hasOwnProperty(k)) {
-          self.models[modelId][k] = payload[k];
+          self.formModels[modelId][k] = payload[k];
         }
       }
     });
@@ -2694,15 +2609,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "StripePaymentForm",
-  props: ['purchaserEmail'],
+  props: ['purchaserEmail', 'models', 'postPath', 'eventName', 'total'],
   data: function data() {
     return {
       image: '/img/poca_logo.png',
       name: 'POCA Fest Registration',
-      description: 'For all the POCA!',
+      // description: 'For all the POCA!',
       currency: '$',
-      amount: 99999
+      amount: this.total
     };
+  },
+  computed: {
+    attendeeCount: function attendeeCount() {
+      return this.models.length;
+    },
+    description: function description() {
+      var description = 'Register ' + this.attendeeCount;
+      var noun = this.attendeeCount > 1 ? ' attenedees ' : ' attendee ';
+      description += noun + 'for ' + this.eventName;
+      return description;
+    }
   },
   methods: {
     checkout: function () {
@@ -2742,11 +2668,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           args = _ref2.args;
       // token - is the token object
       // args - is an object containing the billing and shipping address if enabled
-      console.log(token, args);
-      Bus.$emit('stripe_done', {
+      // console.log(token, args);
+      var payload = {
+        registrants: this.models,
         token: token,
-        args: args
-      }); // do stuff...
+        args: args,
+        description: this.description,
+        total: this.total //todo set the total
+
+      };
+      var registration = axios.post(this.postPath, payload).then(function (response) {
+        //if successful
+        if (response.status === 200) {
+          // $(self.modalId).modal('hide'); todo
+          console.log(response);
+        } // return response.data.note;
+
+      }); // Bus.$emit('stripe_done', {token,  args});
+      // do stuff...
     },
     opened: function opened() {// do stuff
     },
@@ -40881,7 +40820,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("nav-menu"), _vm._v(" "), _c("registration-form")], 1)
+  return _c(
+    "div",
+    [
+      _c("h1", [_vm._v("Register for " + _vm._s(_vm.event.name))]),
+      _vm._v(" "),
+      _c("h2", [_vm._v(_vm._s(_vm.event.city))]),
+      _vm._v(" "),
+      _c("h4", [
+        _vm._v(_vm._s(_vm.event.start) + " to " + _vm._s(_vm.event.end))
+      ]),
+      _vm._v(" "),
+      _c("registration-form", { attrs: { "event-name": _vm.event.name } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -41142,7 +41095,13 @@ var render = function() {
     _c(
       "form",
       {
-        attrs: { id: "registrationForm", action: _vm.postPath, method: "post" }
+        attrs: { id: "registrationForm" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.handleSubmit($event)
+          }
+        }
       },
       [
         _c("input", {
@@ -41150,10 +41109,10 @@ var render = function() {
           domProps: { value: _vm.csrf }
         }),
         _vm._v(" "),
-        _vm._l(_vm.models, function(model) {
+        _vm._l(_vm.formModels, function(model) {
           return _c(
             "div",
-            [_c("attendee", { key: _vm.models.id, attrs: { model: model } })],
+            [_c("attendee", { key: model.id, attrs: { model: model } })],
             1
           )
         }),
@@ -41169,7 +41128,13 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("stripe-payment-form", {
-          attrs: { purchaserEmail: "purchaserEmail" }
+          attrs: {
+            purchaserEmail: "purchaserEmail",
+            models: _vm.formModels,
+            postPath: _vm.postPath,
+            "event-name": _vm.eventName,
+            total: _vm.total
+          }
         })
       ],
       2
@@ -41220,7 +41185,9 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("button", { on: { click: _vm.checkout } }, [_vm._v("Checkout")])
+      _c("button", { on: { click: _vm.checkout } }, [
+        _vm._v("Checkout @ " + _vm._s(_vm.total))
+      ])
     ],
     1
   )

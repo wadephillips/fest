@@ -30,7 +30,7 @@ class CreateAttendeesTable extends Migration
 
             $table->string('emergency_contact_name',100);
             $table->string('emergency_contact_phone',16);
-            $table->string('emergency_contact_relation',50);
+            $table->string('emergency_contact_relationship',50);
 
             $table->json('modifiers')->nullable();
             $table->integer('total')->default(0);

@@ -16,24 +16,36 @@
         @canceled="canceled"
 
     ></vue-stripe-checkout>
-    <button @click="checkout">Checkout</button>
+    <button @click="checkout">Checkout @ {{total}}</button>
   </div>
 </template>
 
 <script>
   export default {
     name: "StripePaymentForm",
-    props: ['purchaserEmail'],
+    props: ['purchaserEmail', 'models', 'postPath', 'eventName', 'total'],
     data() {
       return {
         image: '/img/poca_logo.png',
         name: 'POCA Fest Registration',
-        description: 'For all the POCA!',
+        // description: 'For all the POCA!',
         currency: '$',
-        amount: 99999
+        amount: this.total
       }
     },
-    methods: {
+    computed: {
+      attendeeCount() {
+        return this.models.length;
+      },
+      description() {
+
+        let description = 'Register ' + this.attendeeCount;
+        let noun = (this.attendeeCount > 1) ? ' attenedees ' : ' attendee ';
+        description += noun + 'for ' + this.eventName;
+        return description;
+      },
+    },
+     methods: {
       async checkout () {
         // token - is the token object
         // args - is an object containing the billing and shipping address if enabled
@@ -42,8 +54,27 @@
       done ({token, args}) {
         // token - is the token object
         // args - is an object containing the billing and shipping address if enabled
-        console.log(token, args);
-        Bus.$emit('stripe_done', {token,  args});
+        // console.log(token, args);
+
+
+        let payload = {
+          registrants: this.models,
+          token: token,
+          args: args,
+          description: this.description,
+          total: this.total, //todo set the total
+
+        };
+        let registration = axios.post(this.postPath, payload)
+            .then( (response) => {
+          //if successful
+          if (response.status === 200) {
+            // $(self.modalId).modal('hide'); todo
+            console.log(response);
+          }
+          // return response.data.note;
+        });
+        // Bus.$emit('stripe_done', {token,  args});
         // do stuff...
       },
       opened () {

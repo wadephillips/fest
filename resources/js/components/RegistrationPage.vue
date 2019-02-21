@@ -1,8 +1,12 @@
 
 <template>
   <div>
-    <nav-menu></nav-menu>
-    <registration-form></registration-form>
+    <h1>Register for {{event.name}}</h1>
+
+    <h2>{{event.city}}</h2>
+    <!--todo reformat with moment-->
+    <h4>{{event.start}} to {{event.end}}</h4>
+    <registration-form :event-name="event.name"></registration-form>
   </div>
 </template>
 
@@ -13,6 +17,7 @@
   export default {
     name: "RegistrationPage",
     components: {NavMenu, RegistrationForm},
+    props: ['event']
   }
 </script>
 

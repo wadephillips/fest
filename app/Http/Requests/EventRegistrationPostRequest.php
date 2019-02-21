@@ -36,7 +36,7 @@ class EventRegistrationPostRequest extends FormRequest
             'country' => 'required|max:2',
             'emergency_contact_name' => 'required|max:100',
             'emergency_contact_phone' => 'required|max:16',
-            'emergency_contact_relation' => 'required|max:50',
+            'emergency_contact_relationship' => 'required|max:50',
             'total' => 'required|integer',
         ];
     }
