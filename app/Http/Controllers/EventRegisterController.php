@@ -9,6 +9,7 @@ use App\Http\Requests\EventRegistrationPostRequest;
 use App\Mail\RegistrationSuccessful;
 use App\Payment;
 use function array_has;
+use function array_key_exists;
 use function collect;
 use function dd;
 use function env;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use function is_null;
+use function print_r;
 use stdClass;
 use Stripe\Charge;
 use Stripe\Stripe;
@@ -62,7 +64,9 @@ class EventRegisterController extends Controller
     try {
       $all = $request->all();
 
-      $description = (isset($all[ 'description' ])) ? $all['description ']: 'Event Charge';
+//      print_r($all);
+
+      $description = (array_key_exists('description', $all)) ? $all['description']: 'Event Charge';
 
       //todo CRITICAL pre-launch need to validate - done with request, but the request isn't being called right now
       // attempt to charge the card
@@ -210,7 +214,7 @@ class EventRegisterController extends Controller
       return [ 'payment' => $payment, 'attendees' => $attendees ];
     } catch ( Exception $e ) {
       DB::rollBack();
-      throw new Exception('There was a problem persisting the registration or payment', 0, $e);
+      throw new Exception('There was a problem persisting the registration or payment: ' . $e->getMessage(), 0, $e);
     }
 
   }
@@ -266,9 +270,9 @@ class EventRegisterController extends Controller
           'country' => $registrant['country'],
           'emergency_contact_name' => $registrant['emergency_contact_name'],
           'emergency_contact_phone' => $registrant['emergency_contact_phone'],
-          'emergency_contact_relation' => $registrant['emergency_contact_relation'],
+          'emergency_contact_relationship' => $registrant['emergency_contact_relationship'],
 //          'modifiers' => $registrant['modifiers'],
-          'total' => $registrant['total'],
+          'total' => $registrant['amount'],
       ]);
 
     if ( array_has($registrant, 'address_2') ) {

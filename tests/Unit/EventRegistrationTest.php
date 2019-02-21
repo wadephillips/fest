@@ -44,7 +44,7 @@ class EventRegistrationTest extends TestCase
         'country' => 'US',
         'emergency_contact_name' => 'James Jones',
         'emergency_contact_phone' => '406-555-5555',
-        'emergency_contact_relation' => 'father',
+        'emergency_contact_relationship' => 'father',
         'total' => '200',
     ];
     $this->registrants[] = [
@@ -58,7 +58,7 @@ class EventRegistrationTest extends TestCase
         'country' => 'US',
         'emergency_contact_name' => 'Jenny Doe',
         'emergency_contact_phone' => '406-555-5556',
-        'emergency_contact_relation' => 'Mother',
+        'emergency_contact_relationship' => 'Mother',
         'total' => 250,
     ];
     //create the form data

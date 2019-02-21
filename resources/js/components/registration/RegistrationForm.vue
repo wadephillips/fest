@@ -17,7 +17,9 @@
           purchaserEmail="purchaserEmail"
           :models="formModels"
           :postPath="postPath"
-          :event-name="eventName"></stripe-payment-form>
+          :event-name="eventName"
+          :total="total"
+      ></stripe-payment-form>
     </form>
   </div>
 
@@ -65,13 +67,15 @@
             country: '',
 
 
-            emergencyContactName: '',
-            emergencyContactRelationship: '',
-            emergencyContactPhone: '',
+            emergency_contact_name: '',
+            emergency_contact_relationship: '',
+            emergency_contact_phone: '',
 
-            licenseNumber: '',
-            licenseCountry: '',
-            licenseState: '',
+            license_number: '',
+            license_country: '',
+            license_state: '',
+
+            amount: 20042
 
           },
 
@@ -121,18 +125,26 @@
           "state": "",
           "postal": "",
           "country": "",
-          "emergencyContactName": "",
-          "emergencyContactRelationship": "",
-          "emergencyContactPhone": "",
-          "licenseNumber": "",
-          "licenseCountry": "",
-          "licenseState": "",
+          "emergency_contact_name": "",
+          "emergency_contact_relationship": "",
+          "emergency_contact_phone": "",
+          "license_number": "",
+          "license_country": "",
+          "license_state": "",
+          "amount": 20042
         });
       }
     },
     computed: {
       purchaserEmail() {
-        return model[0].email;
+        return formModels[0].email;
+      },
+      total() {
+        let total = 0;
+        this.formModels.forEach((model) => {
+          total += model.amount;
+        });
+        return total;
       }
     },
     mounted() {

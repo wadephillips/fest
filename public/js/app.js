@@ -2011,9 +2011,9 @@ var optionsIn = {
       formOptions: optionsIn,
       model: {
         id: null,
-        licenseNumber: '',
-        licenseCountry: '',
-        licenseState: ''
+        license_number: '',
+        license_country: '',
+        license_state: ''
       },
       schema: {
         groups: [{
@@ -2021,7 +2021,7 @@ var optionsIn = {
           fields: [{
             type: "select",
             label: "State or Province",
-            model: "licenseState",
+            model: "license_state",
             // required: true,
             values: states,
             // default: "en-US",
@@ -2035,13 +2035,13 @@ var optionsIn = {
             type: 'input',
             inputType: 'text',
             label: 'License Number',
-            model: 'licenseNumber',
+            model: 'license_number',
             placeholder: '213BA',
             styleClasses: ['col-md-4']
           }, {
             type: 'select',
             label: 'Country',
-            model: 'licenseCountry',
+            model: 'license_country',
             values: countries,
             selectOptions: {
               noneSelectedText: "Select a country"
@@ -2349,9 +2349,9 @@ var optionsIn = {
       formOptions: optionsIn,
       model: {
         id: null,
-        emergencyContactName: '',
-        emergencyContactRelationship: '',
-        emergencyContactPhone: ''
+        emergency_contact_name: '',
+        emergency_contact_relationship: '',
+        emergency_contact_phone: ''
       },
       schema: {
         groups: [{
@@ -2360,14 +2360,14 @@ var optionsIn = {
             type: 'input',
             inputType: 'text',
             label: 'Emergency Contact Name',
-            model: 'emergencyContactName',
+            model: 'emergency_contact_name',
             placeholder: 'Bill Murray',
             featured: true,
             required: true
           }, {
             type: 'cleave',
             label: 'Emergency Contact Phone',
-            model: 'emergencyContactPhone',
+            model: 'emergency_contact_phone',
             cleaveOptions: {
               phone: true,
               phoneRegionCode: 'US'
@@ -2378,7 +2378,7 @@ var optionsIn = {
             type: 'input',
             inputType: 'text',
             label: 'Relationship to Emergency Contact ',
-            model: 'emergencyContactRelationship',
+            model: 'emergency_contact_relationship',
             required: true,
             placeholder: 'Father'
           }]
@@ -2411,6 +2411,8 @@ var optionsIn = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Attendee__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Attendee */ "./resources/js/components/registration/Attendee.vue");
 /* harmony import */ var _StripePaymentForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StripePaymentForm */ "./resources/js/components/registration/StripePaymentForm.vue");
+//
+//
 //
 //
 //
@@ -2471,12 +2473,13 @@ window.axios.defaults.headers.common = {
         state: '',
         postal: '',
         country: '',
-        emergencyContactName: '',
-        emergencyContactRelationship: '',
-        emergencyContactPhone: '',
-        licenseNumber: '',
-        licenseCountry: '',
-        licenseState: ''
+        emergency_contact_name: '',
+        emergency_contact_relationship: '',
+        emergency_contact_phone: '',
+        license_number: '',
+        license_country: '',
+        license_state: '',
+        amount: 20042
       }],
       processorInfo: {},
       formOptions: {
@@ -2519,18 +2522,26 @@ window.axios.defaults.headers.common = {
         "state": "",
         "postal": "",
         "country": "",
-        "emergencyContactName": "",
-        "emergencyContactRelationship": "",
-        "emergencyContactPhone": "",
-        "licenseNumber": "",
-        "licenseCountry": "",
-        "licenseState": ""
+        "emergency_contact_name": "",
+        "emergency_contact_relationship": "",
+        "emergency_contact_phone": "",
+        "license_number": "",
+        "license_country": "",
+        "license_state": "",
+        "amount": 20042
       });
     }
   },
   computed: {
     purchaserEmail: function purchaserEmail() {
-      return model[0].email;
+      return formModels[0].email;
+    },
+    total: function total() {
+      var total = 0;
+      this.formModels.forEach(function (model) {
+        total += model.amount;
+      });
+      return total;
     }
   },
   mounted: function mounted() {
@@ -2598,15 +2609,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "StripePaymentForm",
-  props: ['purchaserEmail', 'models', 'postPath', 'eventName'],
+  props: ['purchaserEmail', 'models', 'postPath', 'eventName', 'total'],
   data: function data() {
     return {
       image: '/img/poca_logo.png',
       name: 'POCA Fest Registration',
-      description: 'For all the POCA!',
+      // description: 'For all the POCA!',
       currency: '$',
-      amount: 99999
+      amount: this.total
     };
+  },
+  computed: {
+    attendeeCount: function attendeeCount() {
+      return this.models.length;
+    },
+    description: function description() {
+      var description = 'Register ' + this.attendeeCount;
+      var noun = this.attendeeCount > 1 ? ' attenedees ' : ' attendee ';
+      description += noun + 'for ' + this.eventName;
+      return description;
+    }
   },
   methods: {
     checkout: function () {
@@ -2646,17 +2668,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           args = _ref2.args;
       // token - is the token object
       // args - is an object containing the billing and shipping address if enabled
-      console.log(token, args);
-      var attendeeCount = this.models.length;
-      var description = 'Register ' + attendeeCount;
-      var noun = attendeeCount > 1 ? ' attenedees ' : ' attendee ';
-      description += noun + 'for ' + this.eventName;
+      // console.log(token, args);
       var payload = {
         registrants: this.models,
         token: token,
         args: args,
-        description: description,
-        total: 99999 //todo set the total
+        description: this.description,
+        total: this.total //todo set the total
 
       };
       var registration = axios.post(this.postPath, payload).then(function (response) {
@@ -41114,7 +41132,8 @@ var render = function() {
             purchaserEmail: "purchaserEmail",
             models: _vm.formModels,
             postPath: _vm.postPath,
-            "event-name": _vm.eventName
+            "event-name": _vm.eventName,
+            total: _vm.total
           }
         })
       ],
@@ -41166,7 +41185,9 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("button", { on: { click: _vm.checkout } }, [_vm._v("Checkout")])
+      _c("button", { on: { click: _vm.checkout } }, [
+        _vm._v("Checkout @ " + _vm._s(_vm.total))
+      ])
     ],
     1
   )

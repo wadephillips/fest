@@ -37,9 +37,9 @@
         formOptions: optionsIn,
         model: {
           id: null,
-          licenseNumber: '',
-          licenseCountry: '',
-          licenseState: '',
+          license_number: '',
+          license_country: '',
+          license_state: '',
         },
         schema: {
           groups: [
@@ -49,7 +49,7 @@
                 {
                   type: "select",
                   label: "State or Province",
-                  model: "licenseState",
+                  model: "license_state",
                   // required: true,
                   values: states,
                   // default: "en-US",
@@ -64,14 +64,14 @@
                   type: 'input',
                   inputType: 'text',
                   label: 'License Number',
-                  model: 'licenseNumber',
+                  model: 'license_number',
                   placeholder: '213BA',
                   styleClasses: ['col-md-4']
                 },
                 {
                   type: 'select',
                   label: 'Country',
-                  model: 'licenseCountry',
+                  model: 'license_country',
                   values: countries,
                   selectOptions: {
                     noneSelectedText: "Select a country"

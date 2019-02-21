@@ -16,24 +16,36 @@
         @canceled="canceled"
 
     ></vue-stripe-checkout>
-    <button @click="checkout">Checkout</button>
+    <button @click="checkout">Checkout @ {{total}}</button>
   </div>
 </template>
 
 <script>
   export default {
     name: "StripePaymentForm",
-    props: ['purchaserEmail', 'models', 'postPath', 'eventName'],
+    props: ['purchaserEmail', 'models', 'postPath', 'eventName', 'total'],
     data() {
       return {
         image: '/img/poca_logo.png',
         name: 'POCA Fest Registration',
-        description: 'For all the POCA!',
+        // description: 'For all the POCA!',
         currency: '$',
-        amount: 99999
+        amount: this.total
       }
     },
-    methods: {
+    computed: {
+      attendeeCount() {
+        return this.models.length;
+      },
+      description() {
+
+        let description = 'Register ' + this.attendeeCount;
+        let noun = (this.attendeeCount > 1) ? ' attenedees ' : ' attendee ';
+        description += noun + 'for ' + this.eventName;
+        return description;
+      },
+    },
+     methods: {
       async checkout () {
         // token - is the token object
         // args - is an object containing the billing and shipping address if enabled
@@ -42,17 +54,15 @@
       done ({token, args}) {
         // token - is the token object
         // args - is an object containing the billing and shipping address if enabled
-        console.log(token, args);
-        let attendeeCount = this.models.length;
-        let description = 'Register ' + attendeeCount;
-        let noun = (attendeeCount > 1)? ' attenedees ' :' attendee ';
-        description += noun + 'for ' + this.eventName;
+        // console.log(token, args);
+
+
         let payload = {
           registrants: this.models,
           token: token,
           args: args,
-          description: description,
-          total: 99999, //todo set the total
+          description: this.description,
+          total: this.total, //todo set the total
 
         };
         let registration = axios.post(this.postPath, payload)
