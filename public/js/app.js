@@ -2030,14 +2030,16 @@ var optionsIn = {
               noneSelectedText: "Select a state/province"
             },
             placeholder: 'Select a state/province',
-            styleClasses: ['col-md-8']
+            styleClasses: ['col-md-8'],
+            id: 'license_state'
           }, {
             type: 'input',
             inputType: 'text',
             label: 'License Number',
             model: 'license_number',
             placeholder: '213BA',
-            styleClasses: ['col-md-4']
+            styleClasses: ['col-md-4'],
+            id: 'license_number'
           }, {
             type: 'select',
             label: 'Country',
@@ -2046,7 +2048,8 @@ var optionsIn = {
             selectOptions: {
               noneSelectedText: "Select a country"
             },
-            styleClasses: ['col-md-8']
+            styleClasses: ['col-md-8'],
+            id: 'license_country'
           }]
         }]
       }
@@ -2200,7 +2203,8 @@ var optionsIn = {
             placeholder: 'jdoe@gmail.com',
             validator: ['required', 'email'],
             required: true,
-            styleClasses: ['col-md-6']
+            styleClasses: ['col-md-6'],
+            id: 'email'
           }, {
             type: 'cleave',
             label: 'Phone',
@@ -2222,14 +2226,16 @@ var optionsIn = {
             model: 'address',
             placeholder: '123 Any St.',
             required: true,
-            styleClasses: ['col-md-8']
+            styleClasses: ['col-md-8'],
+            id: 'address'
           }, {
             type: 'input',
             inputType: 'text',
             label: 'Suite or Unit',
             model: 'suite',
             placeholder: '#987',
-            styleClasses: ['col-md-4']
+            styleClasses: ['col-md-4'],
+            id: 'suite'
           }]
         }, {
           fields: [{
@@ -2238,7 +2244,8 @@ var optionsIn = {
             label: 'Address 2',
             model: 'address_2',
             placeholder: '',
-            styleClasses: ['col-md']
+            styleClasses: ['col-md'],
+            id: 'address_2'
           }]
         }, {
           fields: [{
@@ -2269,7 +2276,8 @@ var optionsIn = {
             model: 'postal',
             placeholder: '97213',
             styleClasses: ['col-md-3'],
-            required: true
+            required: true,
+            id: 'postal'
           }]
         }, {
           fields: [{
@@ -2363,7 +2371,8 @@ var optionsIn = {
             model: 'emergency_contact_name',
             placeholder: 'Bill Murray',
             featured: true,
-            required: true
+            required: true,
+            id: 'emergency_contact_name'
           }, {
             type: 'cleave',
             label: 'Emergency Contact Phone',
@@ -2373,14 +2382,16 @@ var optionsIn = {
               phoneRegionCode: 'US'
             },
             required: true,
-            placeholder: '555-555-5555'
+            placeholder: '555-555-5555',
+            id: 'emergency_contact_phone'
           }, {
             type: 'input',
             inputType: 'text',
             label: 'Relationship to Emergency Contact ',
             model: 'emergency_contact_relationship',
             required: true,
-            placeholder: 'Father'
+            placeholder: 'Father',
+            id: 'emergency_contact_relationship'
           }]
         }]
       }
@@ -2607,6 +2618,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "StripePaymentForm",
   props: ['purchaserEmail', 'models', 'postPath', 'eventName', 'total'],
@@ -2615,7 +2627,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       image: '/img/poca_logo.png',
       name: 'POCA Fest Registration',
       // description: 'For all the POCA!',
-      currency: '$',
+      currency: 'USD',
       amount: this.total
     };
   },
@@ -41175,7 +41187,8 @@ var render = function() {
           currency: _vm.currency,
           amount: _vm.amount,
           "allow-remember-me": false,
-          email: _vm.purchaserEmail
+          email: _vm.purchaserEmail,
+          id: "stripeCheckoutForm"
         },
         on: {
           done: _vm.done,
@@ -41185,9 +41198,19 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("button", { on: { click: _vm.checkout } }, [
-        _vm._v("Checkout @ " + _vm._s(_vm.total))
-      ])
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: {
+            type: "button",
+            id: "checkout-button",
+            dusk: "checkout-button"
+          },
+          on: { click: _vm.checkout }
+        },
+        [_vm._v("Checkout @ " + _vm._s(_vm.total))]
+      )
     ],
     1
   )
