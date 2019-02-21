@@ -68,7 +68,8 @@
                   placeholder: 'jdoe@gmail.com',
                   validator: ['required', 'email'],
                   required: true,
-                  styleClasses: ['col-md-6']
+                  styleClasses: ['col-md-6'],
+                  id: 'email'
                 },
                 {
                   type: 'cleave',
@@ -95,6 +96,7 @@
                   placeholder: '123 Any St.',
                   required: true,
                   styleClasses: [ 'col-md-8'],
+                  id: 'address'
                 },
                 {
                   type: 'input',
@@ -103,6 +105,7 @@
                   model: 'suite',
                   placeholder: '#987',
                   styleClasses: [ 'col-md-4'],
+                  id: 'suite'
 
                 },
               ]
@@ -115,7 +118,8 @@
                   label: 'Address 2',
                   model: 'address_2',
                   placeholder: '',
-                  styleClasses: ['col-md']
+                  styleClasses: ['col-md'],
+                  id: 'address_2'
                 },
               ]
             },
@@ -151,7 +155,8 @@
                   model: 'postal',
                   placeholder: '97213',
                   styleClasses: [ 'col-md-3'],
-                  required: true
+                  required: true,
+                  id: 'postal'
 
                 },
               ]

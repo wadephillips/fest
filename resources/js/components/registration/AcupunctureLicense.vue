@@ -58,7 +58,8 @@
                     noneSelectedText: "Select a state/province"
                   },
                   placeholder: 'Select a state/province',
-                  styleClasses: ['col-md-8']
+                  styleClasses: ['col-md-8'],
+                  id: 'license_state'
                 },
                 {
                   type: 'input',
@@ -66,7 +67,8 @@
                   label: 'License Number',
                   model: 'license_number',
                   placeholder: '213BA',
-                  styleClasses: ['col-md-4']
+                  styleClasses: ['col-md-4'],
+                  id: 'license_number'
                 },
                 {
                   type: 'select',
@@ -76,7 +78,8 @@
                   selectOptions: {
                     noneSelectedText: "Select a country"
                   },
-                  styleClasses: ['col-md-8']
+                  styleClasses: ['col-md-8'],
+                  id: 'license_country'
                 },
 
               ]

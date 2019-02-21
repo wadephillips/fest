@@ -14,9 +14,10 @@
         @opened="opened"
         @closed="closed"
         @canceled="canceled"
-
+        id="stripeCheckoutForm"
     ></vue-stripe-checkout>
-    <button @click="checkout">Checkout @ {{total}}</button>
+    <button type="button" class="btn btn-primary" id="checkout-button" dusk="checkout-button" @click="checkout">Checkout @ {{total}}</button>
+
   </div>
 </template>
 
@@ -29,7 +30,7 @@
         image: '/img/poca_logo.png',
         name: 'POCA Fest Registration',
         // description: 'For all the POCA!',
-        currency: '$',
+        currency: 'USD',
         amount: this.total
       }
     },

@@ -47,7 +47,8 @@
                   model: 'emergency_contact_name',
                   placeholder: 'Bill Murray',
                   featured: true,
-                  required: true
+                  required: true,
+                  id: 'emergency_contact_name'
                 },
                 {
                   type: 'cleave',
@@ -58,7 +59,8 @@
                     phoneRegionCode: 'US'
                   },
                   required: true,
-                  placeholder: '555-555-5555'
+                  placeholder: '555-555-5555',
+                  id: 'emergency_contact_phone'
                 },
                 {
                   type: 'input',
@@ -66,7 +68,8 @@
                   label: 'Relationship to Emergency Contact ',
                   model: 'emergency_contact_relationship',
                   required: true,
-                  placeholder: 'Father'
+                  placeholder: 'Father',
+                  id: 'emergency_contact_relationship'
                 },
               ]
             }
