@@ -16,7 +16,7 @@
         @canceled="canceled"
         id="stripeCheckoutForm"
     ></vue-stripe-checkout>
-    <button type="button" class="btn btn-primary" id="checkout-button" dusk="checkout-button" @click="checkout">Checkout @ {{total}}</button>
+    <button type="button" class="btn btn-primary" id="checkout-button" dusk="checkout-button" @click="checkout">Checkout @ ${{displayTotal}}</button>
 
   </div>
 </template>
@@ -45,6 +45,9 @@
         description += noun + 'for ' + this.eventName;
         return description;
       },
+      displayTotal() {
+        return this.total / 100;
+      }
     },
      methods: {
       async checkout () {

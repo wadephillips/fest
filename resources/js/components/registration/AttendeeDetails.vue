@@ -13,12 +13,7 @@
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
 
-  //todo: this isn't working try adding formOptions or id to computed
-  let optionsIn = {
-        validateAfterLoad: false,
-        validateAfterChanged:false,
-        fieldIdPrefix: 'attendee_'//+ id
-      };
+
   export default {
     name: "AttendeeDetails",
     components: {
