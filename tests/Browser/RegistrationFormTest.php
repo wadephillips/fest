@@ -82,4 +82,49 @@ class RegistrationFormTest extends DuskTestCase
     });
 
   }
+
+  public function testItHasAFormForEventRegistrationOptions()
+  {
+    $this->browse(function (Browser $browser) {
+      $browser->visit($this->url)
+        ->assertSee('Poca Fest')
+      ->assertSee('Select a registration type for this attendee')
+      ->assertSee('Three Day Pass - Overnight Stay')
+      ->assertSee('Three Day Pass - No Overnight Stay')
+      ->assertSee('Ear Training - 3 Day Pass - Overnight Stay')
+      ->assertSee('Ear Training - 3 Day Pass - No Overnight Stay')
+      ->assertSee('Student - 3 Day Pass')
+      ->assertSee('Additional Family Member / Significant Other - Adult')
+      ->assertSee('Additional Family Member / Significant Other - Child')
+      ->assertSee('One Day Only Pass')
+      ;
+      $browser->radio('registration_type', 'three_day_overnight_pass')
+      ->assertSee('Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500')
+      ->assertVue('model.chosen.three_day_overnight_pass', 30000, '@poca-fest-options');
+      $browser->radio('registration_type', 'three_day_day_only')
+      ->assertSee('Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500');
+      $browser->radio('registration_type', 'ear_training_overnight')
+      ->assertSee('Sliding Scale, set your price - Ear Training - 3 Day Pass - Overnight Stay - $250 - $500');
+      $browser->radio('registration_type', 'ear_training_day_only')
+      ->assertSee('Sliding Scale, set your price - Ear Training - 3 Day Pass - No Overnight Stay - $200 - $500');
+      $browser->radio('registration_type', 'student')
+      ->assertSee('Sliding Scale, set your price - Student - 3 Day Pass - $100 - $200');
+
+    });
+  }
+
+  public function testSliderSetFunctionsMultiplyValueBy100()
+  {
+    $this->browse(function (Browser $browser) {
+      $browser->visit($this->url)
+          ->assertSee('Poca Fest');
+
+      $browser->radio('registration_type', 'three_day_overnight_pass')
+          ->assertSee('Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500')
+          ->dragRight('.irs-single', 10)
+//          ->assertVue('wade','the bomb', '@poca-fest-options')
+          ->assertVue('model.chosen.three_day_overnight_pass', 30300, '@poca-fest-options')
+      ;
+    });
+  }
 }

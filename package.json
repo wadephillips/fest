@@ -29,6 +29,7 @@
         "bootswatch": "^4.2.1",
         "cleave.js": "^1.4.7",
         "dotenv": "^6.2.0",
+        "ion-rangeslider": "^2.3.0",
         "vue-form-generator": "^2.3.4",
         "vue-stripe-checkout": "^1.2.6"
     }

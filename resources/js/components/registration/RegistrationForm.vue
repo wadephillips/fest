@@ -14,6 +14,7 @@
       <!--<vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">-->
       <!--</vue-form-generator>-->
       <stripe-payment-form
+          :purchaserEmail="formModels[0].email"
           purchaserEmail="purchaserEmail"
           :models="formModels"
           :postPath="postPath"
@@ -75,7 +76,8 @@
             license_country: '',
             license_state: '',
 
-            amount: 20042
+            amount: 0,
+            modifiers: {}
 
           },
 
@@ -91,7 +93,6 @@
     },
     methods: {
       handleSubmit() {
-        console.log('hi');
         let payload = {
           models: this.formModels,
           token: this.processorInfo.token,
@@ -111,7 +112,7 @@
 
       },
       addAttendee() {
-        this.attendees += 1;
+        this.attendees = parseInt(this.attendees) + 1;
         let index = this.attendees - 1;
         this.formModels.push({
           "id": index,
@@ -131,8 +132,12 @@
           "license_number": "",
           "license_country": "",
           "license_state": "",
-          "amount": 20042
+          "amount": 0,
+          "modifiers": {}
         });
+
+        let wildcardSelector = 'attendee_' + index + '_rs';
+        $('label[for^="' + wildcardSelector + '"]').each(function() { $(this).parent().hide()});
       }
     },
     computed: {
