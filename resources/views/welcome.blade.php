@@ -10,7 +10,8 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-        <style>
+        {{--todo delete this section--}}
+       <!--  <style>
             html, body {
                 background-color: #fff;
                 color: #636b6f;
@@ -61,7 +62,7 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
-        </style>
+        </style>-->
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -80,11 +81,15 @@
             @endif
 
             <div class="content">
+                <div id="app">
+                    <example-component></example-component>
+                </div>
                 <div class="title m-b-md">
                     Laravel
                 </div>
 
                 <div class="links">
+                    <a href="https://wadelp.com">wadelp.com</a>
                     <a href="https://laravel.com/docs">Docs</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
@@ -95,5 +100,7 @@
                 </div>
             </div>
         </div>
+        <script src="{{ mix('js/app.js') }}"></script>
+
     </body>
 </html>

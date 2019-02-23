@@ -11,4 +11,9 @@ class Breakout extends Model
   {
       return $this->belongsToMany('App\Presenter')->using('App\BreakoutPresenter');
   }
+
+  public function event()
+  {
+    return $this->belongsTo('App\Event');
+  }
 }

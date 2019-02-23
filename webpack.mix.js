@@ -1,4 +1,7 @@
+require('dotenv').config();
 const mix = require('laravel-mix');
+let exec = require('child_process').exec;
+let path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +14,13 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix
+    .js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .copy('resources/assets/img', 'public/img')
+    .browserSync({
+      proxy: 'fest.pocacoop.test',
+      open: false,
+      https:true
+    })
+;

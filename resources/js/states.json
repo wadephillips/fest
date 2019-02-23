@@ -1,0 +1,367 @@
+[
+  {
+    "name": "Alabama",
+    "id": "AL",
+    "group": "United States"
+  },
+  {
+    "name": "Alaska",
+    "id": "AK",
+    "group": "United States"
+  },
+  {
+    "name": "American Samoa",
+    "id": "AS",
+    "group": "United States"
+  },
+  {
+    "name": "Arizona",
+    "id": "AZ",
+    "group": "United States"
+  },
+  {
+    "name": "Arkansas",
+    "id": "AR",
+    "group": "United States"
+  },
+  {
+    "name": "California",
+    "id": "CA",
+    "group": "United States"
+  },
+  {
+    "name": "Colorado",
+    "id": "CO",
+    "group": "United States"
+  },
+  {
+    "name": "Connecticut",
+    "id": "CT",
+    "group": "United States"
+  },
+  {
+    "name": "Delaware",
+    "id": "DE",
+    "group": "United States"
+  },
+  {
+    "name": "District Of Columbia",
+    "id": "DC",
+    "group": "United States"
+  },
+  {
+    "name": "Federated States Of Micronesia",
+    "id": "FM",
+    "group": "United States"
+  },
+  {
+    "name": "Florida",
+    "id": "FL",
+    "group": "United States"
+  },
+  {
+    "name": "Georgia",
+    "id": "GA",
+    "group": "United States"
+  },
+  {
+    "name": "Guam",
+    "id": "GU",
+    "group": "United States"
+  },
+  {
+    "name": "Hawaii",
+    "id": "HI",
+    "group": "United States"
+  },
+  {
+    "name": "Idaho",
+    "id": "ID",
+    "group": "United States"
+  },
+  {
+    "name": "Illinois",
+    "id": "IL",
+    "group": "United States"
+  },
+  {
+    "name": "Indiana",
+    "id": "IN",
+    "group": "United States"
+  },
+  {
+    "name": "Iowa",
+    "id": "IA",
+    "group": "United States"
+  },
+  {
+    "name": "Kansas",
+    "id": "KS",
+    "group": "United States"
+  },
+  {
+    "name": "Kentucky",
+    "id": "KY",
+    "group": "United States"
+  },
+  {
+    "name": "Louisiana",
+    "id": "LA",
+    "group": "United States"
+  },
+  {
+    "name": "Maine",
+    "id": "ME",
+    "group": "United States"
+  },
+  {
+    "name": "Marshall Islands",
+    "id": "MH",
+    "group": "United States"
+  },
+  {
+    "name": "Maryland",
+    "id": "MD",
+    "group": "United States"
+  },
+  {
+    "name": "Massachusetts",
+    "id": "MA",
+    "group": "United States"
+  },
+  {
+    "name": "Michigan",
+    "id": "MI",
+    "group": "United States"
+  },
+  {
+    "name": "Minnesota",
+    "id": "MN",
+    "group": "United States"
+  },
+  {
+    "name": "Mississippi",
+    "id": "MS",
+    "group": "United States"
+  },
+  {
+    "name": "Missouri",
+    "id": "MO",
+    "group": "United States"
+  },
+  {
+    "name": "Montana",
+    "id": "MT",
+    "group": "United States"
+  },
+  {
+    "name": "Nebraska",
+    "id": "NE",
+    "group": "United States"
+  },
+  {
+    "name": "Nevada",
+    "id": "NV",
+    "group": "United States"
+  },
+  {
+    "name": "New Hampshire",
+    "id": "NH",
+    "group": "United States"
+  },
+  {
+    "name": "New Jersey",
+    "id": "NJ",
+    "group": "United States"
+  },
+  {
+    "name": "New Mexico",
+    "id": "NM",
+    "group": "United States"
+  },
+  {
+    "name": "New York",
+    "id": "NY",
+    "group": "United States"
+  },
+  {
+    "name": "North Carolina",
+    "id": "NC",
+    "group": "United States"
+  },
+  {
+    "name": "North Dakota",
+    "id": "ND",
+    "group": "United States"
+  },
+  {
+    "name": "Northern Mariana Islands",
+    "id": "MP",
+    "group": "United States"
+  },
+  {
+    "name": "Ohio",
+    "id": "OH",
+    "group": "United States"
+  },
+  {
+    "name": "Oklahoma",
+    "id": "OK",
+    "group": "United States"
+  },
+  {
+    "name": "Oregon",
+    "id": "OR",
+    "group": "United States"
+  },
+  {
+    "name": "Palau",
+    "id": "PW",
+    "group": "United States"
+  },
+  {
+    "name": "Pennsylvania",
+    "id": "PA",
+    "group": "United States"
+  },
+  {
+    "name": "Puerto Rico",
+    "id": "PR",
+    "group": "United States"
+  },
+  {
+    "name": "Rhode Island",
+    "id": "RI",
+    "group": "United States"
+  },
+  {
+    "name": "South Carolina",
+    "id": "SC",
+    "group": "United States"
+  },
+  {
+    "name": "South Dakota",
+    "id": "SD",
+    "group": "United States"
+  },
+  {
+    "name": "Tennessee",
+    "id": "TN",
+    "group": "United States"
+  },
+  {
+    "name": "Texas",
+    "id": "TX",
+    "group": "United States"
+  },
+  {
+    "name": "Utah",
+    "id": "UT",
+    "group": "United States"
+  },
+  {
+    "name": "Vermont",
+    "id": "VT",
+    "group": "United States"
+  },
+  {
+    "name": "Virgin Islands",
+    "id": "VI",
+    "group": "United States"
+  },
+  {
+    "name": "Virginia",
+    "id": "VA",
+    "group": "United States"
+  },
+  {
+    "name": "Washington",
+    "id": "WA",
+    "group": "United States"
+  },
+  {
+    "name": "West Virginia",
+    "id": "WV",
+    "group": "United States"
+  },
+  {
+    "name": "Wisconsin",
+    "id": "WI",
+    "group": "United States"
+  },
+  {
+    "name": "Wyoming",
+    "id": "WY",
+    "group": "United States"
+  },
+  {
+    "name": "Alberta",
+    "id": "AB",
+    "group": "Canada"
+  },
+  {
+    "name": "British Columbia",
+    "id": "BC",
+    "group": "Canada"
+  },
+  {
+    "name": "Manitoba",
+    "id": "MB",
+    "group": "Canada"
+  },
+  {
+    "name": "New Brunswick",
+    "id": "NB",
+    "group": "Canada"
+  },
+  {
+    "name": "Newfoundland and Labrador",
+    "id": "NL",
+    "group": "Canada"
+  },
+  {
+    "name": "Northwest Territories",
+    "id": "NT",
+    "group": "Canada"
+  },
+  {
+    "name": "Nova Scotia",
+    "id": "NS",
+    "group": "Canada"
+  },
+  {
+    "name": "Nunavut",
+    "id": "NU",
+    "group": "Canada"
+  },
+  {
+    "name": "Ontario",
+    "id": "ON",
+    "group": "Canada"
+  },
+  {
+    "name": "Prince Edward Island",
+    "id": "PE",
+    "group": "Canada"
+  },
+  {
+    "name": "Quebec",
+    "id": "QC",
+    "group": "Canada"
+  },
+  {
+    "name": "Saskatchewan",
+    "id": "SK",
+    "group": "Canada"
+  },
+  {
+    "name": "Yukon Territory",
+    "id": "YT",
+    "group": "Canada"
+  },
+  {
+    "name": "Other",
+    "id": "XXX",
+    "group": "Other Country"
+  }
+]

@@ -10,3 +10,12 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /.idea
+/pocafest
+
+fest\.pocacoop\.test\.crt
+
+localhost\.crt
+
+localhost\.crt\.conf
+
+localhost\.crt\.key
