@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-form-generator @validated="formUpdated"  tag="div" :schema="schema" :model="model" :options="formOptions">
+    <vue-form-generator @model-updated="formUpdated"  tag="div" :schema="schema" :model="model" :options="formOptions">
     </vue-form-generator>
 
   </div>

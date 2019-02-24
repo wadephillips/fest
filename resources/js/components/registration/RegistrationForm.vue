@@ -1,14 +1,14 @@
 <template>
 
   <div class="container">
-    <form @submit.prevent="handleSubmit" id="registrationForm" >
+    <form @submit.prevent="handleSubmit" id="registrationForm" dusk="registration-form">
       <input type="hidden" name="_token" :value="csrf">
 
       <div v-for="model in formModels">
         <attendee :key="model.id" :model="model"></attendee>
       </div>
 
-      <button @click="addAttendee" type="button" class="btn btn-primary">+</button>
+      <button @click="addAttendee" type="button" class="btn btn-primary" id="add-attendee-btn" dusk='add-attendee-btn'>+</button>
 
 
       <!--<vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">-->

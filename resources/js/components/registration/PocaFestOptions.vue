@@ -42,7 +42,10 @@
             one_day_pass: 125,
             one_day_add_ceu: 75,
           },
-          chosen: {}
+          chosen: {},
+          meal: {
+            type: ''
+          }
         },
         schema: {
           groups: [
@@ -54,6 +57,7 @@
                   type: "radios",
                   label: "How are you attending POCA Fest?",
                   model: "registration_type",
+                  required: true,
                   values: [
                     {name: "Three Day Pass - Overnight Stay", value: "three_day_overnight_pass"},
                     {name: "Three Day Pass - No Overnight Stay", value: "three_day_day_only"},
@@ -70,7 +74,9 @@
                     let selector = 'attendee_' + model.id + '_rs_' + value;
 
 
-                    $('label[for^="' + wildcardSelector + '"]').each(function() { $(this).parent().hide()});
+                    $('label[for^="' + wildcardSelector + '"]').each(function () {
+                      $(this).parent().hide()
+                    });
                     // $('.field-rangeSlider').each(function() { $(this).hide()});
                     $('label[for="' + selector + '"]').parent().show();
                     let price = 0;
@@ -78,7 +84,7 @@
 
                     let key = value;
 
-                    if (keys.length === 0 ) {
+                    if (keys.length === 0) {
                       price = model.prices[key] * 100
                     } else if (['fso_adult', 'fso_child', 'add_ceu_one_day_pass'].indexOf(keys[0])) {
                       price = model.prices[key] * 100;
@@ -103,10 +109,6 @@
                     force_edges: true
                   },
 
-                  // visible: function (model) {
-                  //   //visible if business is selected
-                  //   return this.model && this.model.registration_type === "three_day_overnight_pass";
-                  // },
                   set: function (model, value) {
                     console.log(value);
                     model.chosen.three_day_overnight_pass = value * 100
@@ -119,14 +121,8 @@
                   id: 'rs_three_day_day_only',
                   min: 200,
                   max: 500,
-                  rangeSliderOptions: {
-                    force_edges: true
-                  },
 
-                  // visible: function (model) {
-                  //   //visible if business is selected
-                  //   return this.model && this.model.registration_type === "three_day_day_only";
-                  // },
+
                   set: function (model, value) {
                     model.chosen.three_day_day_only = value * 100
                   }
@@ -138,14 +134,8 @@
                   id: 'rs_ear_training_overnight',
                   min: 250,
                   max: 500,
-                  rangeSliderOptions: {
-                    force_edges: true
-                  },
 
-                  // visible: function (model) {
-                  //   //visible if business is selected
-                  //   return this.model && this.model.registration_type === "ear_training_overnight";
-                  // },
+
                   set: function (model, value) {
                     model.chosen.ear_training_overnight = value * 100
                   }
@@ -157,9 +147,6 @@
                   id: 'rs_ear_training_day_only',
                   min: 200,
                   max: 500,
-                  rangeSliderOptions: {
-                    force_edges: true
-                  },
                   set: function (model, value) {
                     model.chosen.ear_training_day_only = value * 100
                   }
@@ -171,9 +158,6 @@
                   id: 'rs_student',
                   min: 100,
                   max: 200,
-                  rangeSliderOptions: {
-                    force_edges: true
-                  },
                   set: function (model, value) {
                     model.chosen.student = value * 100
                   }
@@ -185,9 +169,6 @@
                   id: 'rs_one_day_pass',
                   min: 100,
                   max: 200,
-                  rangeSliderOptions: {
-                    force_edges: true
-                  },
                   set: function (model, value) {
                     model.chosen.one_day_pass = value * 100
                   }
@@ -205,6 +186,34 @@
                   },
                 }
               ]
+            },
+            {
+              legend: "Other options",
+              fields: [
+                {
+                  type: "radios",
+                  label: "Food Preference",
+                  model: "meal.type",
+                  id: 'meal_type',
+                  dusk: 'meal_type',
+                  required: true,
+                  values: [
+                    "Omnivore",
+                    "Vegetarian",
+                    "Vegan"
+                  ],
+              validators: ['required']
+                },
+                {
+                  type: "input",
+                  inputType: "text",
+                  label: "Other Dietary Restrictions",
+                  model: "meal.other_food",
+                  id: 'other_food',
+                  hint: "At this time we are unable to guarantee that our hosts can accommodate any special food needs.  We will inquire and communicate back with you.",
+                  validator: 'string'
+                }
+              ],
             },
           ]
         },
@@ -228,7 +237,10 @@
         this.total = this.calculateTotal();
         let payload = {
           id: this.modelId,
-          modifiers: this.model.chosen,
+          modifiers: {
+            payment: this.model.chosen,
+            meal: this.model.meal
+          } ,
           amount: this.total
         };
         Bus.$emit('updateAttendeeModel', payload);
@@ -244,7 +256,9 @@
     mounted() {
       let wildcardSelector = 'attendee_' + this.model.id + '_rs';
 
-      $('label[for^="' + wildcardSelector + '"]').each(function() { $(this).parent().hide()});
+      $('label[for^="' + wildcardSelector + '"]').each(function () {
+        $(this).parent().hide()
+      });
     }
   }
 </script>
