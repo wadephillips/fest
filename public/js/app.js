@@ -2109,6 +2109,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2472,7 +2475,10 @@ __webpack_require__.r(__webpack_exports__);
           one_day_pass: 125,
           one_day_add_ceu: 75
         },
-        chosen: {}
+        chosen: {},
+        meal: {
+          type: ''
+        }
       },
       schema: {
         groups: [{
@@ -2482,6 +2488,7 @@ __webpack_require__.r(__webpack_exports__);
             type: "radios",
             label: "How are you attending POCA Fest?",
             model: "registration_type",
+            required: true,
             values: [{
               name: "Three Day Pass - Overnight Stay",
               value: "three_day_overnight_pass"
@@ -2542,10 +2549,6 @@ __webpack_require__.r(__webpack_exports__);
             rangeSliderOptions: {
               force_edges: true
             },
-            // visible: function (model) {
-            //   //visible if business is selected
-            //   return this.model && this.model.registration_type === "three_day_overnight_pass";
-            // },
             set: function set(model, value) {
               console.log(value);
               model.chosen.three_day_overnight_pass = value * 100;
@@ -2557,13 +2560,6 @@ __webpack_require__.r(__webpack_exports__);
             id: 'rs_three_day_day_only',
             min: 200,
             max: 500,
-            rangeSliderOptions: {
-              force_edges: true
-            },
-            // visible: function (model) {
-            //   //visible if business is selected
-            //   return this.model && this.model.registration_type === "three_day_day_only";
-            // },
             set: function set(model, value) {
               model.chosen.three_day_day_only = value * 100;
             }
@@ -2574,13 +2570,6 @@ __webpack_require__.r(__webpack_exports__);
             id: 'rs_ear_training_overnight',
             min: 250,
             max: 500,
-            rangeSliderOptions: {
-              force_edges: true
-            },
-            // visible: function (model) {
-            //   //visible if business is selected
-            //   return this.model && this.model.registration_type === "ear_training_overnight";
-            // },
             set: function set(model, value) {
               model.chosen.ear_training_overnight = value * 100;
             }
@@ -2591,9 +2580,6 @@ __webpack_require__.r(__webpack_exports__);
             id: 'rs_ear_training_day_only',
             min: 200,
             max: 500,
-            rangeSliderOptions: {
-              force_edges: true
-            },
             set: function set(model, value) {
               model.chosen.ear_training_day_only = value * 100;
             }
@@ -2604,9 +2590,6 @@ __webpack_require__.r(__webpack_exports__);
             id: 'rs_student',
             min: 100,
             max: 200,
-            rangeSliderOptions: {
-              force_edges: true
-            },
             set: function set(model, value) {
               model.chosen.student = value * 100;
             }
@@ -2617,9 +2600,6 @@ __webpack_require__.r(__webpack_exports__);
             id: 'rs_one_day_pass',
             min: 100,
             max: 200,
-            rangeSliderOptions: {
-              force_edges: true
-            },
             set: function set(model, value) {
               model.chosen.one_day_pass = value * 100;
             }
@@ -2634,6 +2614,26 @@ __webpack_require__.r(__webpack_exports__);
             visible: function visible(model) {
               return this.model && this.model.registration_type === "one_day_pass";
             }
+          }]
+        }, {
+          legend: "Other options",
+          fields: [{
+            type: "radios",
+            label: "Food Preference",
+            model: "meal.type",
+            id: 'meal_type',
+            dusk: 'meal_type',
+            required: true,
+            values: ["Omnivore", "Vegetarian", "Vegan"],
+            validators: ['required']
+          }, {
+            type: "input",
+            inputType: "text",
+            label: "Other Dietary Restrictions",
+            model: "meal.other_food",
+            id: 'other_food',
+            hint: "At this time we are unable to guarantee that our hosts can accommodate any special food needs.  We will inquire and communicate back with you.",
+            validator: 'string'
           }]
         }]
       }
@@ -2654,7 +2654,10 @@ __webpack_require__.r(__webpack_exports__);
       this.total = this.calculateTotal();
       var payload = {
         id: this.modelId,
-        modifiers: this.model.chosen,
+        modifiers: {
+          payment: this.model.chosen,
+          meal: this.model.meal
+        },
         amount: this.total
       };
       Bus.$emit('updateAttendeeModel', payload);
@@ -43673,7 +43676,11 @@ var render = function() {
             ],
             key: _vm.modelId,
             staticClass: "switch",
-            attrs: { type: "checkbox", id: _vm.modelId + "-acu-switch" },
+            attrs: {
+              type: "checkbox",
+              id: _vm.modelId + "-acu-switch",
+              dusk: _vm.modelId + "-acu-switch"
+            },
             domProps: {
               checked: Array.isArray(_vm.acupuncturist)
                 ? _vm._i(_vm.acupuncturist, null) > -1
@@ -43721,7 +43728,8 @@ var render = function() {
         attrs: {
           model: _vm.model,
           options: _vm.formOptions,
-          schema: _vm.schema
+          schema: _vm.schema,
+          dusk: _vm.modelId + "-acu-license-form"
         },
         on: { validated: _vm.formUpdated }
       })
@@ -43759,7 +43767,10 @@ var render = function() {
         [
           _c("attendee-details", {
             key: this.model.id,
-            attrs: { "model-id": this.model.id }
+            attrs: {
+              dusk: "attendee-details-" + this.model.id,
+              "model-id": this.model.id
+            }
           })
         ],
         1
@@ -43772,7 +43783,10 @@ var render = function() {
           [
             _c("emergency-contact", {
               key: this.model.id,
-              attrs: { "model-id": this.model.id }
+              attrs: {
+                dusk: "emergency-contact-" + this.model.id,
+                "model-id": this.model.id
+              }
             })
           ],
           1
@@ -43784,7 +43798,10 @@ var render = function() {
           [
             _c("acupuncture-license", {
               key: this.model.id,
-              attrs: { "model-id": this.model.id }
+              attrs: {
+                dusk: "acupuncture-license-" + this.model.id,
+                "model-id": this.model.id
+              }
             })
           ],
           1
@@ -43792,23 +43809,28 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "row" },
-      [
-        _c("div", { staticClass: "col-md-3 ml-0" }, [
-          _c("h4", [
-            _vm._v("Attendee Total: $" + _vm._s(this.model.amount / 100))
-          ])
-        ]),
-        _vm._v(" "),
-        _c("poca-fest-options", {
-          key: this.model.id,
-          attrs: { dusk: "poca-fest-options", "model-id": this.model.id }
-        })
-      ],
-      1
-    )
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-3" }, [
+        _c("h4", [
+          _vm._v("Attendee Total: $" + _vm._s(this.model.amount / 100))
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-md-9" },
+        [
+          _c("poca-fest-options", {
+            key: this.model.id,
+            attrs: {
+              dusk: "poca-fest-options-" + this.model.id,
+              "model-id": this.model.id
+            }
+          })
+        ],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -43843,7 +43865,7 @@ var render = function() {
           model: _vm.model,
           options: _vm.formOptions
         },
-        on: { validated: _vm.formUpdated }
+        on: { "model-updated": _vm.formUpdated }
       })
     ],
     1
@@ -43944,7 +43966,7 @@ var render = function() {
     _c(
       "form",
       {
-        attrs: { id: "registrationForm" },
+        attrs: { id: "registrationForm", dusk: "registration-form" },
         on: {
           submit: function($event) {
             $event.preventDefault()
@@ -43970,7 +43992,11 @@ var render = function() {
           "button",
           {
             staticClass: "btn btn-primary",
-            attrs: { type: "button" },
+            attrs: {
+              type: "button",
+              id: "add-attendee-btn",
+              dusk: "add-attendee-btn"
+            },
             on: { click: _vm.addAttendee }
           },
           [_vm._v("+")]

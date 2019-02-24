@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="form-group" >
-      <span class="switch switch-sm">
-        <input :key="modelId" v-model="acupuncturist"  type="checkbox" class="switch" :id="modelId + '-acu-switch'">
+      <span class="switch switch-sm" >
+        <input :key="modelId" v-model="acupuncturist"  type="checkbox" class="switch" :id="modelId + '-acu-switch'" :dusk="modelId + '-acu-switch'">
         <label :for="modelId + '-acu-switch'">Acupuncturist</label>
       </span>
     </div>
-    <vue-form-generator :key="modelId" @validated="formUpdated" v-show="acupuncturist" :model="model" :options="formOptions" :schema="schema">
+    <vue-form-generator :key="modelId" @validated="formUpdated" v-show="acupuncturist" :model="model" :options="formOptions" :schema="schema" :dusk="modelId + '-acu-license-form'">
     </vue-form-generator>
   </div>
 </template>
