@@ -45,7 +45,16 @@ class EventRegistrationTest extends TestCase
         'emergency_contact_name' => 'James Jones',
         'emergency_contact_phone' => '406-555-5555',
         'emergency_contact_relationship' => 'father',
-        'total' => '200',
+        'modifiers' => [
+            'meal' => [
+                'type' => 'Omnivore',
+            ],
+            'payment' => [
+                'one_day_pass' => 12500,
+                'one_day_add_ceu' => 7500,
+            ],
+        ],
+        'amount' => '200',
     ];
     $this->registrants[] = [
         'name' => 'Jane Doe',
@@ -59,7 +68,16 @@ class EventRegistrationTest extends TestCase
         'emergency_contact_name' => 'Jenny Doe',
         'emergency_contact_phone' => '406-555-5556',
         'emergency_contact_relationship' => 'Mother',
-        'total' => 250,
+        'modifiers' => [
+            'meal' => [
+                'other_food' => 'Gluten Free plz',
+                'type' => 'Vegan',
+            ],
+            'payment' => [
+                'three_day_overnight_pass' => 30000,
+            ],
+        ],
+        'amount' => 30000,
     ];
     //create the form data
     $this->formData = [
