@@ -99,7 +99,7 @@ class EventRegisterController extends Controller
 
 
       // else return them to the registration form with some error message
-      return response($request->all(), 200);
+      return response($paymentAndAttendees, 201);
 
     } catch ( Exception $e ) {
       echo $e->getMessage();
@@ -206,6 +206,7 @@ class EventRegisterController extends Controller
       $payment = $this->savePayment($all, $charge, $event);//App\Payment
       $attendees = [];
       foreach ( $all[ 'registrants' ] as $registrant ) {
+        //todo resume: test to ensure that the modifiers are being registered for all attendees
         $attendees[] = $this->createRegistration($registrant, $event, $payment); // array of attendees with first being the payor
       }
       $payment->payer_id = $attendees[ 0 ]->id;
@@ -271,7 +272,7 @@ class EventRegisterController extends Controller
           'emergency_contact_name' => $registrant['emergency_contact_name'],
           'emergency_contact_phone' => $registrant['emergency_contact_phone'],
           'emergency_contact_relationship' => $registrant['emergency_contact_relationship'],
-//          'modifiers' => $registrant['modifiers'],
+          'modifiers' => $registrant['modifiers'],
           'total' => $registrant['amount'],
       ]);
 
