@@ -1,6 +1,12 @@
 <template>
   <div>
-    <vue-form-generator @validated="formUpdated" :model="model" :options="formOptions" :schema="schema">
+    <vue-form-generator
+        :model="model"
+        :options="formOptions"
+        :schema="schema"
+        @validated="formUpdated"
+        ref="emergencyContactForm"
+    >
     </vue-form-generator>
   </div>
 </template>
@@ -10,6 +16,8 @@
   import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
   import 'vue-form-generator/dist/vfg.css'
   import cleave from 'cleave.js'
+  import { get as objGet, isFunction} from "lodash";
+
 
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
@@ -20,7 +28,7 @@
     components: {
       "vue-form-generator": VueFormGenerator.component,
     },
-    props:['model-id'],
+    props: ['model-id'],
     data() {
       return {
         formOptions: {
@@ -45,9 +53,10 @@
                   label: 'Emergency Contact Name',
                   model: 'emergency_contact_name',
                   placeholder: 'Bill Murray',
-                  featured: true,
+                  // featured: true,
                   required: true,
-                  id: 'emergency_contact_name'
+                  id: 'emergency_contact_name',
+                  validator: ['string']
                 },
                 {
                   type: 'cleave',
@@ -59,7 +68,8 @@
                   },
                   required: true,
                   placeholder: '555-555-5555',
-                  id: 'emergency_contact_phone'
+                  id: 'emergency_contact_phone',
+                  validator: ['string']
                 },
                 {
                   type: 'input',
@@ -68,7 +78,8 @@
                   model: 'emergency_contact_relationship',
                   required: true,
                   placeholder: 'Father',
-                  id: 'emergency_contact_relationship'
+                  id: 'emergency_contact_relationship',
+                  validator: ['string']
                 },
               ]
             }
@@ -76,11 +87,37 @@
         }
       }
     },
-    created(){
+    created() {
       let self = this;
 
       this.model.id = this.modelId;
       this.formOptions.fieldIdPrefix += this.modelId + '_';
+
+      Bus.$on('validateForms', function ($event) {
+        $event.preventDefault();
+        let validateAsync = (objGet(self.$refs.emergencyContactForm.$data.vfg.options, "validateAsync", false));
+
+        let errors = self.$refs.emergencyContactForm.vfg.validate();
+
+        let handleErrors = errors => {
+          if ((validateAsync && !isEmpty(errors)) || (!validateAsync && !errors)) {
+            if (isFunction(self.schema.onValidationError)) {
+
+              self.schema.onValidationError(self.model, self.schema, errors, $event);
+            }
+          } else if (!validateAsync && errors) {
+
+            Bus.$emit('subFormValidated', {emergencyContact: true});
+
+          }
+
+        };
+        if (errors && isFunction(errors.then)) {
+          errors.then(handleErrors);
+        } else {
+          handleErrors(errors);
+        }
+      });
 
     },
     methods: {

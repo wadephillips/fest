@@ -1,6 +1,13 @@
 <template>
   <div>
-    <vue-form-generator @model-updated="formUpdated"  tag="div" :schema="schema" :model="model" :options="formOptions">
+    <vue-form-generator
+        @model-updated="formUpdated"
+        tag="div"
+        :schema="schema"
+        :model="model"
+        :options="formOptions"
+        ref="attendeeForm"
+    >
     </vue-form-generator>
 
   </div>
@@ -12,6 +19,8 @@
   import cleave from 'cleave.js'
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
+  import { get as objGet, isFunction} from "lodash";
+
 
 
   export default {
@@ -53,7 +62,8 @@
                   model: 'name',
                   placeholder: 'Jane Doe',
                   required: true,
-                  styleClasses: ['col-md']
+                  styleClasses: ['col-md'],
+                  validator: ['string']
                 },
                 {
                   type: 'input',
@@ -76,7 +86,8 @@
                   },
                   placeholder: '551-555-5555',
                   required: true,
-                  styleClasses: ['col-md-6']
+                  styleClasses: ['col-md-6'],
+                  validator: ['string']
                 },
               ],
             },
@@ -91,7 +102,8 @@
                   placeholder: '123 Any St.',
                   required: true,
                   styleClasses: [ 'col-md-8'],
-                  id: 'address'
+                  id: 'address',
+                  validator: ['string']
                 },
                 {
                   type: 'input',
@@ -101,7 +113,6 @@
                   placeholder: '#987',
                   styleClasses: [ 'col-md-4'],
                   id: 'suite'
-
                 },
               ]
             },
@@ -128,6 +139,7 @@
                   placeholder: 'Anytown',
                   required: true,
                   styleClasses: [ 'col-md-6'],
+                  validator: ['string']
                 },
                 {
                   type: "select",
@@ -141,7 +153,8 @@
                     noneSelectedText: "Select a state/province"
                   },
                   styleClasses: [ 'col-md-3'],
-                  required: true
+                  required: true,
+                  validator: ['alpha']
                 },
                 {
                   type: 'input',
@@ -151,8 +164,8 @@
                   placeholder: '97213',
                   styleClasses: [ 'col-md-3'],
                   required: true,
-                  id: 'postal'
-
+                  id: 'postal',
+                  validator: ['alphaNumeric']
                 },
               ]
             },
@@ -168,6 +181,7 @@
                   },
                   required: true,
                   styleClasses: [ 'col-md-4', 'float-right'],
+                  validator: ['alpha']
                 },
                 // {
                 //   type: 'input',
@@ -188,6 +202,33 @@
 
       this.model.id = this.modelId;
       this.formOptions.fieldIdPrefix += this.modelId + '_';
+
+
+      Bus.$on('validateForms', function ($event) {
+        $event.preventDefault();
+        let validateAsync = (objGet(self.$refs.attendeeForm.$data.vfg.options, "validateAsync", false));
+
+        let errors = self.$refs.attendeeForm.vfg.validate();
+
+        let handleErrors = errors => {
+          if ((validateAsync && !isEmpty(errors)) || (!validateAsync && !errors)) {
+            if (isFunction(self.schema.onValidationError)) {
+
+              self.schema.onValidationError(self.model, self.schema, errors, $event);
+            }
+          } else if (!validateAsync && errors) {
+
+            Bus.$emit('subFormValidated', {attendeeDetails: true});
+
+          }
+
+        };
+        if (errors && isFunction(errors.then)) {
+          errors.then(handleErrors);
+        } else {
+          handleErrors(errors);
+        }
+      });
 
     },
     methods: {

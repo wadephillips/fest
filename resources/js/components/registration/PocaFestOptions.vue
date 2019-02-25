@@ -1,16 +1,25 @@
 <template>
 
-  <vue-form-generator :model="model" :options="formOptions" :schema="schema" @validated="formUpdated" class=""
-                      tag="div">
+  <vue-form-generator
+      :model="model"
+      :options="formOptions"
+      :schema="schema"
+      @validated="formUpdated"
+      class=""
+      tag="div"
+      ref="optform"
+  >
   </vue-form-generator>
 
 </template>
 
 <script>
+
   import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
   import 'vue-form-generator/dist/vfg.css'
   import rangeSlider from 'ion-rangeslider/js/ion.rangeSlider'
   import 'ion-rangeslider/css/ion.rangeSlider.css'
+  import { get as objGet, isFunction} from "lodash";
 
 
   export default {
@@ -68,6 +77,7 @@
                     {name: "Additional Family Member / Significant Other - Child", value: 'fso_child'},
                     {name: "One Day Only Pass", value: "one_day_pass"}
                   ],
+                validator: ['string'],
                   set: function (model, value) {
 
                     let wildcardSelector = 'attendee_' + model.id + '_rs';
@@ -77,7 +87,7 @@
                     $('label[for^="' + wildcardSelector + '"]').each(function () {
                       $(this).parent().hide()
                     });
-                    // $('.field-rangeSlider').each(function() { $(this).hide()});
+
                     $('label[for="' + selector + '"]').parent().show();
                     let price = 0;
                     let keys = Object.keys(model.chosen);
@@ -92,7 +102,7 @@
                       let oldKey = keys[0];
                       price = model.chosen[oldKey];
                     }
-                    model.chosen = {}
+                    model.chosen = {};
 
                     model.registration_type = key;
                     model.chosen[key] = price
@@ -197,12 +207,12 @@
                   id: 'meal_type',
                   dusk: 'meal_type',
                   required: true,
+                  validator: ['string'],
                   values: [
                     "Omnivore",
                     "Vegetarian",
                     "Vegan"
                   ],
-              validators: ['required']
                 },
                 {
                   type: "input",
@@ -212,7 +222,13 @@
                   id: 'other_food',
                   hint: "At this time we are unable to guarantee that our hosts can accommodate any special food needs.  We will inquire and communicate back with you.",
                   validator: 'string'
-                }
+                },
+                // {
+                //   type:"submit",
+                //   styleClasses: "btn btn-success",
+                //   onSubmit:'submitForm',
+                //   validateBeforeSubmit: true
+                // }
               ],
             },
           ]
@@ -229,6 +245,33 @@
       let self = this;
       this.model.id = this.modelId;
       this.formOptions.fieldIdPrefix += this.modelId + '_';
+
+      //could this be extracted into a mixin or something?
+      Bus.$on('validateForms', function ($event) {
+        $event.preventDefault();
+        let validateAsync = (objGet(self.$refs.optform.$data.vfg.options, "validateAsync", false));
+
+        let errors = self.$refs.optform.vfg.validate();
+
+        let handleErrors = errors => {
+          if ((validateAsync && !isEmpty(errors)) || (!validateAsync && !errors)) {
+            if (isFunction(self.schema.onValidationError)) {
+
+              self.schema.onValidationError(self.model, self.schema, errors, $event);
+            }
+          } else if (!validateAsync && errors) {
+
+            Bus.$emit('subFormValidated', {pocaFestOptions: true});
+
+          }
+
+        };
+        if (errors && isFunction(errors.then)) {
+          errors.then(handleErrors);
+        } else {
+          handleErrors(errors);
+        }
+      });
 
     },
     methods: {
@@ -251,6 +294,10 @@
           total += this.model.chosen[i];
         }
         return total
+      },
+      submitForm(model, schema, $event) {
+        $event.preventDefault();
+        console.log(model);
       }
     },
     mounted() {
