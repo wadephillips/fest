@@ -120,7 +120,6 @@
                   },
 
                   set: function (model, value) {
-                    console.log(value);
                     model.chosen.three_day_overnight_pass = value * 100
                   }
                 },

@@ -6,6 +6,7 @@ use function abort;
 use App\Attendee;
 use App\Event;
 use App\Http\Requests\EventRegistrationPostRequest;
+use App\License;
 use App\Mail\RegistrationSuccessful;
 use App\Payment;
 use function array_has;
@@ -284,6 +285,14 @@ class EventRegisterController extends Controller
     }
     if ( array_has($registrant, 'modifiers') ) {
       $attendee->modifiers = $registrant[ 'modifiers' ];
+    }
+
+    if ($registrant['license_number'] != '') {
+      $attendee->licenses()->create([
+          'number' => $registrant['license_number'],
+          'state' => $registrant['license_state'],
+          'country' => $registrant['license_country'],
+      ]);
     }
 
     return $attendee;

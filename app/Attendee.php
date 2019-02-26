@@ -38,11 +38,16 @@ class Attendee extends Model
 
   public function event()
   {
-    return $this->hasOne('App\Event');
+    return $this->hasOne(Event::class);
   }
 
   public function payment()
   {
-    $this->hasOne('App\Payment');
+    return $this->hasOne(Payment::class);
+  }
+
+  public function licenses()
+  {
+    return $this->hasMany(License::class);
   }
 }
