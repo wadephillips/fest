@@ -50,7 +50,7 @@ class EventController extends Controller
      */
     public function show(Event $event) //TODO Add type hint back once we're ready to begin building out the model
     {
-          $event->load(['breakouts.presenters']);
+          $event->load(['breakouts.presenters', 'fees']);
           $presenters = $event->presenters;
           return view('event.index', compact('event', 'presenters'));
 //        return response($presenters, 200);

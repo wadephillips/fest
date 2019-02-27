@@ -37,10 +37,10 @@ class Event extends Model
     return $this->hasMany('App\Breakout');
   }
 
-//  public function presenters()
-//  {
-////    return $this->hasManyThrough($this->presenters(), 'breakout_id',)
-//  }
+  public function fees()
+  {
+    return $this->hasMany('App\EventFee');
+  }
 
   public function getPresentersAttribute()
   {

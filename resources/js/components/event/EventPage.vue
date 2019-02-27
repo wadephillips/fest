@@ -20,13 +20,15 @@
     <info-section>
 
       <template slot="heading">
-        <h1 class="text-center">Conference Fees</h1>
+        <h2 class="text-center">Conference Fees</h2>
       </template>
 
       <template slot="default">
         <hr>
         <div class="col-md">
-          <p class="lead">{{ event.description}}</p>
+          <div v-for="fee in this.event.fees" class="text-center">
+            <fee :fee="fee"></fee>
+          </div>
         </div>
       </template>
 
@@ -37,11 +39,12 @@
 <script>
   import InfoSection from './InfoSection'
   import {dates} from "../mixins/dates";
+  import Fee from './Fee'
 
   export default {
     name: "EventPage",
     props: ['event', 'presenters'],
-    components: {InfoSection},
+    components: {InfoSection, Fee},
     mixins: [dates]
   }
 </script>
