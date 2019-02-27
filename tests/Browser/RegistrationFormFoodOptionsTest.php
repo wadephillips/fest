@@ -15,7 +15,11 @@ class RegistrationFormFoodOptionsTest extends DuskTestCase
   {
     parent::setUp();
     $this->url = '/events/fest/register';
+
+
   }
+
+
 
     public function testSelectingFoodOptionsSetsTheLocalVueModel()
     {
