@@ -28,26 +28,14 @@
 <script>
   import RegistrationForm from "./registration/RegistrationForm";
   import NavMenu from "./NavMenu";
-  import moment from 'moment';
   import Policy from './registration/success/Policy';
+  import {dates} from "./mixins/dates";
 
   export default {
     name: "RegistrationPage",
     components: {NavMenu, RegistrationForm, Policy},
     props: ['event'],
-    computed: {
-      eventDates() {
-        let eventDatesStr = "";
-        let start = moment(this.event.start);
-        let end = moment(this.event.end);
-        if (end.diff(start, "days") >= 1) {
-          eventDatesStr = start.format("dddd, MMMM Do, YYYY") + "  >>  " + end.format("dddd, MMMM Do, YYYY");
-        } else {
-          eventDatesStr = start.format("dddd MMM Do, YYYY");
-        }
-        return eventDatesStr;
-      }
-    }
+    mixins: [dates],
   }
 </script>
 
