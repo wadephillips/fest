@@ -16,15 +16,15 @@
         <td scope="row">{{ attendee.name }}</td>
         <td>
           <ul>
-            <li v-for="k in this.getDetails(attendee.modifiers)">{{k}}</li>
+            <li v-for="k in getDetails(attendee.modifiers)">{{k}}</li>
           </ul>
         </td>
-
+        <td>${{ attendee.total/100 }}.00</td>
       </tr>
       <tr>
         <td></td>
         <td class="text-right"><strong>Total:</strong></td>
-        <td><strong>{{this.total}}</strong></td>
+        <td><strong>${{ total / 100 }}.00</strong></td>
       </tr>
       </tbody>
     </table>

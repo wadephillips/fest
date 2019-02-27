@@ -117,9 +117,12 @@ class EventRegisterController extends Controller
    * @param Event $event
    * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
    */
-  public function registered(Event $event) //todo add type hint
+  public function registered(Event $event)
   {
-    return view('event.registered', compact('event'));
+    //todo get rid of this
+    $payment = Payment::find(7);
+    $attendees = Attendee::where('payment_id', 7)->get();
+    return view('event.registered', compact('event', 'payment', 'attendees'));
 //        response($event, 200);
   }
 

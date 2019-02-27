@@ -28,7 +28,7 @@
 
         <div class="row">
           <div class="col-md-12">
-            <attendee-table :attendees="attendees" total="payment.total"></attendee-table>
+            <attendee-table :attendees="this.attendees" :total="this.payment.amount"></attendee-table>
           </div>
         </div>
 
@@ -58,7 +58,8 @@
   import Policy from "../../registration/success/Policy";
   export default {
     name: "RegistrationSuccessfulPage",
-    components: { Hero, Policy}
+    components: { Hero, Policy},
+    props: ['event', 'attendees', 'payment']
   }
 </script>
 
