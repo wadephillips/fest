@@ -4,7 +4,7 @@
       :model="model"
       :options="formOptions"
       :schema="schema"
-      @validated="formUpdated"
+      @model-updated="formUpdated"
       class=""
       tag="div"
       ref="optform"
@@ -52,8 +52,8 @@
             one_day_add_ceu: 75,
           },
           chosen: {},
-          meal: {
-            type: ''
+          meal: {},
+          food: {
           }
         },
         schema: {
@@ -80,8 +80,11 @@
                 validator: ['string'],
                   set: function (model, value) {
 
+
                     let wildcardSelector = 'attendee_' + model.id + '_rs';
                     let selector = 'attendee_' + model.id + '_rs_' + value;
+
+                    console.log($(selector).closest('.is-checked').val());
 
 
                     $('label[for^="' + wildcardSelector + '"]').each(function () {
@@ -105,7 +108,12 @@
                     model.chosen = {};
 
                     model.registration_type = key;
-                    model.chosen[key] = price
+
+                    let  description = $('input[value="' + value +'"]').closest('label')[0].innerText;
+
+                    // model.chosen[key] = price;
+                    model.chosen[key] = { description :description, value: price};
+
                   }
                 },
                 {
@@ -120,7 +128,7 @@
                   },
 
                   set: function (model, value) {
-                    model.chosen.three_day_overnight_pass = value * 100
+                    model.chosen.three_day_overnight_pass.value = value * 100
                   }
                 },
                 {
@@ -133,7 +141,7 @@
 
 
                   set: function (model, value) {
-                    model.chosen.three_day_day_only = value * 100
+                    model.chosen.three_day_day_only.value = value * 100
                   }
                 },
                 {
@@ -146,7 +154,7 @@
 
 
                   set: function (model, value) {
-                    model.chosen.ear_training_overnight = value * 100
+                    model.chosen.ear_training_overnight.value = value * 100
                   }
                 },
                 {
@@ -157,7 +165,7 @@
                   min: 200,
                   max: 500,
                   set: function (model, value) {
-                    model.chosen.ear_training_day_only = value * 100
+                    model.chosen.ear_training_day_only.value = value * 100
                   }
                 },
                 {
@@ -168,7 +176,7 @@
                   min: 100,
                   max: 200,
                   set: function (model, value) {
-                    model.chosen.student = value * 100
+                    model.chosen.student = value.value * 100
                   }
                 },
                 {
@@ -179,7 +187,7 @@
                   min: 100,
                   max: 200,
                   set: function (model, value) {
-                    model.chosen.one_day_pass = value * 100
+                    model.chosen.one_day_pass.value = value * 100
                   }
                 },
                 {
@@ -188,7 +196,10 @@
                   model: 0,
                   id: 'one_day_add_ceu',
                   set: function (model, value) {
-                    model.chosen.one_day_add_ceu = value * model.prices.one_day_add_ceu * 100
+                    model.chosen.one_day_add_ceu = {
+                      value: value * model.prices.one_day_add_ceu * 100,
+                      description: 'Add CEUs to my one day pass.'
+                    }
                   },
                   visible: function (model) {
                     return this.model && this.model.registration_type === "one_day_pass";
@@ -202,7 +213,7 @@
                 {
                   type: "radios",
                   label: "Food Preference",
-                  model: "meal.type",
+                  model: "food.type",
                   id: 'meal_type',
                   dusk: 'meal_type',
                   required: true,
@@ -212,15 +223,27 @@
                     "Vegetarian",
                     "Vegan"
                   ],
+                  set: function (model, value) {
+                    model.food.type = value;
+                    model.meal['type'] = {
+                      description: value,
+
+                    };
+                  }
                 },
                 {
                   type: "input",
                   inputType: "text",
                   label: "Other Dietary Restrictions",
-                  model: "meal.other_food",
+                  model: "food.other_food",
                   id: 'other_food',
                   hint: "At this time we are unable to guarantee that our hosts can accommodate any special food needs.  We will inquire and communicate back with you.",
-                  validator: 'string'
+                  validator: 'string',
+                  set: function (model, value) {
+                    model.meal['other_food'] = {
+                      description: value,
+                    };
+                  }
                 },
                 // {
                 //   type:"submit",
@@ -290,7 +313,8 @@
       calculateTotal() {
         let total = 0
         for (let i in this.model.chosen) {
-          total += this.model.chosen[i];
+          console.log();
+          total += this.model.chosen[i].value;
         }
         return total
       },

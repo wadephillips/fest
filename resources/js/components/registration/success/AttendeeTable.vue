@@ -7,7 +7,7 @@
       <thead>
       <tr>
         <th>Name</th>
-        <th>Registration</th>
+        <th>Registration Options</th>
         <th>Amount</th>
       </tr>
       </thead>
@@ -16,7 +16,7 @@
         <td scope="row">{{ attendee.name }}</td>
         <td>
           <ul>
-            <li v-for="k in getDetails(attendee.modifiers)">{{k}}</li>
+            <li v-for="k in getDetails(attendee.modifiers)">{{ k.description }}</li>
           </ul>
         </td>
         <td>${{ attendee.total/100 }}.00</td>
@@ -36,12 +36,10 @@
     name: "AttendeeTable",
     props: ['attendees', 'total'],
     methods: {
-      getDetails(mods){
-        let flat = _.merge(mods.purchased, mods.meal);
-        return Object.keys(flat);
+      getDetails(mods) {
+        return _.merge(mods.payment, mods.meal);
       },
-    }
-
+    },
   }
 </script>
 
