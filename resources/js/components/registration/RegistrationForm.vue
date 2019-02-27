@@ -8,19 +8,30 @@
         <attendee :key="model.id" :model="model"></attendee>
       </div>
 
-      <button @click="addAttendee" type="button" class="btn btn-primary" id="add-attendee-btn" dusk='add-attendee-btn'>+</button>
+      <div class="row">
+        <div class="col-md-3">
+          <button @click="addAttendee" type="button" class="btn btn-primary m-3" id="add-attendee-btn"
+                  dusk='add-attendee-btn'>+ Add Attendee
+          </button>
 
 
-      <!--<vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">-->
-      <!--</vue-form-generator>-->
-      <stripe-payment-form
-          :purchaserEmail="formModels[0].email"
-          purchaserEmail="purchaserEmail"
-          :models="formModels"
-          :postPath="postPath"
-          :event-name="eventName"
-          :total="total"
-      ></stripe-payment-form>
+          <!--<vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">-->
+          <!--</vue-form-generator>-->
+
+        </div>
+        <div class="col"></div>
+        <div class="col-md-3">
+          <stripe-payment-form
+              class="m-3"
+              :purchaserEmail="formModels[0].email"
+              purchaserEmail="purchaserEmail"
+              :models="formModels"
+              :postPath="postPath"
+              :event-name="eventName"
+              :total="total"
+          ></stripe-payment-form>
+        </div>
+      </div>
     </form>
   </div>
 

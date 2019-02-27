@@ -12,6 +12,7 @@ use App\Payment;
 use function array_has;
 use function array_key_exists;
 use function collect;
+use function compact;
 use function dd;
 use function env;
 use Exception;
@@ -116,9 +117,10 @@ class EventRegisterController extends Controller
    * @param Event $event
    * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
    */
-  public function registered($event) //todo add type hint
+  public function registered(Event $event) //todo add type hint
   {
-    return response($event, 200);
+    return view('event.registered', compact('event'));
+//        response($event, 200);
   }
 
   /**

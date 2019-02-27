@@ -46,6 +46,30 @@
     @yield('content')
   </main>
 </div>
+<footer>
+  <div class="container">
+    <div class="row m-3">
+      <div class="col-md-4">
+        <address>
+          <strong>The People's Organization of Community Acupuncture</strong><br/>
+          3526 NE 57th Ave.<br/>
+          Portland, OR 97213<br/>
+        </address>
+      </div>
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4">
+        <h4>Social</h4>
+        <div class="list-group">
+          <a href="https://pocacoop.com/" class="list-group-item list-group-item-action">pocacoop.com</a>
+          <a href="https://facebook.com/groups/POCAChat/" class="list-group-item list-group-item-action">FB</a>
+          <a href="https://instagram.com/pocacooperative/" class="list-group-item list-group-item-action">The Gram</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script src="{{ mix('js/app.js') }}"></script>
 </body>
