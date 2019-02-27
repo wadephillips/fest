@@ -96,7 +96,7 @@ class EventRegisterController extends Controller
       //todo log the payment to and the registration
 
       // send email
-      Mail::to($all['token']['email'])->send(new RegistrationSuccessful($paymentAndAttendees['attendees'], $paymentAndAttendees['payment']));
+      Mail::to($all['token']['email'])->send(new RegistrationSuccessful($paymentAndAttendees['attendees'], $paymentAndAttendees['payment'], $event));
 //      dd($mail);
 
 
@@ -120,8 +120,9 @@ class EventRegisterController extends Controller
   public function registered(Event $event)
   {
     //todo get rid of this
-    $payment = Payment::find(8);
-    $attendees = Attendee::where('payment_id', 8)->get();
+//    $payment = Payment::find(8);
+//    $attendees = Attendee::where('payment_id', 8)->get();
+//    Mail::to($attendees[0]->email)->send(new RegistrationSuccessful($attendees, $payment, $event));
     return view('event.registered', compact('event', 'payment', 'attendees'));
 //        response($event, 200);
   }

@@ -1,5 +1,5 @@
 @component('mail::message')
-# You're going to POCA Fest!
+# You're going to {{ $event->name }}!
 
 Lets tell you more about that!!
 
@@ -7,13 +7,13 @@ Lets tell you more about that!!
 
 @component('mail::panel')
   @component('mail::table')
-    | Attendee       | Email        | Amount  |
-    | ------------- |:-------------:| --------:|
+    | Attendee       | Registration Options        | Amount  |
+    | ------------- |:-------------:| ------------:|
     @foreach($attendees as $attendee)
-    | {{$attendee['name']}}  | {{$attendee['email']}} | {{$attendee['total']}} |
+      | {{$attendee['name']}}  | <ul>@foreach($attendee['descriptions'] as $description) <li>{{ $description }}</li> @endforeach</ul> | ${{ $attendee['total'] / 100 }}.00 |
     @endforeach
     |            |                   |           |
-    | **Total**  |                   | **{{$payment->amount}}** |
+    | **Total**  |                   | **${{ $payment->amount/100 }}.00** |
   @endcomponent
 @endcomponent
 
