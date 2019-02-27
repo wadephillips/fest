@@ -241,7 +241,7 @@
                   validator: 'string',
                   set: function (model, value) {
                     model.meal['other_food'] = {
-                      description: 'Add CEUs to my one day pass.',
+                      description: value,
                     };
                   }
                 },

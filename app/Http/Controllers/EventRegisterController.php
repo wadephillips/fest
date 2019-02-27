@@ -120,8 +120,8 @@ class EventRegisterController extends Controller
   public function registered(Event $event)
   {
     //todo get rid of this
-    $payment = Payment::find(7);
-    $attendees = Attendee::where('payment_id', 7)->get();
+    $payment = Payment::find(8);
+    $attendees = Attendee::where('payment_id', 8)->get();
     return view('event.registered', compact('event', 'payment', 'attendees'));
 //        response($event, 200);
   }
