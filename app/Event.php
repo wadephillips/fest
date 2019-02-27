@@ -37,6 +37,11 @@ class Event extends Model
     return $this->hasMany('App\Breakout');
   }
 
+//  public function presenters()
+//  {
+////    return $this->hasManyThrough($this->presenters(), 'breakout_id',)
+//  }
+
   public function getPresentersAttribute()
   {
     return $this->breakouts
