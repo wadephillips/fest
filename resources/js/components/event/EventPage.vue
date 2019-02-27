@@ -33,6 +33,15 @@
       </template>
 
     </info-section>
+
+    <info-section>
+      <template slot="heading">
+        <h2 class="text-center">Presenters</h2>
+      </template>
+      <div class="card-columns">
+        <presenter v-for="presenter in this.presenters" :presenter="presenter"></presenter>
+      </div>
+    </info-section>
   </main>
 </template>
 
@@ -40,11 +49,12 @@
   import InfoSection from './InfoSection'
   import {dates} from "../mixins/dates";
   import Fee from './Fee'
+  import Presenter from "./Presenter";
 
   export default {
     name: "EventPage",
     props: ['event', 'presenters'],
-    components: {InfoSection, Fee},
+    components: {Presenter, InfoSection, Fee},
     mixins: [dates]
   }
 </script>
