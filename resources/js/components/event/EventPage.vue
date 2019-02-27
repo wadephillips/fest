@@ -1,5 +1,6 @@
 <template>
   <main>
+    <!--Hero-->
     <info-section>
       <template slot="heading">
         <h1 class="text-center">{{event.name}}</h1>
@@ -17,6 +18,28 @@
 
     </info-section>
 
+    <hr>
+    <!--Location-->
+    <info-section>
+      <template slot="heading">
+        <h2 class="text-center">Location</h2>
+
+        <div class="col-md-6">
+          <location-address
+              :address="this.event.address"
+              :address_2="this.event.address_2"
+              :suite="this.event.suite"
+              :city="this.event.city"
+              :state="this.event.state"
+              :postal="this.event.postal"
+          ></location-address>
+        </div>
+        <div class="col-md-6"></div>
+      </template>
+    </info-section>
+
+    <hr>
+    <!--Fees-->
     <info-section>
 
       <template slot="heading">
@@ -26,7 +49,7 @@
       <template slot="default">
         <hr>
         <div class="col-md">
-          <div v-for="fee in this.event.fees" class="text-center">
+          <div class="text-center" v-for="fee in this.event.fees">
             <fee :fee="fee"></fee>
           </div>
         </div>
@@ -34,12 +57,37 @@
 
     </info-section>
 
+    <hr>
+    <!--schedule-->
+    <info-section>
+      <template slot="heading">
+        <h2 class="text-center">Conference Schedule</h2>
+      </template>
+
+
+    </info-section>
+
+    <hr>
+    <!--Breakouts-->
+    <info-section>
+      <template slot="heading">
+        <h2 class="text-center">Breakouts</h2>
+      </template>
+
+      <div class="card-columns">
+        <breakout :breakout="breakout" :key="breakout.id" ey v-for="breakout in this.event.breakouts"></breakout>
+      </div>
+
+    </info-section>
+
+    <hr>
+    <!--Presenters-->
     <info-section>
       <template slot="heading">
         <h2 class="text-center">Presenters</h2>
       </template>
       <div class="card-columns">
-        <presenter v-for="presenter in this.presenters" :presenter="presenter"></presenter>
+        <presenter :presenter="presenter" :key="presenter.id" v-for="presenter in this.presenters"></presenter>
       </div>
     </info-section>
   </main>
@@ -50,11 +98,13 @@
   import {dates} from "../mixins/dates";
   import Fee from './Fee'
   import Presenter from "./Presenter";
+  import Breakout from "./Breakout";
+  import LocationAddress from "../LocationAddress";
 
   export default {
     name: "EventPage",
     props: ['event', 'presenters'],
-    components: {Presenter, InfoSection, Fee},
+    components: {LocationAddress, Breakout, Presenter, InfoSection, Fee},
     mixins: [dates]
   }
 </script>
