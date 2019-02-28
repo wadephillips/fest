@@ -5,7 +5,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Event::class, function (Faker $faker) {
   $name = $faker->sentence;
   $date = $faker->dateTimeInInterval('now', '+365 days');
-  $end = $date->add(new DateInterval('P3D'))
+  $end = $date->add(new DateInterval('P3D'));
   return [
       'name' => $name,
       'slug' => str_slug($name, '-'),

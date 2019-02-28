@@ -19,6 +19,72 @@
     </info-section>
 
     <hr>
+    <info-section>
+      <template slot="heading">
+        <h2 class="text-center">Theme</h2>
+      </template>
+      <template slot="subheading">
+        <h3 class="text-center">Practical Interventions</h3>
+      </template>
+      <template slot="image-left">
+        <div class="col-md-6">
+          <img src="/img/chair.svg" class="img-responsive" alt="" />
+        </div>
+      </template>
+      <template slot="default">
+        <div class="col-md-6 text-center pt-4"><p class="lead">At this POCAfest we are gonna look at the basics: what makes a CA clinic
+          work and not just work-sing.</p>
+          <p>We are gonna do this in two ways:</p>
+          <p>1) Lisa Rohleder is making the keynote speech on The Hierarchy of Needs that all CA clinics need to take
+            care
+            of in order to be a sustainable small business. Many of the Breakouts relate to this hierarchy (and you can
+            read about it in Prick, Prod, and Provoke https://www.pocacoop.com/prick-prod-provoke/)</p>
+          <p>2) We will also be hosting our first auricular training for punks and non punks led by Ellen Vincent,
+            Caroline Picker, Susan Williams, Amy Severinsen and Olivia Crane. (For a full description of this, read
+            below,
+            right after the logistics of registration and traveling to POCAfest and above the Schedule.)</p></div>
+      </template>
+    </info-section>
+
+    <hr>
+    <info-section>
+      <template slot="heading">
+        <h2 class="text-center">POCA Auricular Acu-Technician Training and Certification</h2>
+      </template>
+      <template slot="subheading">
+        <p class="lead text-center">Join us for the inaugural POCA Auricular Acu-Technician Training and Certification
+        Course!</p>
+      </template>
+      <template slot="default">
+        <div class="col-md-6 mt-3">
+          <p>Learn the 5 Needle Protocol for addiction, trauma, and behavioral health. Anyone is welcome to take this training, though <strong>space is limited</strong>.</p>
+
+          <p>For non-acupuncturists, attending this entire series of breakout sessions is the first step towards earning
+            an Auricular Acu-Technican Certificate.** </p>
+
+          <p>Included in the registration fee is the second step towards certification: access to our 14-hour online
+            course materials about trauma-informed auricular acupuncture, starting with the history of auricular
+            acupuncture, the 5 Needle Protocol and its applications / implementation, the neuroscience of trauma and
+            addiction as well as the social and structural determinants of health & addiction, harm reduction, the
+            neuroscience of acupuncture, and issues surrounding legislation. The third and final step towards
+            certification will be the successful completion of 40 ear treatments, either supervised at an in-person ear
+            clinic or if necessary, via distance-supervision. </p>
+          <p><strong>Attending this course in its entirety is strongly encouraged for any licensed   acupuncturists who are interested in becoming a POCA-certified Trainer of Auricular Acu-Technicians.</strong> We will get into detail (and answer all of your questions!) about the certification process itself, as well as how and why we got here, in one of the breakout sessions.</p>
+
+          <p class="small">**Attending this training does not guarantee that the trainee will be able to legally
+            practice auricular acupuncture or the 5NP in trainee's state of residence. If a Wisconsin resident, this
+            Auricular Acu-Technician Certificate will enable trainee to practice this protocol legally under physician
+            delegation.</p>
+
+        </div>
+      </template>
+      <template slot="image-right">
+        <div class="col-md-6">
+          <img src="/img/ear.svg" class="img-responsive" alt="" />
+        </div>
+      </template>
+    </info-section>
+    <hr>
     <!--Location-->
     <info-section>
       <template slot="heading">
