@@ -29,6 +29,7 @@
       <template slot="default">
         <div class="col-md-6">
           <location-address
+              :name="this.event.location_name"
               :address="this.event.address"
               :address_2="this.event.address_2"
               :suite="this.event.suite"
