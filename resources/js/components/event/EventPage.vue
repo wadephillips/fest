@@ -24,6 +24,9 @@
       <template slot="heading">
         <h2 class="text-center">Location</h2>
 
+      </template>
+
+      <template slot="default">
         <div class="col-md-6">
           <location-address
               :address="this.event.address"
@@ -34,7 +37,11 @@
               :postal="this.event.postal"
           ></location-address>
         </div>
-        <div class="col-md-6"></div>
+      </template>
+      <template slot="image-right">
+        <div class="col-md">
+        <fest-map place-id="ChIJFY5ircKXBYgRXS2rAIsCc4Q" api-key="AIzaSyCSdbPjbn7KYWaFGl6Cy8EYD1l1YVCTGL8"></fest-map>
+        </div>
       </template>
     </info-section>
 
@@ -100,12 +107,13 @@
   import Presenter from "./Presenter";
   import Breakout from "./Breakout";
   import LocationAddress from "../LocationAddress";
+  import FestMap from "./FestMap";
 
   export default {
     name: "EventPage",
     props: ['event', 'presenters'],
-    components: {LocationAddress, Breakout, Presenter, InfoSection, Fee},
-    mixins: [dates]
+    components: {FestMap, LocationAddress, Breakout, Presenter, InfoSection, Fee},
+    mixins: [dates],
   }
 </script>
 
