@@ -6,7 +6,9 @@ use App\Event;
 use function compact;
 use function dd;
 use Illuminate\Http\Request;
+use function redirect;
 use function response;
+use function secure_url;
 use function view;
 
 class EventController extends Controller
@@ -18,7 +20,12 @@ class EventController extends Controller
      */
     public function index()
     {
-      return view('events');
+      $events = Event::all()->where('active', "=", 1);
+      if ($events->count() == 1) {
+        return redirect(secure_url('/events/' . $events[0]->slug));
+      } else {
+        return view('events', compact('events'));
+      }
     }
 
     /**

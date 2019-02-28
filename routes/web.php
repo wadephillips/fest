@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+//Route::get('/', function () {
+//    return view('home');
+//});
+Route::get('/', 'EventController@index');
 
 Route::get('/events', 'EventController@index');
 Route::get('/events/{event}', 'EventController@show');

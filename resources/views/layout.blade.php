@@ -14,7 +14,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/"><img src="/img/chair.svg" alt="POCA Recliner Logo"></a>
+  <a class="navbar-brand" href="/"><img src="/img/chair.svg" width="50px" alt="POCA Recliner Logo"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
           aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -40,7 +40,7 @@
   </main>
 </div>
 <footer>
-  <div class="container-fluid bg-secondary pt-3">
+  <div class="container-fluid bg-secondary py-3">
     <div class="row m-3">
       <div class="col-md-4">
         <address>
