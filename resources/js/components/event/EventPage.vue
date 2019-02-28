@@ -64,7 +64,7 @@
         <h2 class="text-center">Conference Schedule</h2>
       </template>
 
-
+      <schedule></schedule>
     </info-section>
 
     <hr>
