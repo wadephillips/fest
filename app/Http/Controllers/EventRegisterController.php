@@ -141,7 +141,7 @@ class EventRegisterController extends Controller
     //todo get rid of this
     $payment_id = $payment->id;
     $attendees = Attendee::where('payment_id', $payment_id)->get();
-    Mail::to($attendees[0]->email)->send(new RegistrationSuccessful($attendees, $payment, $event));
+//    Mail::to($attendees[0]->email)->send(new RegistrationSuccessful($attendees, $payment, $event));
     return view('event.registered', compact('event', 'payment', 'attendees'));
 //        response($event, 200);
   }
