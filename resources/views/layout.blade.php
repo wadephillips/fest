@@ -8,13 +8,14 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Bootstrap CSS -->
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/regular.css" integrity="sha384-4Cp0kYV2i1JFDfp6MQAdlrauJM+WTabydjMk5iJ7A9D+TXIh5zQMd5KXydBCAUN4" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/fontawesome.css" integrity="sha384-iD1qS/uJjE9q9kecNUe9R4FRvcinAvTcPClTz7NI8RI5gUsJ+eaeJeblG1Ex0ieh" crossorigin="anonymous">
 
   <title>@yield('title', config('app.name'))</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/"><img src="/img/chair.svg" width="50px" alt="POCA Recliner Logo"></a>
+  <a class="navbar-brand" href="/"><img src="/img/chair.svg" width="50px" alt="POCA Recliner Logo">POCA Events</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
           aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -22,11 +23,11 @@
 
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/events">Events</a>
+        <a class="nav-link" href="/events">Upcoming</a>
       </li>
       {{--<li class="nav-item">--}}
         {{--<a class="nav-link" href="#">Pricing</a>--}}

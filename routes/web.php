@@ -11,15 +11,13 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('home');
-//});
+
 Route::get('/', 'EventController@index');
 
 Route::get('/events', 'EventController@index');
 Route::get('/events/{event}', 'EventController@show');
 Route::get('/events/{event}/register', 'EventRegisterController@show');
-Route::get('/events/{event}/registered', 'EventRegisterController@registered' );
+Route::get('/events/{event}/registered/{payment}', 'EventRegisterController@registered' )->name('registered');
 
 Route::post('/events/{event}/register', 'EventRegisterController@register');
 

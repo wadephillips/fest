@@ -199,7 +199,7 @@
           {
             a: "/events/" + this.event.slug + "/register",
             description: 'Register',
-            styleClasses: 'btn btn-success'
+            styleClasses: 'btn btn-danger'
           },
           {
             a: '#theme',

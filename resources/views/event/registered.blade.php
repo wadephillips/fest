@@ -2,9 +2,9 @@
 
 @section('content')
 <registration-successful-page
-    :event="{{ $event->toJson() }}"
-    :attendees="{{ $attendees->toJson() }}"
-    :payment="{{ $payment->toJson() }}"
+    :event="{{ json_encode($event) }}"
+    :attendees="{{ json_encode($attendees) }}"
+    :payment="{{ json_encode($payment) }}"
 
 ></registration-successful-page>
 @endsection

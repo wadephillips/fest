@@ -9,11 +9,13 @@ use App\Payment;
 use function array_merge;
 use Exception;
 use function factory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use function is_object;
 use function json_decode;
 use ReflectionClass;
 use Stripe\Charge;
+use Stripe\Error\Card;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -59,7 +61,7 @@ class EventRegistrationTest extends TestCase
                 'one_day_add_ceu' => 7500,
             ],
         ],
-        'amount' => '200',
+        'amount' => 20000,
     ];
     $this->registrants[] = [
         'name' => 'Jane Doe',
@@ -150,6 +152,40 @@ class EventRegistrationTest extends TestCase
     }
   }
 
+  public function testItPostsABadCardToTheRoute()
+  {
+    try {
+      $path = '/events/' . $this->event->slug . '/register';
+      $this->post['token']['id'] = 'tok_chargeDeclined';
+      $response = $this->post($path, $this->post);
+      $content = $response->getOriginalContent();
+
+      $response->assertStatus(402);
+
+      $response->assertJson($content);
+      $response->assertJsonFragment(['message' => 'Your card was declined.']);
+    } catch ( Exception $e ) {
+      echo $e->getMessage();
+    }
+  }
+
+  public function testItPostsACardWithInsufficientFundsToTheRoute()
+  {
+    try {
+      $path = '/events/' . $this->event->slug . '/register';
+      $this->post['token']['id'] = 'tok_chargeDeclinedInsufficientFunds';
+      $response = $this->post($path, $this->post);
+      $content = $response->getOriginalContent();
+
+      $response->assertStatus(402);
+
+      $response->assertJson($content);
+      $response->assertJsonFragment(['message' => 'Your card has insufficient funds.']);
+    } catch ( Exception $e ) {
+      echo $e->getMessage();
+    }
+  }
+
   public function testItChargesAStripeToken()
   {
     $result = $this->chargeAToken(9900, 'base charge test');
@@ -158,6 +194,15 @@ class EventRegistrationTest extends TestCase
     $this->assertInstanceOf(Charge::class, $result);
     $this->assertTrue($result->amount == 9900);
 
+  }
+
+  public function testItRejectsABadStripeToken()
+  {
+    $result = $this->chargeAToken(9900, 'a bad charge unit test charge', 'tok_chargeDeclined');
+    var_dump($result->getJsonBody()['error']['message']);
+    $this->assertTrue(is_object($result));
+    $this->assertInstanceOf(Card::class, $result);
+    $this->assertTrue($result->content() == "Your card was declined.");
   }
 
   public function testItPersistsAPayment()
