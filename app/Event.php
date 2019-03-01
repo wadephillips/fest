@@ -37,6 +37,23 @@ class Event extends Model
     return $this->hasMany('App\Breakout');
   }
 
+  public function fees()
+  {
+    return $this->hasMany('App\EventFee');
+  }
+
+  public function getDatesAttribute()
+  {
+    $dates = $this->start->format('F jS, Y');
+    if($this->end->diffInDays($this->start) >= 1){
+      $dates .= ' - ' . $this->end->format('F jS, Y');
+    }
+//    else {
+//      $dates .= $this->end->format(');
+//    }
+    return $dates;
+  }
+
   public function getPresentersAttribute()
   {
     return $this->breakouts

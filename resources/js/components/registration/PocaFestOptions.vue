@@ -84,7 +84,7 @@
                     let wildcardSelector = 'attendee_' + model.id + '_rs';
                     let selector = 'attendee_' + model.id + '_rs_' + value;
 
-                    console.log($(selector).closest('.is-checked').val());
+                    // console.log($(selector).closest('.is-checked').val());
 
 
                     $('label[for^="' + wildcardSelector + '"]').each(function () {
@@ -96,13 +96,15 @@
                     let keys = Object.keys(model.chosen);
 
                     let key = value;
+                    let oldKey = keys[0];
 
                     if (keys.length === 0) {
                       price = model.prices[key] * 100
-                    } else if (['fso_adult', 'fso_child', 'add_ceu_one_day_pass'].indexOf(keys[0])) {
+                    } else if (
+                        ['fso_adult', 'fso_child', 'add_ceu_one_day_pass'].indexOf(oldKey) ||
+                        ['fso_adult', 'fso_child', 'add_ceu_one_day_pass'].indexOf(key) !== -1) {
                       price = model.prices[key] * 100;
                     } else {
-                      let oldKey = keys[0];
                       price = model.chosen[oldKey];
                     }
                     model.chosen = {};
@@ -176,7 +178,7 @@
                   min: 100,
                   max: 200,
                   set: function (model, value) {
-                    model.chosen.student = value.value * 100
+                    model.chosen.student.value = value * 100
                   }
                 },
                 {

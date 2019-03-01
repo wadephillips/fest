@@ -32,6 +32,20 @@
           ></stripe-payment-form>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div v-show="this.form.errors.length > 0" class="alert alert-warning alert-dismissible fade show"
+               role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>There was a problem processing your charge:</strong>
+            <ul>
+              <li v-for="error in this.form.errors">{{error.message}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </form>
   </div>
 
@@ -64,6 +78,9 @@
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         postPath: window.location.pathname,
         attendees: 1,
+        form: {
+          errors: []
+        },
         formModels: [
           {
             id: 0,
@@ -184,6 +201,14 @@
             self.formModels[modelId][k] = payload[k];
           }
         }
+      });
+
+      Bus.$on('clearFormErrors', function () {
+        self.form.errors = [];
+      });
+
+      Bus.$on('setFormErrors', function (e) {
+        self.form.errors.push(e);
       });
     },
 

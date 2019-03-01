@@ -20,9 +20,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use function is_null;
+use function json_decode;
 use function print_r;
+use function response;
 use stdClass;
 use Stripe\Charge;
+use Stripe\Error\Card;
 use Stripe\Stripe;
 use function var_dump;
 
@@ -66,8 +69,6 @@ class EventRegisterController extends Controller
     try {
       $all = $request->all();
 
-//      print_r($all);
-
       $description = (array_key_exists('description', $all)) ? $all['description']: 'Event Charge';
 
       //todo CRITICAL pre-launch need to validate - done with request, but the request isn't being called right now
@@ -79,6 +80,7 @@ class EventRegisterController extends Controller
       $charge = $this->chargeStripeToken($tokenId, $total, $description);
       $paymentAndAttendees = null;
 
+
       if ( is_null($charge) ) {
         //todo we've got a problem throw an error nothing happened at all
         throw new Exception('Nothing happened when attempting to charge the token');
@@ -89,6 +91,10 @@ class EventRegisterController extends Controller
       } elseif ( $charge instanceof Charge ) {
         // do all the persisting in a transaction
         $paymentAndAttendees = $this->saveRegistrationAndPayment($all, $charge, $event);
+      } elseif ($charge instanceof Card) {
+
+       return response($charge->getJsonBody(), $charge->getHttpStatus());
+
       } else {
         throw new Exception('There is a general problem processing the charge');
       }
@@ -96,12 +102,24 @@ class EventRegisterController extends Controller
       //todo log the payment to and the registration
 
       // send email
-      Mail::to($all['token']['email'])->send(new RegistrationSuccessful($paymentAndAttendees['attendees'], $paymentAndAttendees['payment'], $event));
+      if ($paymentAndAttendees !== null) {
+        $attendees = $paymentAndAttendees[ 'attendees' ];
+        $payment = $paymentAndAttendees[ 'payment' ];
+        Mail::to($all[ 'token' ][ 'email' ])->send(new RegistrationSuccessful($attendees, $payment, $event));
+
+        $payment_id = $payment->id;
+        $route = '/events/' . $event->slug . '/registered/' . $payment_id;
+        return response(['redirect' => $route],201);
+//        return redirect()->route('registered', [$event->slug, $payment_id]);
+//        return view('event.registered',  compact('event', 'payment', 'attendees'));
+        // ['event' => $event, 'attendees' => collect($attendees), 'payment' => $payment]
+      }
 //      dd($mail);
 
 
       // else return them to the registration form with some error message
-      return response($paymentAndAttendees, 201);
+
+      return response($paymentAndAttendees, 400);
 
     } catch ( Exception $e ) {
       echo $e->getMessage();
@@ -115,13 +133,14 @@ class EventRegisterController extends Controller
 
   /**
    * @param Event $event
+   * @param Payment $payment
    * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
    */
-  public function registered(Event $event)
+  public function registered(Event $event, Payment $payment)
   {
     //todo get rid of this
-//    $payment = Payment::find(8);
-//    $attendees = Attendee::where('payment_id', 8)->get();
+    $payment_id = $payment->id;
+    $attendees = Attendee::where('payment_id', $payment_id)->get();
 //    Mail::to($attendees[0]->email)->send(new RegistrationSuccessful($attendees, $payment, $event));
     return view('event.registered', compact('event', 'payment', 'attendees'));
 //        response($event, 200);
@@ -165,7 +184,7 @@ class EventRegisterController extends Controller
   {
     try {
       $charge = false;
-
+//      var_dump($tokenId);die();
       if ( $tokenId != '' && $total > 0 ) {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $token = $tokenId;
@@ -181,8 +200,11 @@ class EventRegisterController extends Controller
       // Since it's a decline, \Stripe\Error\Card will be caught
       $body = $e->getJsonBody();
       $err = $body[ 'error' ];
+//      var_dump($body[ 'error' ]);
       //TODO: log all declines to a DB table, set up error logging
-
+//      abort($e->getHttpStatus(), $err);
+//      throw $e;
+      return $e;
       print('Status is:' . $e->getHttpStatus() . "\n");
       print('Type is:' . $err[ 'type' ] . "\n");
       print('Code is:' . $err[ 'code' ] . "\n");

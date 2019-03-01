@@ -12,12 +12,16 @@
         <div class="col-md-12">
           <policy>
             <template slot="title">Cancellation Policy</template>
-            3 day passes- a full refund minus a credit card processing fee ($5) is available until July 10th.
+            <p>POCA Fest requires pre-registration and payment in full by the participant.</p>
 
-            After July 10th if we can fill your space with another registrant you will receive a full refund minus a
-            credit card processing fee.  If we cannot fill the spot you will be refunded 45% of your registration fee.  
+            <p>For cancellations, following the refund schedule applies:</p>
+            <p>Up to 30 days prior to POCA Fest (April 18th)- 100% refund</p>
 
-            Saturday day-passes are fully refundable until July 10th.  After that they are 45% refundable.
+            <p>29 to 14 days prior to POCA Fest (April 19-May 3rd)- 50 % refund</p>
+
+            <p>13 days or less (after May 4th on)- no refund</p>
+
+            <p>Refunds will be issued within 30 days.</p>
           </policy>
         </div>
       </div>
@@ -28,26 +32,14 @@
 <script>
   import RegistrationForm from "./registration/RegistrationForm";
   import NavMenu from "./NavMenu";
-  import moment from 'moment';
   import Policy from './registration/success/Policy';
+  import {dates} from "./mixins/dates";
 
   export default {
     name: "RegistrationPage",
     components: {NavMenu, RegistrationForm, Policy},
     props: ['event'],
-    computed: {
-      eventDates() {
-        let eventDatesStr = "";
-        let start = moment(this.event.start);
-        let end = moment(this.event.end);
-        if (end.diff(start, "days") >= 1) {
-          eventDatesStr = start.format("dddd, MMMM Do, YYYY") + "  >>  " + end.format("dddd, MMMM Do, YYYY");
-        } else {
-          eventDatesStr = start.format("dddd MMM Do, YYYY");
-        }
-        return eventDatesStr;
-      }
-    }
+    mixins: [dates],
   }
 </script>
 
