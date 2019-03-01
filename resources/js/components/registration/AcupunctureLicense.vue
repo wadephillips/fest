@@ -1,12 +1,28 @@
 <template>
   <div>
     <div class="form-group" >
-      <span class="switch switch-sm">
-        <input :key="modelId" v-model="acupuncturist"  type="checkbox" class="switch" :id="modelId + '-acu-switch'">
+      <span class="switch switch-sm" >
+        <input
+            :key="modelId"
+            v-model="acupuncturist"
+            type="checkbox"
+            class="switch"
+            :id="modelId + '-acu-switch'"
+            :dusk="modelId + '-acu-switch'"
+        >
         <label :for="modelId + '-acu-switch'">Acupuncturist</label>
       </span>
     </div>
-    <vue-form-generator :key="modelId" @validated="formUpdated" v-show="acupuncturist" :model="model" :options="formOptions" :schema="schema">
+    <vue-form-generator
+        :key="modelId"
+        @validated="formUpdated"
+        v-show="acupuncturist"
+        :model="model"
+        :options="formOptions"
+        :schema="schema"
+        :dusk="modelId + '-acu-license-form'"
+        ref="acuLicenseForm"
+    >
     </vue-form-generator>
   </div>
 </template>
@@ -16,6 +32,8 @@
   import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
   import 'vue-form-generator/dist/vfg.css'
   import cleave from 'cleave.js'
+  import { get as objGet, isFunction} from "lodash";
+
 
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
@@ -50,16 +68,14 @@
                   type: "select",
                   label: "State or Province",
                   model: "license_state",
-                  // required: true,
                   values: states,
-                  // default: "en-US",
-                  // validator: validators.required
                   selectOptions: {
                     noneSelectedText: "Select a state/province"
                   },
                   placeholder: 'Select a state/province',
                   styleClasses: ['col-md-8'],
-                  id: 'license_state'
+                  id: 'license_state',
+                  validator: ['string']
                 },
                 {
                   type: 'input',
@@ -94,6 +110,32 @@
 
       this.model.id = this.modelId;
       this.formOptions.fieldIdPrefix += this.modelId + '_';
+
+      Bus.$on('validateForms', function ($event) {
+        $event.preventDefault();
+        let validateAsync = (objGet(self.$refs.acuLicenseForm.$data.vfg.options, "validateAsync", false));
+
+        let errors = self.$refs.acuLicenseForm.vfg.validate();
+
+        let handleErrors = errors => {
+          if ((validateAsync && !isEmpty(errors)) || (!validateAsync && !errors)) {
+            if (isFunction(self.schema.onValidationError)) {
+
+              self.schema.onValidationError(self.model, self.schema, errors, $event);
+            }
+          } else if (!validateAsync && errors) {
+
+            Bus.$emit('subFormValidated', {acupunctureLicense: true});
+
+          }
+
+        };
+        if (errors && isFunction(errors.then)) {
+          errors.then(handleErrors);
+        } else {
+          handleErrors(errors);
+        }
+      });
 
     },
     methods: {

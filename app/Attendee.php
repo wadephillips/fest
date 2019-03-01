@@ -2,7 +2,9 @@
 
 namespace App;
 
+use function array_merge;
 use Illuminate\Database\Eloquent\Model;
+use function var_dump;
 
 class Attendee extends Model
 {
@@ -38,11 +40,28 @@ class Attendee extends Model
 
   public function event()
   {
-    return $this->hasOne('App\Event');
+    return $this->hasOne(Event::class);
   }
 
   public function payment()
   {
-    $this->hasOne('App\Payment');
+    return $this->hasOne(Payment::class);
+  }
+
+  public function licenses()
+  {
+    return $this->hasMany(License::class);
+  }
+
+  public function getDescriptionsAttribute()
+  {
+    $mods =
+    $descriptions = [];
+    foreach ( $this->modifiers as $key => $modifier ) {
+      foreach ($modifier as $element) {
+        $descriptions[] = $element['description'];
+      }
+    }
+    return $descriptions;
   }
 }

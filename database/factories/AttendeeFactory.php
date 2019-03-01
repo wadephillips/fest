@@ -11,7 +11,7 @@ $factory->define(App\Attendee::class, function (Faker $faker) {
 
   return [
       'event_id' => $faker->numberBetween(1,10),
-      'payment_id' => $faker->numberBetween(1,50),
+      'payment_id' => $faker->uuid,
       'name' => $faker->name,
       'email' => $faker->email,
       'phone' => $faker->tollFreePhoneNumber,

@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Arr;
 
 class RegistrationSuccessful extends Mailable
 {
@@ -22,16 +23,22 @@ class RegistrationSuccessful extends Mailable
   public $payment;
 
   /**
+   * @var Event - the Event for the registrations and payment
+   */
+  public $event;
+
+  /**
    * Create a new message instance.
    *
    * @param array $attendees
    * @param Payment $payment
    */
-    public function __construct($attendees, $payment)
+    public function __construct($attendees, $payment, $event)
     {
 
       $this->attendees = $attendees;
       $this->payment = $payment;
+      $this->event = $event;
     }
 
     /**
@@ -42,6 +49,7 @@ class RegistrationSuccessful extends Mailable
     public function build()
     {
 
+        //todo resume: polish up the table to use new good info in the middle column, and add event info
         return $this->from('wadelp@wadelp.com')
             ->markdown('emails.registration.success');
     }

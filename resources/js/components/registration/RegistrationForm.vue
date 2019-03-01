@@ -1,26 +1,51 @@
 <template>
 
   <div class="container">
-    <form @submit.prevent="handleSubmit" id="registrationForm" >
+    <form @submit.prevent="handleSubmit" id="registrationForm" dusk="registration-form">
       <input type="hidden" name="_token" :value="csrf">
 
       <div v-for="model in formModels">
         <attendee :key="model.id" :model="model"></attendee>
       </div>
 
-      <button @click="addAttendee" type="button" class="btn btn-primary">+</button>
+      <div class="row">
+        <div class="col-md-3">
+          <button @click="addAttendee" type="button" class="btn btn-primary m-3" id="add-attendee-btn"
+                  dusk='add-attendee-btn'>+ Add Attendee
+          </button>
 
 
-      <!--<vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">-->
-      <!--</vue-form-generator>-->
-      <stripe-payment-form
-          :purchaserEmail="formModels[0].email"
-          purchaserEmail="purchaserEmail"
-          :models="formModels"
-          :postPath="postPath"
-          :event-name="eventName"
-          :total="total"
-      ></stripe-payment-form>
+          <!--<vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">-->
+          <!--</vue-form-generator>-->
+
+        </div>
+        <div class="col"></div>
+        <div class="col-md-3">
+          <stripe-payment-form
+              class="m-3"
+              :purchaserEmail="formModels[0].email"
+              purchaserEmail="purchaserEmail"
+              :models="formModels"
+              :postPath="postPath"
+              :event-name="eventName"
+              :total="total"
+          ></stripe-payment-form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div v-show="this.form.errors.length > 0" class="alert alert-warning alert-dismissible fade show"
+               role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>There was a problem processing your charge:</strong>
+            <ul>
+              <li v-for="error in this.form.errors">{{error.message}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </form>
   </div>
 
@@ -53,6 +78,9 @@
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         postPath: window.location.pathname,
         attendees: 1,
+        form: {
+          errors: []
+        },
         formModels: [
           {
             id: 0,
@@ -173,6 +201,14 @@
             self.formModels[modelId][k] = payload[k];
           }
         }
+      });
+
+      Bus.$on('clearFormErrors', function () {
+        self.form.errors = [];
+      });
+
+      Bus.$on('setFormErrors', function (e) {
+        self.form.errors.push(e);
       });
     },
 

@@ -19,3 +19,5 @@ localhost\.crt
 localhost\.crt\.conf
 
 localhost\.crt\.key
+
+*.afdesign

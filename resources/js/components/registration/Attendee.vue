@@ -3,23 +3,26 @@
     <div class="row">
 
       <div class="col-md-6">
-        <attendee-details :key="this.model.id" :model-id="this.model.id"></attendee-details>
+        <attendee-details :dusk="'attendee-details-' + this.model.id" :key="this.model.id" :model-id="this.model.id"></attendee-details>
       </div>
       <div class="col-md-6">
         <div class="col-md-12">
-          <emergency-contact :key="this.model.id" :model-id="this.model.id"></emergency-contact>
+          <emergency-contact :dusk="'emergency-contact-' + this.model.id" :key="this.model.id" :model-id="this.model.id"></emergency-contact>
         </div>
 
         <div class="col-md-12">
-          <acupuncture-license :key="this.model.id" :model-id="this.model.id"></acupuncture-license>
+          <acupuncture-license :dusk="'acupuncture-license-' + this.model.id" :key="this.model.id" :model-id="this.model.id"></acupuncture-license>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3 ml-0">
+      <div class="col-md-3">
         <h4 >Attendee Total: ${{this.model.amount / 100}}</h4>
       </div>
-        <poca-fest-options dusk="poca-fest-options" :key="this.model.id" :model-id="this.model.id"></poca-fest-options>
+
+      <div class="col-md-9">
+        <poca-fest-options :dusk="'poca-fest-options-' + this.model.id" :key="this.model.id" :model-id="this.model.id"></poca-fest-options>
+      </div>
       
     </div>
   </section>

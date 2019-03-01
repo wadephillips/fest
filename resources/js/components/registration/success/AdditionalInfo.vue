@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    name: "Breakout"
+    name: "AdditionalInfo"
   }
 </script>
 

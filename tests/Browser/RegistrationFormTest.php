@@ -44,14 +44,15 @@ class RegistrationFormTest extends DuskTestCase
           ->type('#attendee_0_emergency_contact_name', 'Jonathan Doe')
           ->type('#attendee_0_emergency_contact_phone', '907 551 5555')
           ->type('#attendee_0_emergency_contact_relationship', 'father')
-//          ->check('#0-acu-switch')
-//          ->assertSee('Acupuncture License Info')
-//          ->select('#attendee_0_license_state', 'AK')
-//          ->type('#attendee_0_license_number', '213')
-//          ->select('#attendee_0_license_country', 'US')
+          ->keys('@0-acu-switch', ['{space}'])
+          ->waitFor('@0-acu-license-form')
+          ->assertSee('Acupuncture License Info')
+          ->select('#attendee_0_license_state', 'AK')
+          ->type('#attendee_0_license_number', '213')
+          ->select('#attendee_0_license_country', 'US')
           ->assertSee('Checkout @ ')
           ->click('@checkout-button')
-//          //todo resume: fill out the stripe form
+
           ->waitFor('iframe[name=stripe_checkout_app]');
 
       $browser->driver->switchTo()->frame('stripe_checkout_app');
@@ -83,12 +84,75 @@ class RegistrationFormTest extends DuskTestCase
 
   }
 
+  public function testRegisterTwoAttendees()
+  {
+    $this->browse(function (Browser $browser) {
+      //first attendee
+      $browser->visit($this->url)
+          ->type('#attendee_0_name', 'John Doe')
+          ->type('#attendee_0_email', 'jdoe@pocacoop.com')
+          ->type('#attendee_0_phone', '907 555 0000')
+          ->type('#attendee_0_address', '123 Any St.')
+          ->type('#attendee_0_city', 'Anytown')
+          ->select('#attendee_0_state', 'AK')
+          ->type('#attendee_0_postal', '99502')
+          ->select('#attendee_0_country', 'US')
+          ->type('#attendee_0_emergency_contact_name', 'Jonathan Doe')
+          ->type('#attendee_0_emergency_contact_phone', '907 551 5555')
+          ->type('#attendee_0_emergency_contact_relationship', 'father')
+          ->keys('@0-acu-switch', ['{space}'])
+          ->waitFor('@0-acu-license-form')
+          ->assertSee('Acupuncture License Info')
+          ->select('#attendee_0_license_state', 'AK')
+          ->type('#attendee_0_license_number', '213')
+          ->select('#attendee_0_license_country', 'US')
+
+          ->radio('registration_type', 'three_day_day_only')
+          ->assertSee('Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500')
+          ->dragRight('.irs-single', 50)
+
+          ->radio('meal.type', 'Omnivore');
+
+      // add an attendee
+      $browser->press('@add-attendee-btn');
+
+
+      //second attendee
+      $browser->visit($this->url)
+          ->type('#attendee_1_name', 'Jane Doe')
+          ->type('#attendee_1_email', 'janedoe@pocacoop.com')
+          ->type('#attendee_1_phone', '907 555 0001')
+          ->type('#attendee_1_address', '123 Any St.')
+          ->type('#attendee_1_city', 'Anytown')
+          ->select('#attendee_1_state', 'AK')
+          ->type('#attendee_1_postal', '99502')
+          ->select('#attendee_1_country', 'US')
+          ->type('#attendee_1_emergency_contact_name', 'Nancy Doew')
+          ->type('#attendee_1_emergency_contact_phone', '907 551 5555')
+          ->type('#attendee_1_emergency_contact_relationship', 'mother in law')
+
+
+          ->radio('registration_type', 'fso_adult')
+//          ->assertDontSee('Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500')
+//          ->dragRight('.irs-single', 50)
+
+          ->radio('meal.type', 'Omnivore')
+          ->type('attendee_1_other_food', "I'm a Gluten Free panda, please");
+
+      $browser->assertVue('formModels[1].modifiers.meal.type', 'Omnivore', '@RegistrationForm');
+
+    });
+
+
+  }
+
+
   public function testItHasAFormForEventRegistrationOptions()
   {
     $this->browse(function (Browser $browser) {
       $browser->visit($this->url)
         ->assertSee('Poca Fest')
-      ->assertSee('Select a registration type for this attendee')
+      ->assertSee('Registration options for this attendee')
       ->assertSee('Three Day Pass - Overnight Stay')
       ->assertSee('Three Day Pass - No Overnight Stay')
       ->assertSee('Ear Training - 3 Day Pass - Overnight Stay')
@@ -97,18 +161,47 @@ class RegistrationFormTest extends DuskTestCase
       ->assertSee('Additional Family Member / Significant Other - Adult')
       ->assertSee('Additional Family Member / Significant Other - Child')
       ->assertSee('One Day Only Pass')
+          ->assertDontSee('Sliding Scale, set your price -')
+          ->assertDontSee('I need to add CEUs to my one day pass.')
       ;
       $browser->radio('registration_type', 'three_day_overnight_pass')
       ->assertSee('Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500')
-      ->assertVue('model.chosen.three_day_overnight_pass', 30000, '@poca-fest-options');
+      ->assertVue('model.chosen.three_day_overnight_pass', 30000, '@poca-fest-options-0')
+      ->assertDontSee('I need to add CEUs to my one day pass.');
+
       $browser->radio('registration_type', 'three_day_day_only')
-      ->assertSee('Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500');
+      ->assertSee('Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500')
+      ->assertVue('model.chosen.three_day_day_only', 25000, '@poca-fest-options-0')
+      ->assertDontSee('I need to add CEUs to my one day pass.');
+
       $browser->radio('registration_type', 'ear_training_overnight')
-      ->assertSee('Sliding Scale, set your price - Ear Training - 3 Day Pass - Overnight Stay - $250 - $500');
+      ->assertSee('Sliding Scale, set your price - Ear Training - 3 Day Pass - Overnight Stay - $250 - $500')
+            ->assertVue('model.chosen.ear_training_overnight', 30000, '@poca-fest-options-0')
+      ->assertDontSee('I need to add CEUs to my one day pass.');
+
       $browser->radio('registration_type', 'ear_training_day_only')
-      ->assertSee('Sliding Scale, set your price - Ear Training - 3 Day Pass - No Overnight Stay - $200 - $500');
+      ->assertSee('Sliding Scale, set your price - Ear Training - 3 Day Pass - No Overnight Stay - $200 - $500')
+            ->assertVue('model.chosen.ear_training_day_only', 25000, '@poca-fest-options-0')
+      ->assertDontSee('I need to add CEUs to my one day pass.');
+
       $browser->radio('registration_type', 'student')
-      ->assertSee('Sliding Scale, set your price - Student - 3 Day Pass - $100 - $200');
+      ->assertSee('Sliding Scale, set your price - Student - 3 Day Pass - $100 - $200')
+            ->assertVue('model.chosen.student', 15000, '@poca-fest-options-0')
+          ->assertDontSee('I need to add CEUs to my one day pass.');
+
+      $browser->radio('registration_type', 'fso_adult')
+          ->assertDontSee('Sliding Scale, set your price -');
+
+      $browser->radio('registration_type', 'fso_child')
+          ->assertDontSee('Sliding Scale, set your price -');
+
+      $browser->radio('registration_type', 'one_day_pass')
+          ->assertSee('Sliding Scale, set your price - One Day Pass- $100 - $200')
+          ->assertSee('I need to add CEUs to my one day pass.')
+          ->check('#attendee_0_one_day_add_ceu')
+          ->assertVue('model.chosen.one_day_pass', 12500, '@poca-fest-options-0')
+          ->assertVue('model.chosen.one_day_add_ceu', 7500, '@poca-fest-options-0')
+          ;
 
     });
   }
@@ -122,9 +215,29 @@ class RegistrationFormTest extends DuskTestCase
       $browser->radio('registration_type', 'three_day_overnight_pass')
           ->assertSee('Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500')
           ->dragRight('.irs-single', 10)
-//          ->assertVue('wade','the bomb', '@poca-fest-options')
-          ->assertVue('model.chosen.three_day_overnight_pass', 30300, '@poca-fest-options')
+//          ->assertVue('wade','the bomb', '@poca-fest-options-0')
+          ->assertVue('model.chosen.three_day_overnight_pass', 30300, '@poca-fest-options-0')
       ;
     });
   }
+
+  public function testChoosingAFoodOptionDoesntChangePriceRangeSelection()
+  {
+    $this->browse(function (Browser $browser) {
+      $browser->visit($this->url)
+          ->assertSee('Poca Fest');
+
+      $browser->radio('registration_type', 'three_day_overnight_pass')
+          ->assertSee('Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500')
+          ->dragRight('.irs-single', 10)
+//          ->assertVue('wade','the bomb', '@poca-fest-options-0')
+          ->assertVue('model.chosen.three_day_overnight_pass', 30300, '@poca-fest-options-0');
+
+      $browser->radio('meal.type', 'Vegan')
+        ->assertVue('model.chosen.three_day_overnight_pass', 30300, '@poca-fest-options-0');
+
+    });
+  }
+
+
 }

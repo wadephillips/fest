@@ -23,6 +23,7 @@ class CreateEventsTable extends Migration
       $table->string('description', 5000);
       $table->boolean('active')->default(1);
       //location
+      $table->string('location_name')->nullable();
       $table->string('address');
       $table->string('address_2')->nullable();
       $table->string('suite')->nullable();

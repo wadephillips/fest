@@ -9,11 +9,13 @@ use App\Payment;
 use function array_merge;
 use Exception;
 use function factory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use function is_object;
 use function json_decode;
 use ReflectionClass;
 use Stripe\Charge;
+use Stripe\Error\Card;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,7 +33,7 @@ class EventRegistrationTest extends TestCase
   {
     parent::setUp();
     // create an event
-    $this->event = factory(Event::class)->create([ 'name' => 'POCA Fest!!', 'slug' => 'poca-fest',]);
+    $this->event = factory(Event::class)->create([ 'name' => 'POCA Fest!!', 'slug' => 'poca-fest', ]);
     //create a registrant(s)
     $this->registrants[] = [
         'name' => 'John Jones',
@@ -45,7 +47,21 @@ class EventRegistrationTest extends TestCase
         'emergency_contact_name' => 'James Jones',
         'emergency_contact_phone' => '406-555-5555',
         'emergency_contact_relationship' => 'father',
-        'total' => '200',
+
+        'license_number' => '213',
+        'license_country' => 'US',
+        'license_state' => 'AK',
+
+        'modifiers' => [
+            'meal' => [
+                'type' => 'Omnivore',
+            ],
+            'payment' => [
+                'one_day_pass' => 12500,
+                'one_day_add_ceu' => 7500,
+            ],
+        ],
+        'amount' => 20000,
     ];
     $this->registrants[] = [
         'name' => 'Jane Doe',
@@ -59,7 +75,16 @@ class EventRegistrationTest extends TestCase
         'emergency_contact_name' => 'Jenny Doe',
         'emergency_contact_phone' => '406-555-5556',
         'emergency_contact_relationship' => 'Mother',
-        'total' => 250,
+        'modifiers' => [
+            'meal' => [
+                'other_food' => 'Gluten Free plz',
+                'type' => 'Vegan',
+            ],
+            'payment' => [
+                'three_day_overnight_pass' => 30000,
+            ],
+        ],
+        'amount' => 30000,
     ];
     //create the form data
     $this->formData = [
@@ -102,10 +127,10 @@ class EventRegistrationTest extends TestCase
               },
               "args": {}
             }'
-    , true);
+        , true);
 
-    $this->post = $post = array_merge( $this->formData, $this->stripeData, [ 'total' => 45000 ]);
-    $this->post['registrants'] = $this->registrants;
+    $this->post = $post = array_merge($this->formData, $this->stripeData, [ 'total' => 45000 ]);
+    $this->post[ 'registrants' ] = $this->registrants;
 //    dd($this->post);
 
   }
@@ -119,13 +144,48 @@ class EventRegistrationTest extends TestCase
 //      dd($response);
       $emails = app()->make('swift.transport')->driver()->messages();
       $this->assertCount(1, $emails);
-      $this->assertEquals([$this->stripeData['token']['email']], array_keys($emails[0]->getTo()));
+      $this->assertEquals([ $this->stripeData[ 'token' ][ 'email' ] ], array_keys($emails[ 0 ]->getTo()));
       $response->assertOk();
     } catch ( Exception $e ) {
       echo $e->getMessage();
       echo $e->getTraceAsString();
     }
   }
+
+  public function testItPostsABadCardToTheRoute()
+  {
+    try {
+      $path = '/events/' . $this->event->slug . '/register';
+      $this->post['token']['id'] = 'tok_chargeDeclined';
+      $response = $this->post($path, $this->post);
+      $content = $response->getOriginalContent();
+
+      $response->assertStatus(402);
+
+      $response->assertJson($content);
+      $response->assertJsonFragment(['message' => 'Your card was declined.']);
+    } catch ( Exception $e ) {
+      echo $e->getMessage();
+    }
+  }
+
+  public function testItPostsACardWithInsufficientFundsToTheRoute()
+  {
+    try {
+      $path = '/events/' . $this->event->slug . '/register';
+      $this->post['token']['id'] = 'tok_chargeDeclinedInsufficientFunds';
+      $response = $this->post($path, $this->post);
+      $content = $response->getOriginalContent();
+
+      $response->assertStatus(402);
+
+      $response->assertJson($content);
+      $response->assertJsonFragment(['message' => 'Your card has insufficient funds.']);
+    } catch ( Exception $e ) {
+      echo $e->getMessage();
+    }
+  }
+
   public function testItChargesAStripeToken()
   {
     $result = $this->chargeAToken(9900, 'base charge test');
@@ -136,6 +196,15 @@ class EventRegistrationTest extends TestCase
 
   }
 
+  public function testItRejectsABadStripeToken()
+  {
+    $result = $this->chargeAToken(9900, 'a bad charge unit test charge', 'tok_chargeDeclined');
+    var_dump($result->getJsonBody()['error']['message']);
+    $this->assertTrue(is_object($result));
+    $this->assertInstanceOf(Card::class, $result);
+    $this->assertTrue($result->content() == "Your card was declined.");
+  }
+
   public function testItPersistsAPayment()
   {
     $total = 7500;
@@ -143,41 +212,41 @@ class EventRegistrationTest extends TestCase
     $controller = App::make(EventRegisterController::class);
     $method = $this->getPrivateMethod('App\Http\Controllers\EventRegisterController', 'savePayment');
     $all = $this->post;
-    $all['total'] = $total;
+    $all[ 'total' ] = $total;
     $result = $method->invokeArgs($controller, [ $all, $charge, $this->event ]);
     $this->assertTrue(is_object($result), 'The result is not an object');
     $this->assertInstanceOf(Payment::class, $result);
     $this->assertTrue($result->amount == 7500);
-    $this->assertTrue($result->address == $this->registrants[0]['address']);
-    $this->assertTrue($result->city == $this->registrants[0]['city']);
-    $this->assertTrue($result->state == $this->registrants[0]['state']);
-    $this->assertTrue($result->country == $this->registrants[0]['country']);
+    $this->assertTrue($result->address == $this->registrants[ 0 ][ 'address' ]);
+    $this->assertTrue($result->city == $this->registrants[ 0 ][ 'city' ]);
+    $this->assertTrue($result->state == $this->registrants[ 0 ][ 'state' ]);
+    $this->assertTrue($result->country == $this->registrants[ 0 ][ 'country' ]);
 
   }
 
   public function testItRegistersAnAttendee()
   {
-    $payment = factory(Payment::class)->create([ 
+    $payment = factory(Payment::class)->create([
         'event_id' => $this->event->id,
         'payer_id' => 0,
         'processor' => 'stripe',
         'processor_transaction_id' => 'ch_1E5LXbLHPlwTNNkcbl0czjGQ',
-        ]);
+    ]);
     $controller = App::make(EventRegisterController::class);
     $method = $this->getPrivateMethod('App\Http\Controllers\EventRegisterController', 'createRegistration');
 
-    $result = $method->invokeArgs($controller, [ $this->registrants[0], $this->event, $payment ]);
+    $result = $method->invokeArgs($controller, [ $this->registrants[ 0 ], $this->event, $payment ]);
 
-    $this->assertTrue($result->name == $this->registrants[0]['name'] );
-    $this->assertTrue($result->phone == $this->registrants[0]['phone'] );
-    $this->assertTrue($result->postal == $this->registrants[0]['postal'] );
-    $this->assertTrue($result->address == $this->registrants[0]['address'] );
+    $this->assertTrue($result->name == $this->registrants[ 0 ][ 'name' ]);
+    $this->assertTrue($result->phone == $this->registrants[ 0 ][ 'phone' ]);
+    $this->assertTrue($result->postal == $this->registrants[ 0 ][ 'postal' ]);
+    $this->assertTrue($result->address == $this->registrants[ 0 ][ 'address' ]);
     $attendeeId = $result->id;
     $attendeeDB = Attendee::findOrFail($attendeeId);
-    $this->assertTrue($attendeeDB->name == $this->registrants[0]['name'] );
-    $this->assertTrue($attendeeDB->phone == $this->registrants[0]['phone'] );
-    $this->assertTrue($attendeeDB->postal == $this->registrants[0]['postal'] );
-    $this->assertTrue($attendeeDB->address == $this->registrants[0]['address'] );
+    $this->assertTrue($attendeeDB->name == $this->registrants[ 0 ][ 'name' ]);
+    $this->assertTrue($attendeeDB->phone == $this->registrants[ 0 ][ 'phone' ]);
+    $this->assertTrue($attendeeDB->postal == $this->registrants[ 0 ][ 'postal' ]);
+    $this->assertTrue($attendeeDB->address == $this->registrants[ 0 ][ 'address' ]);
   }
 
   /**
