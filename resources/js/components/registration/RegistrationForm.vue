@@ -1,7 +1,7 @@
 <template>
 
   <div class="container">
-    <form @submit.prevent="handleSubmit" id="registrationForm" dusk="registration-form">
+    <form @submit.prevent="handleSubmit" id="registrationForm" >
       <input type="hidden" name="_token" :value="csrf">
 
       <div v-for="model in formModels">
@@ -170,7 +170,7 @@
     },
     computed: {
       purchaserEmail() {
-        return formModels[0].email;
+        return this.formModels[0].email;
       },
       total() {
         let total = 0;
