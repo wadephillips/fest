@@ -16,11 +16,7 @@ class RegistrationFormTest extends DuskTestCase
     $this->url = '/events/fest/register';
   }
 
-  /**
-   * A Dusk test example.
-   *
-   * @return void
-   */
+
   public function testVisitTheRegistrationPage()
   {
     $this->browse(function (Browser $browser) {
@@ -50,7 +46,7 @@ class RegistrationFormTest extends DuskTestCase
           ->select('#attendee_0_license_state', 'AK')
           ->type('#attendee_0_license_number', '213')
           ->select('#attendee_0_license_country', 'US')
-          ->assertSee('Checkout @ ')
+          ->assertSee('Pay and Register for ')
           ->click('@checkout-button')
 
           ->waitFor('iframe[name=stripe_checkout_app]');
@@ -111,7 +107,7 @@ class RegistrationFormTest extends DuskTestCase
           ->assertSee('Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500')
           ->dragRight('.irs-single', 50)
 
-          ->radio('meal.type', 'Omnivore');
+          ->radio('food.type', 'Omnivore');
 
       // add an attendee
       $browser->press('@add-attendee-btn');
@@ -136,10 +132,10 @@ class RegistrationFormTest extends DuskTestCase
 //          ->assertDontSee('Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500')
 //          ->dragRight('.irs-single', 50)
 
-          ->radio('meal.type', 'Omnivore')
+          ->radio('food.type', 'Omnivore')
           ->type('attendee_1_other_food', "I'm a Gluten Free panda, please");
 
-      $browser->assertVue('formModels[1].modifiers.meal.type', 'Omnivore', '@RegistrationForm');
+      $browser->assertVue('formModels[1].modifiers.meal.type.description', 'Omnivore', '@RegistrationForm');
 
     });
 
@@ -166,27 +162,27 @@ class RegistrationFormTest extends DuskTestCase
       ;
       $browser->radio('registration_type', 'three_day_overnight_pass')
       ->assertSee('Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500')
-      ->assertVue('model.chosen.three_day_overnight_pass', 30000, '@poca-fest-options-0')
+      ->assertVue('model.chosen.three_day_overnight_pass.value', 30000, '@poca-fest-options-0')
       ->assertDontSee('I need to add CEUs to my one day pass.');
 
       $browser->radio('registration_type', 'three_day_day_only')
       ->assertSee('Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500')
-      ->assertVue('model.chosen.three_day_day_only', 25000, '@poca-fest-options-0')
+      ->assertVue('model.chosen.three_day_day_only.value', 25000, '@poca-fest-options-0')
       ->assertDontSee('I need to add CEUs to my one day pass.');
 
       $browser->radio('registration_type', 'ear_training_overnight')
       ->assertSee('Sliding Scale, set your price - Ear Training - 3 Day Pass - Overnight Stay - $250 - $500')
-            ->assertVue('model.chosen.ear_training_overnight', 30000, '@poca-fest-options-0')
+            ->assertVue('model.chosen.ear_training_overnight.value', 30000, '@poca-fest-options-0')
       ->assertDontSee('I need to add CEUs to my one day pass.');
 
       $browser->radio('registration_type', 'ear_training_day_only')
       ->assertSee('Sliding Scale, set your price - Ear Training - 3 Day Pass - No Overnight Stay - $200 - $500')
-            ->assertVue('model.chosen.ear_training_day_only', 25000, '@poca-fest-options-0')
+            ->assertVue('model.chosen.ear_training_day_only.value', 25000, '@poca-fest-options-0')
       ->assertDontSee('I need to add CEUs to my one day pass.');
 
       $browser->radio('registration_type', 'student')
       ->assertSee('Sliding Scale, set your price - Student - 3 Day Pass - $100 - $200')
-            ->assertVue('model.chosen.student', 15000, '@poca-fest-options-0')
+            ->assertVue('model.chosen.student.value', 15000, '@poca-fest-options-0')
           ->assertDontSee('I need to add CEUs to my one day pass.');
 
       $browser->radio('registration_type', 'fso_adult')
@@ -199,8 +195,8 @@ class RegistrationFormTest extends DuskTestCase
           ->assertSee('Sliding Scale, set your price - One Day Pass- $100 - $200')
           ->assertSee('I need to add CEUs to my one day pass.')
           ->check('#attendee_0_one_day_add_ceu')
-          ->assertVue('model.chosen.one_day_pass', 12500, '@poca-fest-options-0')
-          ->assertVue('model.chosen.one_day_add_ceu', 7500, '@poca-fest-options-0')
+          ->assertVue('model.chosen.one_day_pass.value', 12500, '@poca-fest-options-0')
+          ->assertVue('model.chosen.one_day_add_ceu.value', 7500, '@poca-fest-options-0')
           ;
 
     });
@@ -216,7 +212,7 @@ class RegistrationFormTest extends DuskTestCase
           ->assertSee('Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500')
           ->dragRight('.irs-single', 10)
 //          ->assertVue('wade','the bomb', '@poca-fest-options-0')
-          ->assertVue('model.chosen.three_day_overnight_pass', 30300, '@poca-fest-options-0')
+          ->assertVue('model.chosen.three_day_overnight_pass.value', 30300, '@poca-fest-options-0')
       ;
     });
   }
@@ -231,10 +227,10 @@ class RegistrationFormTest extends DuskTestCase
           ->assertSee('Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500')
           ->dragRight('.irs-single', 10)
 //          ->assertVue('wade','the bomb', '@poca-fest-options-0')
-          ->assertVue('model.chosen.three_day_overnight_pass', 30300, '@poca-fest-options-0');
+          ->assertVue('model.chosen.three_day_overnight_pass.value', 30300, '@poca-fest-options-0');
 
-      $browser->radio('meal.type', 'Vegan')
-        ->assertVue('model.chosen.three_day_overnight_pass', 30300, '@poca-fest-options-0');
+      $browser->radio('food.type', 'Vegan')
+        ->assertVue('model.chosen.three_day_overnight_pass.value', 30300, '@poca-fest-options-0');
 
     });
   }

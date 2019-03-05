@@ -27,10 +27,10 @@ class RegistrationFormFoodOptionsTest extends DuskTestCase
         $browser->visit($this->url)
             ->assertSee('Register for Poca Fest Test');
 
-        $browser->radio('meal.type', 'Omnivore')
+        $browser->radio('food.type', 'Omnivore')
             ->type('#attendee_0_other_food', "I'm a Gluten Free panda, please");
-        $browser->assertVue('model.meal.type', 'Omnivore', '@poca-fest-options-0')
-        ->assertVue('model.meal.other_food', "I'm a Gluten Free panda, please", '@poca-fest-options-0')
+        $browser->assertVue('model.meal.type.description', 'Omnivore', '@poca-fest-options-0')
+        ->assertVue('model.meal.other_food.description', "I'm a Gluten Free panda, please", '@poca-fest-options-0')
         ;
       });
     }
@@ -41,11 +41,11 @@ class RegistrationFormFoodOptionsTest extends DuskTestCase
       $browser->visit($this->url)
           ->assertSee('Register for Poca Fest Test');
 
-      $browser->radio('meal.type', 'Omnivore')
+      $browser->radio('food.type', 'Omnivore')
           ->type('#attendee_0_other_food', "I'm a Gluten Free panda, please");
 
-      $browser->assertVue('formModels[0].modifiers.meal.type', 'Omnivore', '@registration-form')
-          ->assertVue('formModels[0].modifiers.meal.other_food', "I'm a Gluten Free panda, please", '@registration-form')
+      $browser->assertVue('formModels[0].modifiers.meal.type.description', 'Omnivore', '@registration-form')
+          ->assertVue('formModels[0].modifiers.meal.other_food.description', "I'm a Gluten Free panda, please", '@registration-form')
       ;
     });
   }

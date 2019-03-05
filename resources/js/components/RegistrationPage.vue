@@ -6,7 +6,7 @@
     <h2>{{event.city}}</h2>
     <!--todo reformat with moment-->
     <h4>{{ eventDates }}</h4>
-    <registration-form :event-name="event.name"></registration-form>
+    <registration-form :event-name="event.name" dusk="registration-form"></registration-form>
     <div class="container">
       <div class="row">
         <div class="col-md-12">

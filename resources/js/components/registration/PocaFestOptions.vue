@@ -40,6 +40,7 @@
         },
         model: {
           registration_type: '',
+          donate: 0,
           prices: {
             three_day_overnight_pass: 300,
             three_day_day_only: 250,
@@ -50,11 +51,15 @@
             fso_child: 100,
             one_day_pass: 125,
             one_day_add_ceu: 75,
+            poca_tech_donation: 5,
+            linens: 15,
           },
           chosen: {},
           meal: {},
-          food: {
-          }
+          food: {},
+          options: {},
+          other: "",
+          linens: "No"
         },
         schema: {
           groups: [
@@ -96,18 +101,32 @@
                     let keys = Object.keys(model.chosen);
 
                     let key = value;
-                    let oldKey = keys[0];
+                    // let oldKey = keys[0];
+                    let oldKey = model.registration_type;
 
-                    if (keys.length === 0) {
-                      price = model.prices[key] * 100
-                    } else if (
-                        ['fso_adult', 'fso_child', 'add_ceu_one_day_pass'].indexOf(oldKey) ||
-                        ['fso_adult', 'fso_child', 'add_ceu_one_day_pass'].indexOf(key) !== -1) {
-                      price = model.prices[key] * 100;
-                    } else {
-                      price = model.chosen[oldKey];
+                    price = model.prices[key] * 100
+
+                    // if (keys.length === 0) {
+                    //   price = model.prices[key] * 100
+                    // } else if (
+                    //     ['fso_adult', 'fso_child', 'add_ceu_one_day_pass', 'poca_tech_donation' ].indexOf(oldKey) ||
+                    //     ['fso_adult', 'fso_child', 'add_ceu_one_day_pass', 'poca_tech_donation'].indexOf(key) !== -1) {
+                    //   price = model.prices[key] * 100;
+                    // } else {
+                    //   price = model.chosen[oldKey];
+                    // }
+
+                    //todo this approach is causing problems we should explicityly set and unset values rather tham wiping the object
+                    // model.chosen = {};
+
+                    if (model.chosen.hasOwnProperty(oldKey) && model.chosen.hasOwnProperty('one_day_add_ceu')) {
+                      delete model.chosen.one_day_add_ceu
                     }
-                    model.chosen = {};
+
+                    if (model.chosen.hasOwnProperty(oldKey)) {
+                      console.log('deleting it');
+                      delete model.chosen[oldKey]
+                    }
 
                     model.registration_type = key;
 
@@ -247,12 +266,55 @@
                     };
                   }
                 },
-                // {
-                //   type:"submit",
-                //   styleClasses: "btn btn-success",
-                //   onSubmit:'submitForm',
-                //   validateBeforeSubmit: true
-                // }
+                {
+                  type: "radios",
+                  label: "Do you need linens?",
+                  hint: "The Perlman Retreat Center will provide you with linens for $15 if you select Yes.",
+                  model: "linens",
+                  id: 'linens',
+                  dusk: 'linens',
+                  required: true,
+                  validator: ['string'],
+                  values: [
+                    "Yes",
+                    "No"
+                  ],
+                  set: function (model, value) {
+                    model.linens = value;
+                    let price = (value === 'Yes') ? model.prices.linens * 100 : 0;
+                    let description = value;
+                    model.options.linens = {
+                      value: price,
+                      description: description
+                    };
+                  }
+                },
+                {
+                  type: "textArea",
+                  label: "Other Attendee Information:",
+                  id: "other_info",
+                  model: "other",
+                  hint: "Use this space to tell us anything else that would make your POCA Fest the best!",
+                  rows: 4,
+                  validator: ['string']
+                },
+                {
+                  type: 'checkbox',
+                  label: "I'd like to support affordable Acupuncture Education by donating $5 to POCA Tech!",
+                  model: 'donate',
+                  id: 'poca_tech_donation',
+                  set: function (model, value) {
+
+                    model.chosen.poca_tech_donation = {
+                      value: value * model.prices.poca_tech_donation * 100,
+                      description: 'Donate $5 to POCA Tech'
+                    };
+                    if (value === false) {
+                      delete model.chosen.poca_tech_donation;
+                    }
+                  },
+                }
+
               ],
             },
           ]
@@ -306,18 +368,25 @@
           id: this.modelId,
           modifiers: {
             payment: this.model.chosen,
-            meal: this.model.meal
+            meal: this.model.meal,
+            linens: this.model.options.linens,
           } ,
           amount: this.total
         };
+        if (this.model.other !== "") {
+          payload.modifiers['other'] = this.model.other;
+        }
         Bus.$emit('updateAttendeeModel', payload);
       },
       calculateTotal() {
-        let total = 0
+        let total = 0;
         for (let i in this.model.chosen) {
-          console.log();
           total += this.model.chosen[i].value;
         }
+        for (let i in this.model.options) {
+          total += this.model.options[i].value;
+        }
+
         return total
       },
       submitForm(model, schema, $event) {

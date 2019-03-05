@@ -17,7 +17,7 @@
     </div>
     <div class="row">
       <div class="col-md-3">
-        <h4 >Attendee Total: ${{this.model.amount / 100}}</h4>
+        <h4 :dusk="'attendee-total-' + this.model.id"  >Attendee Total: ${{(this.model.amount / 100).toFixed(2)}}</h4>
       </div>
 
       <div class="col-md-9">
