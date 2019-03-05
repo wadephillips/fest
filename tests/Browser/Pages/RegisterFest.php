@@ -39,4 +39,10 @@ class RegisterFest extends Page
             '@element' => '#selector',
         ];
     }
+
+  public function addAttendee(Browser $browser)
+  {
+    $browser->press('@add-attendee-btn');
+    return $this;
+  }
 }

@@ -58,6 +58,7 @@
           meal: {},
           food: {},
           options: {},
+          other: "",
           linens: "No"
         },
         schema: {
@@ -289,6 +290,15 @@
                   }
                 },
                 {
+                  type: "textArea",
+                  label: "Other Attendee Information:",
+                  id: "other_info",
+                  model: "other",
+                  hint: "Use this space to tell us anything else that would make your POCA Fest the best!",
+                  rows: 4,
+                  validator: ['string']
+                },
+                {
                   type: 'checkbox',
                   label: "I'd like to support affordable Acupuncture Education by donating $5 to POCA Tech!",
                   model: 'donate',
@@ -359,14 +369,17 @@
           modifiers: {
             payment: this.model.chosen,
             meal: this.model.meal,
-            linens: this.model.options.linens
+            linens: this.model.options.linens,
           } ,
           amount: this.total
         };
+        if (this.model.other !== "") {
+          payload.modifiers['other'] = this.model.other;
+        }
         Bus.$emit('updateAttendeeModel', payload);
       },
       calculateTotal() {
-        let total = 0
+        let total = 0;
         for (let i in this.model.chosen) {
           total += this.model.chosen[i].value;
         }
