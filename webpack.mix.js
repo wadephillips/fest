@@ -19,12 +19,25 @@ mix
     .sass('resources/sass/app.scss', 'public/css')
 
     .copy('resources/assets/img', 'public/img')
+    .extract()
     .browserSync({
       proxy: 'fest.pocacoop.test',
       open: false,
-      https:true
+      // https:true
     })
 if (! mix.inProduction()) {
   mix.sourceMaps();
+} else {
+  mix.webpackConfig({
+    resolve: {
+      // modules: [
+      //   path.resolve(__dirname, 'vendor/laravel/spark-aurelius/resources/assets/js'),
+      //   'node_modules'
+      // ],
+      alias: {
+        'vue$': 'vue/dist/vue.common.js'
+      }
+    }
+  }).version();
 }
 ;
