@@ -52,11 +52,13 @@
             one_day_pass: 125,
             one_day_add_ceu: 75,
             poca_tech_donation: 5,
+            linens: 15,
           },
           chosen: {},
           meal: {},
-          food: {
-          }
+          food: {},
+          options: {},
+          linens: "No"
         },
         schema: {
           groups: [
@@ -264,6 +266,29 @@
                   }
                 },
                 {
+                  type: "radios",
+                  label: "Do you need linens?",
+                  hint: "The Perlman Retreat Center will provide you with linens for $15 if you select Yes.",
+                  model: "linens",
+                  id: 'linens',
+                  dusk: 'linens',
+                  required: true,
+                  validator: ['string'],
+                  values: [
+                    "Yes",
+                    "No"
+                  ],
+                  set: function (model, value) {
+                    model.linens = value;
+                    let price = (value === 'Yes') ? model.prices.linens * 100 : 0;
+                    let description = value;
+                    model.options.linens = {
+                      value: price,
+                      description: description
+                    };
+                  }
+                },
+                {
                   type: 'checkbox',
                   label: "I'd like to support affordable Acupuncture Education by donating $5 to POCA Tech!",
                   model: 'donate',
@@ -333,7 +358,8 @@
           id: this.modelId,
           modifiers: {
             payment: this.model.chosen,
-            meal: this.model.meal
+            meal: this.model.meal,
+            linens: this.model.options.linens
           } ,
           amount: this.total
         };
@@ -342,9 +368,12 @@
       calculateTotal() {
         let total = 0
         for (let i in this.model.chosen) {
-          // console.log();
           total += this.model.chosen[i].value;
         }
+        for (let i in this.model.options) {
+          total += this.model.options[i].value;
+        }
+
         return total
       },
       submitForm(model, schema, $event) {

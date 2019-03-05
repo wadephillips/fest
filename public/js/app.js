@@ -3247,11 +3247,14 @@ __webpack_require__.r(__webpack_exports__);
           fso_child: 100,
           one_day_pass: 125,
           one_day_add_ceu: 75,
-          poca_tech_donation: 5
+          poca_tech_donation: 5,
+          linens: 15
         },
         chosen: {},
         meal: {},
-        food: {}
+        food: {},
+        options: {},
+        linens: "No"
       },
       schema: {
         groups: [{
@@ -3439,6 +3442,25 @@ __webpack_require__.r(__webpack_exports__);
               };
             }
           }, {
+            type: "radios",
+            label: "Do you need linens?",
+            hint: "The Perlman Retreat Center will provide you with linens for $15 if you select Yes.",
+            model: "linens",
+            id: 'linens',
+            dusk: 'linens',
+            required: true,
+            validator: ['string'],
+            values: ["Yes", "No"],
+            set: function set(model, value) {
+              model.linens = value;
+              var price = value === 'Yes' ? model.prices.linens * 100 : 0;
+              var description = value;
+              model.options.linens = {
+                value: price,
+                description: description
+              };
+            }
+          }, {
             type: 'checkbox',
             label: "I'd like to support affordable Acupuncture Education by donating $5 to POCA Tech!",
             model: 'donate',
@@ -3499,7 +3521,8 @@ __webpack_require__.r(__webpack_exports__);
         id: this.modelId,
         modifiers: {
           payment: this.model.chosen,
-          meal: this.model.meal
+          meal: this.model.meal,
+          linens: this.model.options.linens
         },
         amount: this.total
       };
@@ -3509,8 +3532,11 @@ __webpack_require__.r(__webpack_exports__);
       var total = 0;
 
       for (var i in this.model.chosen) {
-        // console.log();
         total += this.model.chosen[i].value;
+      }
+
+      for (var _i in this.model.options) {
+        total += this.model.options[_i].value;
       }
 
       return total;
@@ -3655,16 +3681,17 @@ window.axios.defaults.headers.common = {
         models: this.formModels,
         token: this.processorInfo.token,
         args: this.processorInfo.args // let note = axios.post(this.postPath,);
+        // console.log(payload);
+        //     .then( (response) => {
+        //   //if successful
+        //   if (response.status === 200) {
+        //     // $(self.modalId).modal('hide'); todo
+        //     Bus.$emit('noteUpdate', response.data.note);
+        //   }
+        //   return response.data.note;
+        // });
 
       };
-      console.log(payload); //     .then( (response) => {
-      //   //if successful
-      //   if (response.status === 200) {
-      //     // $(self.modalId).modal('hide'); todo
-      //     Bus.$emit('noteUpdate', response.data.note);
-      //   }
-      //   return response.data.note;
-      // });
     },
     addAttendee: function addAttendee() {
       this.attendees = parseInt(this.attendees) + 1;
@@ -63678,8 +63705,10 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-3" }, [
-        _c("h4", [
-          _vm._v("Attendee Total: $" + _vm._s(this.model.amount / 100))
+        _c("h4", { attrs: { dusk: "attendee-total-" + this.model.id } }, [
+          _vm._v(
+            "Attendee Total: $" + _vm._s((this.model.amount / 100).toFixed(2))
+          )
         ])
       ]),
       _vm._v(" "),

@@ -127,7 +127,7 @@
           args: this.processorInfo.args
         }
         // let note = axios.post(this.postPath,);
-        console.log(payload);
+        // console.log(payload);
 
         //     .then( (response) => {
         //   //if successful
