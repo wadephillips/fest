@@ -9,6 +9,7 @@
   <!-- Bootstrap CSS -->
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/regular.css" integrity="sha384-4Cp0kYV2i1JFDfp6MQAdlrauJM+WTabydjMk5iJ7A9D+TXIh5zQMd5KXydBCAUN4" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/brands.css" integrity="sha384-BKw0P+CQz9xmby+uplDwp82Py8x1xtYPK3ORn/ZSoe6Dk3ETP59WCDnX+fI1XCKK" crossorigin="anonymous">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/fontawesome.css" integrity="sha384-iD1qS/uJjE9q9kecNUe9R4FRvcinAvTcPClTz7NI8RI5gUsJ+eaeJeblG1Ex0ieh" crossorigin="anonymous">
 
   <title>@yield('title', config('app.name'))</title>
@@ -49,15 +50,18 @@
           3526 NE 57th Ave.<br/>
           Portland, OR 97213<br/>
         </address>
+        <p>
+          <a href="mailto:events@pocacoop.com"><i class="far fa-link"></i> Contact the Events Circle!</a>
+        </p>
       </div>
       <div class="col-md-4">
       </div>
       <div class="col-md-4">
         <h4>Social</h4>
-        <div class="list-group">
-          <a href="https://pocacoop.com/" class="list-group-item list-group-item-action">pocacoop.com</a>
-          <a href="https://facebook.com/groups/POCAChat/" class="list-group-item list-group-item-action">FB</a>
-          <a href="https://instagram.com/pocacooperative/" class="list-group-item list-group-item-action">The Gram</a>
+        <div class="">
+          <span class="p-1"><a href="https://pocacoop.com/" title="pocacoop.com"><i class="far fa-globe-americas fa-2x"></i></a></span>
+          <span class="p-1"><a href="https://facebook.com/groups/POCAChat/" title="Facebook"><i class="fab fa-facebook fa-2x"></i></a></span>
+          <span class="p-1"><a href="https://instagram.com/pocacooperative/" title="Instagram"><i class="fab fa-instagram fa-2x"></i></a></span>
         </div>
 
       </div>
