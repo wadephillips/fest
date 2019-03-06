@@ -23,8 +23,7 @@
         <div class="col-md-3">
           <stripe-payment-form
               class="m-3"
-              :purchaserEmail="formModels[0].email"
-              purchaserEmail="purchaserEmail"
+              :purchaserEmail="purchaserEmail"
               :models="formModels"
               :postPath="postPath"
               :event-name="eventName"
@@ -52,13 +51,9 @@
 </template>
 
 <script>
-  // import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
-  // import 'vue-form-generator/dist/vfg.css'
-  // import cleave from 'cleave.js'
+
   import Attendee from "./Attendee";
   import StripePaymentForm from "./StripePaymentForm";
-  // require('cleave.js/dist/addons/cleave-phone.us');
-  // require('cleave.js/dist/addons/cleave-phone.ca');
 
 
   window.axios.defaults.headers.common = {
@@ -70,7 +65,6 @@
     name: "RegistrationForm",
     components: {
       Attendee,
-      // "vue-form-generator": VueFormGenerator.component,
     },
     props: ['eventName'],
     data () {
