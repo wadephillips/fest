@@ -50,7 +50,7 @@ class RegistrationSuccessful extends Mailable
     {
 
         //todo resume: polish up the table to use new good info in the middle column, and add event info
-        return $this->from('wadelp@wadelp.com')
+        return $this->from(env('MAIL_FROM_ADDRESS'))
             ->markdown('emails.registration.success');
     }
 }
