@@ -20,10 +20,9 @@ class CreateBreakoutsTable extends Migration
           $table->string('slug');
           $table->date('date');
           $table->time('start');
-          $table->time('end');
-          $table->string('location');
+          $table->time('end')->nullable();
+          $table->string('location')->nullable();
           $table->string('description', 5000);
-//          $table->string('');
 
           $table->timestamps();
         });

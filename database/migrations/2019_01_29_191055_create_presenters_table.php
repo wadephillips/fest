@@ -17,7 +17,7 @@ class CreatePresentersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('credentials')->nullable();
-            $table->string('bio', 1000);
+            $table->string('bio', 5000);
 
 
           $table->timestamps();

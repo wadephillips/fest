@@ -8,7 +8,7 @@
         :name="name"
         :description="description"
         :currency="currency"
-        :amount="amount"
+        :amount="total"
         :allow-remember-me="false"
         :email="purchaserEmail"
         :zip-code="true"
