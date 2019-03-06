@@ -2,8 +2,7 @@
 # You're going to {{ $event->name }}!
 ## {{$event->dates}}
 
-**It's going to be exciting**
-
+Confirmation Number: {{$payment->id}}
 @component('mail::panel')
   @component('mail::table')
     | Attendee       | Registration Options        | Amount  |
@@ -28,6 +27,13 @@ Mukwonago, WI 53149
 On Friday, May 17 arrive as early as 3pm to catch Friday afternoon programming.
 We’ll say our goodbyes Sunday May 19, 2019 and depart the camp by 2pm.
 
+## How to get to POCA Fest
+
+### Skip says:
+> 1. Flying into Milwaukee, the airport is General Mitchell International Airport, MKE. Flying into Chicago, please note Chicago has two airports -  O’Hare (ORD) and Midway (MDW). O’Hare is closer to the Perlman Retreat Center. The Milwaukee airport is...I’m finding it difficult enough that I am flying into ORD: O’Hare in Chicago. (MKE tends to be more expensive to fly into but makes up for it with fewer flights into it. Conveniently enough the Perlman Retreat Center is southwest of Milwaukee). Check out both airports and rent a car or grab a shuttle. Here are links to two airport shuttle services - http://www.airportserviceinc.com - https://shuttlewizard.com. We’ll have threads in the POCA forums about ride sharing to either airport.
+>
+> 2. Why not drive? Here are some of the estimated driving times: Milwaukee 30 minutes, Madison 1.5 hours, Chicago 2 hours or less depending what part of the city you are driving from, Champaign 3.5 hours, Twin Cities 5 hours, Louisville 6 hours, Lincoln NE 8 hours, Buffalo 11 hours, Toronto 12 hours,  Denver 15 hours. ROAD TRIP!!!!!!!
+>
 
 ## What to bring
 
