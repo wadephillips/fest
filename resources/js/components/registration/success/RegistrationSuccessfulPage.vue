@@ -92,7 +92,7 @@
 
             <p><strong>SEE YOU THERE!</strong></p>
 
-            <p><strong>-Amy, Olive, and Skip - {{ env('APP_EVENT_HOST') }}</strong></p>
+            <p><strong>-Amy, Olive, and Skip - The POCA Events Circle</strong></p>
           </div>
         </div>
 
