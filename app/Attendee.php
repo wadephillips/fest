@@ -40,12 +40,12 @@ class Attendee extends Model
 
   public function event()
   {
-    return $this->hasOne(Event::class);
+    return $this->belongsTo(Event::class);
   }
 
   public function payment()
   {
-    return $this->hasOne(Payment::class);
+    return $this->belongsTo(Payment::class);
   }
 
   public function licenses()
