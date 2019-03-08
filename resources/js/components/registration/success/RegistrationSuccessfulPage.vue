@@ -45,7 +45,9 @@
             <blockquote>
               <ol>
                 <li>
-                  Flying into Milwaukee, the airport is General Mitchell International Airport, MKE. Flying into Chicago, please note Chicago has two airports - O’Hare (ORD) and Midway (MDW). O’Hare is closer to the Perlman Retreat Center. The Milwaukee airport is...I’m finding it difficult enough that I am flying into ORD: O’Hare in Chicago. (MKE tends to be more expensive to fly into but makes up for it with fewer flights into it. Conveniently enough the Perlman Retreat Center is southwest of Milwaukee). Check out both airports and rent a car or grab a shuttle. Here are links to two airport shuttle services - http://www.airportserviceinc.com - https://shuttlewizard.com. We’ll have threads in the POCA forums about ride sharing to either airport.
+                  Flying into Milwaukee, the airport is General Mitchell International Airport, MKE. Flying into Chicago, please note Chicago has two airports - O’Hare (ORD) and Midway (MDW). O’Hare is closer to the Perlman Retreat Center. The Milwaukee airport is...I’m finding it difficult enough that I am flying into ORD: O’Hare in Chicago. (MKE tends to be more expensive to fly into but makes up for it with fewer flights into it. Conveniently enough the Perlman Retreat Center is southwest of Milwaukee). Check out both airports and rent a car or grab a shuttle. Here are links to two airport shuttle services -
+                  <a href="http://www.airportserviceinc.com">http://www.airportserviceinc.com</a> - <a
+                    href="https://shuttlewizard.com">https://shuttlewizard.com</a>. We’ll have threads in the POCA forums about ride sharing to either airport.
                 </li>
 
                 <li>
@@ -73,8 +75,8 @@
             <h2>What to bring</h2>
 
             <p>The Perlman provides bedding! Bring a towel, sunscreen, soap, shampoo, toiletries, and good walking
-              shoes. The campground’s [sleeping quarters are in
-              dormitories](http://www.perlmanretreats.org/facilities/accommodations/dormitory-style/)</p>
+              shoes. The campground’s <a href="http://www.perlmanretreats.org/facilities/accommodations/dormitory-style/">sleeping quarters are in
+                dormitories</a></p>
 
           <h2>What else to bring</h2>
 
