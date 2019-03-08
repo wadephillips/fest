@@ -2,7 +2,7 @@
   <div class="row">
     <div class="card-deck">
       <div class="card">
-        <div class="card-header"><h4 class="m-0">Friday</h4></div>
+        <div class="card-header bg-info"><h4 class="m-0">Friday</h4></div>
         <div class="card-body">
           <div class="pb-4">
             <h5>3:00-4:00 pm - Breakout 1</h5>
@@ -36,7 +36,7 @@
       </div>
 
       <div class="card">
-        <div class="card-header"><h4 class="m-0">Saturday</h4></div>
+        <div class="card-header bg-info"><h4 class="m-0">Saturday</h4></div>
         <div class="card-body">
           <div class="pb-4">
             <h5>7:00 am - Taijiquan as Daily Self-Care - Jack Lavin</h5>
@@ -111,7 +111,7 @@
       </div>
 
       <div class="card">
-        <div class="card-header"><h4 class="m-0">Sunday</h4></div>
+        <div class="card-header bg-info"><h4 class="m-0">Sunday</h4></div>
         <div class="card-body">
           <div class="pb-4">
             <h5>7:00 am - Taijiquan as Daily Self-Care - Jack Lavin</h5>

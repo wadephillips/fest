@@ -35,6 +35,12 @@ We’ll say our goodbyes Sunday May 19, 2019 and depart the camp by 2pm.
 > 2. Why not drive? Here are some of the estimated driving times: Milwaukee 30 minutes, Madison 1.5 hours, Chicago 2 hours or less depending what part of the city you are driving from, Champaign 3.5 hours, Twin Cities 5 hours, Louisville 6 hours, Lincoln NE 8 hours, Buffalo 11 hours, Toronto 12 hours,  Denver 15 hours. ROAD TRIP!!!!!!!
 >
 
+### Driving
+Here is a [map that provides driving directions from Milwaukee, Chicago, 	Madison and the Twin Cities](http://www.perlmanretreats.org/contact/directions-map/)
+
+**Please note:** for some reason, sometimes Waze or Google Maps will indicate you have arrived about a mile sooner than it should be.  So, please note these more specific directions. Once you are on County Road J, heading west,  go 2.25 miles and look for the Perlman Retreat Center sign on your right.  It will be a quarter mile after the Beber Camp sign.  If coming from the east on County Road J, watch for the Perlman Retreat Center sign on your left.  *If you see the Beber Camp sign on your right, you have gone too far.*
+
+
 ## What to bring
 
 The Perlman provides bedding!  Bring a towel, sunscreen, soap, shampoo, toiletries, and good walking shoes. The campground’s [sleeping quarters are in dormitories](http://www.perlmanretreats.org/facilities/accommodations/dormitory-style/)
