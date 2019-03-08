@@ -104,6 +104,8 @@
 
         <template slot="default">
           <div class="col-md-6">
+            <p>
+              POCA Fest Milwaukee will be held at <a href="http://www.perlmanretreats.org/">Perlman Retreat Center</a>.</p>
             <location-address
                 :address="this.event.address"
                 :address_2="this.event.address_2"
@@ -113,6 +115,18 @@
                 :state="this.event.state"
                 :suite="this.event.suite"
             ></location-address>
+            <p>
+              Here are <a href="http://www.perlmanretreats.org/contact/directions-map/">driving directions from Milwaukee, Chicago, Madison, and the Twin
+              Cities</a>.</p>
+
+            <p>
+              <strong>Please note:</strong> for some reason, sometimes Waze or Google Maps will indicate you have
+              arrived about a mile sooner than it should be. So, please note these more specific direction. Once you are
+              on County Road J, heading west, go 2.25 miles and look for the Perlman Retreat Center sign on your right.
+              It will be a quarter mile after the Beber Camp sign. If coming from the east on County Road J, watch for
+              the Perlman Retreat Center sign on your left.
+              <em>If you see the Beber Camp sign on your right, you have gone too far.</em>
+            </p>
           </div>
         </template>
         <template slot="image-right">
