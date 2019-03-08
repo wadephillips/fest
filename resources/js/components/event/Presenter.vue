@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-info">
         <span>{{this.decoratedName}}</span>
         <span v-if="this.presenter.credentials !== null && this.presenter.credentials !== ''">{{this.presenter.credentials}}</span>
     </div>
