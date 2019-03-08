@@ -16,9 +16,9 @@ use App\Event;
 use App\Mail\RegistrationSuccessful;
 use App\Payment;
 
-Route::get('mailable', function () {
+Route::get('mailable/{id?}', function ($id = '17dcd8a0-3c68-11e9-9bc5-6d532e289ce0') {
 
-  $payment = Payment::find('17dcd8a0-3c68-11e9-9bc5-6d532e289ce0');
+  $payment = Payment::find($id);
   $payment_id = $payment->id;
   $event_id = $payment->event_id;
   $event = Event::find($event_id);

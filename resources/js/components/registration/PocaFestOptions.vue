@@ -71,6 +71,10 @@
                   type: "radios",
                   label: "How are you attending POCA Fest?",
                   model: "registration_type",
+                  id: 'registration_type',
+                  attributes: {
+                    "name" :  'attendee_' + this.modelId + '_registration_type'
+                  },
                   required: true,
                   values: [
                     {name: "Three Day Pass - Overnight Stay", value: "three_day_overnight_pass"},
@@ -106,18 +110,7 @@
 
                     price = model.prices[key] * 100
 
-                    // if (keys.length === 0) {
-                    //   price = model.prices[key] * 100
-                    // } else if (
-                    //     ['fso_adult', 'fso_child', 'add_ceu_one_day_pass', 'poca_tech_donation' ].indexOf(oldKey) ||
-                    //     ['fso_adult', 'fso_child', 'add_ceu_one_day_pass', 'poca_tech_donation'].indexOf(key) !== -1) {
-                    //   price = model.prices[key] * 100;
-                    // } else {
-                    //   price = model.chosen[oldKey];
-                    // }
 
-                    //todo this approach is causing problems we should explicityly set and unset values rather tham wiping the object
-                    // model.chosen = {};
 
                     if (model.chosen.hasOwnProperty(oldKey) && model.chosen.hasOwnProperty('one_day_add_ceu')) {
                       delete model.chosen.one_day_add_ceu
@@ -271,6 +264,10 @@
                   label: "Do you need linens?",
                   hint: "The Perlman Retreat Center will provide you with linens for $15 if you select Yes.",
                   model: "linens",
+                  // inputName: 'attendee_' + this.modelId + '_linens',
+                  attributes: {
+                      "name" :  'attendee_' + this.modelId + '_linens'
+                  },
                   id: 'linens',
                   dusk: 'linens',
                   required: true,
@@ -282,7 +279,7 @@
                   set: function (model, value) {
                     model.linens = value;
                     let price = (value === 'Yes') ? model.prices.linens * 100 : 0;
-                    let description = value;
+                    let description = "Linens: " + value;
                     model.options.linens = {
                       value: price,
                       description: description
@@ -363,18 +360,28 @@
     methods: {
       formUpdated: function () {
 
+        //calculate the current total for the attendee
         this.total = this.calculateTotal();
+
+        // copy and assign chosen attendance options to payment
+        let payment = Object.assign({}, this.model.chosen);
+        // add linens to payment object
+        payment.linens = this.model.options.linens;
+
+        //build the payload
         let payload = {
           id: this.modelId,
           modifiers: {
-            payment: this.model.chosen,
+            payment: payment,
             meal: this.model.meal,
-            linens: this.model.options.linens,
+           // linens: this.model.options.linens, //move this into the payment object
           } ,
           amount: this.total
         };
+
         if (this.model.other !== "") {
-          payload.modifiers['other'] = this.model.other;
+          let obj = {other: {value: this.model.other,  description: this.model.other}};
+          payload.modifiers['other'] = obj;
         }
         Bus.$emit('updateAttendeeModel', payload);
       },
@@ -389,10 +396,10 @@
 
         return total
       },
-      submitForm(model, schema, $event) {
-        $event.preventDefault();
-        console.log(model);
-      }
+      // submitForm(model, schema, $event) {
+      //   $event.preventDefault();
+      //   console.log(model);
+      // }
     },
     mounted() {
       let wildcardSelector = 'attendee_' + this.model.id + '_rs';

@@ -24,20 +24,31 @@ class LinenRadioTest extends DuskTestCase
       $browser->press('@add-attendee-btn')
           ->assertSeeIn('@poca-fest-options-1', 'Do you need linens?');
 
-      $browser->radio('linens', 'Yes');
+      $browser->radio('input[id^="attendee_0_linens"]', 'Yes');
+
+      $browser->assertRadioSelected('input[id^="attendee_0_linens"]', 'Yes');
+
       $browser->radio('input[id^="attendee_1_linens"][value=Yes]', 'Yes');
 
+      $browser->assertRadioSelected('input[id^="attendee_0_linens"]', 'Yes');
+      $browser->assertRadioSelected('input[id^="attendee_1_linens"][value=Yes]', 'Yes');
 
-      $browser->assertVue('formModels[0].modifiers.linens.description', 'Yes', '@registration-form');
-      $browser->assertVue('formModels[1].modifiers.linens.description', 'Yes', '@registration-form');
+
+      $browser->assertVue('formModels[0].modifiers.payment.linens.description', 'Linens: Yes', '@registration-form');
+      $browser->assertVue('formModels[1].modifiers.payment.linens.description', 'Linens: Yes', '@registration-form');
       $browser->assertSeeIn('@attendee-total-0', '$15.00');
       $browser->assertSeeIn('@attendee-total-1', '$15.00');
       $browser->assertVue('total', 3000,'@registration-form');
 
-      $browser->radio('input[id^="attendee_0_linens"][value=No]', 'No');
+      $browser->radio('input[id^="attendee_0_linens"][value=No]', 'Linens: No');
 
-      $browser->assertVue('formModels[0].modifiers.linens.description', 'No', '@registration-form');
-      $browser->assertVue('formModels[1].modifiers.linens.description', 'Yes', '@registration-form');
+      $browser->assertRadioNotSelected('input[id^="attendee_0_linens"]', 'Yes');
+      $browser->assertRadioSelected('attendee_0_linens', 'No');
+      $browser->assertRadioSelected('input[id^="attendee_1_linens"][value=Yes]', 'Yes');
+
+
+      $browser->assertVue('formModels[0].modifiers.payment.linens.description', 'Linens: No', '@registration-form');
+      $browser->assertVue('formModels[1].modifiers.payment.linens.description', 'Linens: Yes', '@registration-form');
       $browser->assertSeeIn('@attendee-total-0', '$0.00');
       $browser->assertSeeIn('@attendee-total-1', '$15.00');
       $browser->assertVue('total', 1500,'@registration-form');
