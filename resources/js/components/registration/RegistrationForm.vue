@@ -4,7 +4,7 @@
     <form @submit.prevent="handleSubmit" id="registrationForm" >
       <input type="hidden" name="_token" :value="csrf">
 
-      <div v-for="model in formModels">
+      <div v-for="model in formModels" :key="model.id">
         <attendee :key="model.id" :model="model"></attendee>
       </div>
 
