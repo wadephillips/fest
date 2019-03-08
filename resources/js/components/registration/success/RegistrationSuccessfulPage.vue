@@ -55,6 +55,21 @@
 
             </blockquote>
 
+            <h3>Driving</h3>
+            <p>
+              Here is a <a href="http://www.perlmanretreats.org/contact/directions-map/">map that provides driving directions from Milwaukee, Chicago, Madison and the Twin
+              Cities</a></p>
+
+            <p>
+              <strong>Please note:</strong> for some reason, sometimes Waze or Google Maps will indicate you have
+              arrived about a mile sooner than it should be. So, please note these more specific direction. Once you are
+              on County Road J, heading west, go 2.25 miles and look for the Perlman Retreat Center sign on your right.
+              It will be a quarter mile after the Beber Camp sign. If coming from the east on County Road J, watch for
+              the Perlman Retreat Center sign on your left.
+              <em>If you see the Beber Camp sign on your right, you have gone too far.</em>
+            </p>
+
+
             <h2>What to bring</h2>
 
             <p>The Perlman provides bedding! Bring a towel, sunscreen, soap, shampoo, toiletries, and good walking

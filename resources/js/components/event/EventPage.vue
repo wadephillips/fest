@@ -3,25 +3,25 @@
     <nav-menu :linkObjects="this.links" ></nav-menu>
     <div data-offset="0" data-spy="scroll" data-target="#eventNavbar">
       <!--Hero-->
-      <info-section>
+      <info-section id="home" class="pt-5">
         <template slot="heading">
-          <h1 class="text-center">{{event.name}}</h1>
+          <h1 class="text-center py-3">{{event.name}}</h1>
         </template>
 
         <template slot="subheading">
-          <h3 class="text-center">{{this.eventDates}}</h3>
+          <h3 class="text-center py-3">{{this.eventDates}}</h3>
         </template>
 
         <template slot="default">
           <div class="col-md">
-            <p class="lead">{{ event.description}}</p>
+            <p class="lead py-5">{{ event.description}}</p>
           </div>
         </template>
 
       </info-section>
 
       <hr>
-      <info-section id="theme">
+      <info-section id="theme" >
         <template slot="heading">
           <h2 class="text-center">Theme</h2>
         </template>
@@ -268,5 +268,34 @@
 </script>
 
 <style scoped>
+  #home {
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+    ), url(/img/Milwaukeedowntown.jpg);
+  }
+  #auricular {
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+    ), url(/img/sailboat.jpg);
+  }
+  #home, #auricular {
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: table;
+    height: 500px;
+    position: relative;
+    width: 100%;
+     -webkit-background-size: cover;
+     -moz-background-size: cover;
+     -o-background-size: cover;
+    background-size: cover;
+    color:white;
+    text-align: center;
+    vertical-align: center;
+  }
 
 </style>
