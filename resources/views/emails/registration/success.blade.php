@@ -5,8 +5,8 @@
 Confirmation Number: {{$payment->id}}
 @component('mail::panel')
   @component('mail::table')
-    | Attendee       | Registration Options        | Amount  |
-    | ------------- |:-------------:| ------------:|
+    | Attendee       | Registration Options| Amount  |
+    | ---------- | :--------  | ------------|
     @foreach($attendees as $attendee)
       | {{$attendee['name']}}  | <ul>@foreach($attendee['descriptions'] as $description) <li>{{ $description }}</li> @endforeach</ul> | ${{ $attendee['total'] / 100 }}.00 |
     @endforeach
