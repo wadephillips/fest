@@ -19,7 +19,7 @@ class CreateEventFeesTable extends Migration
             $table->string('label');
             $table->string('slug');
             $table->integer('amount_min');
-            $table->integer('amount_max');
+            $table->integer('amount_max')->nullable();
             $table->string('info')->nullable();
             $table->date('available_on')->nullable();
             $table->date('unavailable_on')->nullable();
