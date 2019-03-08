@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div class="container">
     <div class="row">
       <div class="col-sm">
@@ -14,6 +14,12 @@
             <a id="pf-toronto-photos-btn" class="btn btn-outline-secondary" href="https://www.pocacoop.com/forums/viewthread/9088/" role="button" dusk="pf-toronto-pictures-button">Pictures from POCA Fest Toronto!</a>
           </template>
         </hero>
+
+        <div class="row">
+          <div class="col-md-12">
+            <attendee-table :attendees="this.attendees" :total="this.payment.amount"></attendee-table>
+          </div>
+        </div>
 
         <div class="row mb-4">
           <div class="col-md-8 offset-md-2">
@@ -58,7 +64,7 @@
           <h2>What else to bring</h2>
 
             <ol>
-              <li>1. If you have a clinic bring business cards- a mess of ‘em-to exchange with other clinics. There
+              <li>If you have a clinic bring business cards- a mess of ‘em-to exchange with other clinics. There
                 will be a table laid out for this. Remember! We are all in this together! Support the other POCA clinics
                 by using the cards to refer patients!
               </li>
@@ -87,7 +93,7 @@
             <a href="https://www.pocacoop.com/forums/viewthread/9215/" class="btn btn-primary">Ride share information</a>
 
 
-            <p><strong>ANY QUESTIONS PLEASE [EMAIL US](mailto:pocafest@pocacoop.com) OR CHECK THE POCA FORUMS</strong>
+            <p><strong>ANY QUESTIONS PLEASE <a href="mailto:pocafest@pocacoop.com">EMAIL US</a> OR CHECK THE POCA FORUMS</strong>
             </p>
 
             <p><strong>SEE YOU THERE!</strong></p>
@@ -96,11 +102,7 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-md-12">
-            <attendee-table :attendees="this.attendees" :total="this.payment.amount"></attendee-table>
-          </div>
-        </div>
+        <hr>
 
 
 

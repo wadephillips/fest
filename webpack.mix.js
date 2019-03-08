@@ -23,7 +23,7 @@ mix
     .browserSync({
       proxy: 'fest.pocacoop.test',
       open: false,
-      // https:true
+      https:true
     })
 if (! mix.inProduction()) {
   mix.sourceMaps();
