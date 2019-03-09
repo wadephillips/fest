@@ -2,15 +2,12 @@
 
 namespace App\Mail;
 
-//use App\Attendee;
-//use App\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Arr;
 
-class RegistrationSuccessful extends Mailable
+class RegistrationSuccessful extends Mailable  implements ShouldQueue
 {
     use Queueable, SerializesModels;
   /**
