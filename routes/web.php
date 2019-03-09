@@ -15,6 +15,7 @@ use App\Attendee;
 use App\Event;
 use App\Mail\RegistrationSuccessful;
 use App\Payment;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('mailable/{id?}', function ($id = '17dcd8a0-3c68-11e9-9bc5-6d532e289ce0') {
 
@@ -23,6 +24,7 @@ Route::get('mailable/{id?}', function ($id = '17dcd8a0-3c68-11e9-9bc5-6d532e289c
   $event_id = $payment->event_id;
   $event = Event::find($event_id);
   $attendees = Attendee::where('payment_id', $payment_id)->get();
+  Mail::to($attendees[0]->email)->send(new RegistrationSuccessful($attendees, $payment, $event));
   return new RegistrationSuccessful($attendees, $payment, $event);
 });
 
