@@ -17,16 +17,18 @@ use App\Mail\RegistrationSuccessful;
 use App\Payment;
 use Illuminate\Support\Facades\Mail;
 
-Route::get('mailable/{id?}', function ($id = '17dcd8a0-3c68-11e9-9bc5-6d532e289ce0') {
-
-  $payment = Payment::find($id);
-  $payment_id = $payment->id;
-  $event_id = $payment->event_id;
-  $event = Event::find($event_id);
-  $attendees = Attendee::where('payment_id', $payment_id)->get();
-  Mail::to($attendees[0]->email)->send(new RegistrationSuccessful($attendees, $payment, $event));
-  return new RegistrationSuccessful($attendees, $payment, $event);
-});
+//route for testing emails
+//Route::get('mailable/{id?}', function ($id = '17dcd8a0-3c68-11e9-9bc5-6d532e289ce0') {
+//
+//  $payment = Payment::find($id);
+//  $payment->load('payer');
+//  $payment_id = $payment->id;
+//  $event_id = $payment->event_id;
+//  $event = Event::find($event_id);
+//  $attendees = Attendee::where('payment_id', $payment_id)->get();
+//  Mail::to($attendees[0]->email)->send(new RegistrationSuccessful($attendees, $payment, $event));
+//  return new RegistrationSuccessful($attendees, $payment, $event);
+//});
 
 Route::get('/', 'EventController@index');
 
