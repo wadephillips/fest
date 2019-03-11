@@ -45,7 +45,7 @@ class RegistrationSuccessful extends Mailable  implements ShouldQueue
      */
     public function build()
     {
-      
+
         return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
             ->markdown('emails.registration.success');
     }

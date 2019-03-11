@@ -55,12 +55,11 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event) //TODO Add type hint back once we're ready to begin building out the model
+    public function show(Event $event)
     {
           $event->load(['breakouts.presenters', 'fees']);
           $presenters = $event->presenters;
           return view('event.index', compact('event', 'presenters'));
-//        return response($presenters, 200);
     }
 
     /**

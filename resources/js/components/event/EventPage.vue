@@ -42,7 +42,7 @@
               care
               of in order to be a sustainable small business. Many of the Breakouts relate to this hierarchy (and you
               can
-              read about it in Prick, Prod, and Provoke https://www.pocacoop.com/prick-prod-provoke/)</p>
+              <a href="https://www.pocacoop.com/prick-prod-provoke/">read about it in Prick, Prod, and Provoke</a>)</p>
             <p>2) We will also be hosting our first auricular training for punks and non punks led by Ellen Vincent,
               Caroline Picker, Susan Williams, Amy Severinsen and Olivia Crane. (For a full description of this, read
               below,
