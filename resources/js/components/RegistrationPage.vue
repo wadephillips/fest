@@ -3,8 +3,8 @@
   <div class="m-3">
     <h1>Register for {{event.name}}</h1>
 
-    <h2>{{event.city}}</h2>
-    <!--todo reformat with moment-->
+    <h3>{{event.location_name}} - {{event.city}}</h3>
+
     <h4>{{ eventDates }}</h4>
     <registration-form :event-name="event.name" dusk="registration-form"></registration-form>
     <div class="container">
