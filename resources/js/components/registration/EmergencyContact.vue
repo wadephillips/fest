@@ -22,7 +22,6 @@
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
 
-  //todo: this isn't working try adding formOptions or id to computed
   export default {
     name: "EmergencyContact",
     components: {

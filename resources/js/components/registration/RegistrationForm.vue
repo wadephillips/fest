@@ -126,7 +126,7 @@
         //     .then( (response) => {
         //   //if successful
         //   if (response.status === 200) {
-        //     // $(self.modalId).modal('hide'); todo
+        //     // $(self.modalId).modal('hide');
         //     Bus.$emit('noteUpdate', response.data.note);
         //   }
         //   return response.data.note;
