@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0fdfe2f95b9a81f699b7c7be2071c02",
+    "content-hash": "545fe820fe3bc56d933edf1bb82193f3",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -989,6 +989,46 @@
                 "parser"
             ],
             "time": "2018-03-08T01:11:30+00:00"
+        },
+        {
+            "name": "extended-bread-form-fields",
+            "version": "v0.2-beta",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bnku/extended-bread-form-fields.git",
+                "reference": "v0.2-beta"
+            },
+            "require": {
+                "larapack/hooks": "^1.0.5"
+            },
+            "type": "library",
+            "extra": {
+                "hook": {
+                    "providers": [
+                        "ExtendedBreadFormFields\\ExtendedBreadFormFieldsServiceProvider"
+                    ],
+                    "views": [
+                        "resources/vievs"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ExtendedBreadFormFields\\": "src/"
+                }
+            },
+            "notification-url": "https://larapack.io/downloads",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "bnku",
+                    "email": "bnku@ya.ru"
+                }
+            ],
+            "description": "Extended FormFields hook interface to Voyager BREAD",
+            "time": "2019-03-11T12:03:18+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -6609,7 +6649,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "extended-bread-form-fields": 10
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
