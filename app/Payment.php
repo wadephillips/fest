@@ -36,7 +36,7 @@ class Payment extends Model
 
   public function payer()
   {
-    return $this->hasOne('App\Attendee');
+    return $this->belongsTo('App\Attendee', 'payer_id', 'id');
   }
 
   public function paidFor()
