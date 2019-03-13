@@ -2,7 +2,10 @@
 
 namespace App;
 
+use Hashids\Hashids;
 use Illuminate\Database\Eloquent\Model;
+use function secure_url;
+use function var_dump;
 
 class Event extends Model
 {
@@ -61,6 +64,14 @@ class Event extends Model
         ->flatten(1)
         ->unique('id')
         ->sortBy('id');
+  }
+
+  public function getPresenterUrlAttribute()
+  {
+    $hashId = new Hashids(env('HASH_ID_SALT'), 8);
+    $code = $hashId->encode($this->id);
+//    dd(secure_url('/events/' . $this->slug . '/presenter/' . $code));
+    return secure_url('/events/' . $this->slug . '/presenter/' . $code);
   }
 
 

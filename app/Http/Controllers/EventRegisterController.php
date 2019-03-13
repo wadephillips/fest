@@ -16,6 +16,7 @@ use function compact;
 use function dd;
 use function env;
 use Exception;
+use Hashids\Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -31,6 +32,8 @@ use function var_dump;
 
 class EventRegisterController extends Controller
 {
+  private $presenter = false;
+
 
 
   /**
@@ -52,10 +55,22 @@ class EventRegisterController extends Controller
    */
   public function show(Event $event)
   {
-
-    return view('event.register', compact('event'));
+    $presenter = $this->presenter;
+    return view('event.register', compact('event', 'presenter'));
   }
 
+  public function showPresenter(Event $event, $code)
+  {
+
+  }
+
+  private function verifyPresenter($id, $code, $salt = '')
+  {
+    $hashId = new Hashids($salt, 8);
+    $decoded = $hashId->decode($code);
+
+    return (!empty($decoded) && $decoded[0] == $id);
+  }
   /**
    * Process an event registration.
    *
