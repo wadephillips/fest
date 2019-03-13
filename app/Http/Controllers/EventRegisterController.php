@@ -61,7 +61,8 @@ class EventRegisterController extends Controller
 
   public function showPresenter(Event $event, $code)
   {
-
+    $this->presenter = $presenter = $this->verifyPresenter($event->id, $code, env('HASH_ID_SALT'));
+    return view('event.register', compact('event', 'presenter'));
   }
 
   private function verifyPresenter($id, $code, $salt = '')

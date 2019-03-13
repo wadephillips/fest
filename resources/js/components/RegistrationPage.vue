@@ -1,12 +1,15 @@
 
 <template>
   <div class="m-3">
-    <h1>Register for {{event.name}}</h1>
+    <h1 v-if="this.presenter">Presenter Registration for {{event.name}}</h1>
+    <h1 v-else>Register for {{event.name}}</h1>
 
     <h3>{{event.location_name}} - {{event.city}}</h3>
 
     <h4>{{ eventDates }}</h4>
+
     <registration-form :event-name="event.name" dusk="registration-form"></registration-form>
+
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -38,7 +41,7 @@
   export default {
     name: "RegistrationPage",
     components: {NavMenu, RegistrationForm, Policy},
-    props: ['event'],
+    props: ['event', 'presenter'],
     mixins: [dates],
   }
 </script>

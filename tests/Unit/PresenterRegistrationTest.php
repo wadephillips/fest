@@ -92,5 +92,45 @@ class PresenterRegistrationTest extends TestCase
 
   }
 
+  public function testItHasAValidRouteCorespondingToThePresenterUrlAttribute()
+  {
+    $event= $this->event;
+    $url = $event->presenterUrl;
+    $code = $this->hashids->encode($event->id);
+    $result = $this->get($url);
+    $result->assertOk();
+    $result->assertViewIs('event.register');
+    $result->assertViewHasAll(['event','presenter']);
+    $result->assertViewHas('presenter', true);
+  }
+
+  public function testTryingToAccessTheRouteWithAnMadeUpCodeTakesYouToTheMainRegistrationForm()
+  {
+    $event = $this->event;
+//    $url = $event->presenterUrl;
+//    $code = $this->hashids->encode($event->id);
+    $userGeneratedCode = 'wywy5yc7';
+    $badUrl = secure_url('/events/' . $event->slug . '/presenter/' . $userGeneratedCode);
+    $result = $this->get($badUrl);
+    $result->assertOk();
+    $result->assertViewIs('event.register');
+    $result->assertViewHasAll([ 'event', 'presenter' ]);
+    $result->assertViewHas('presenter', false);
+
+  }
+
+  public function testTryingToAccessTheRouteWithAnInvalidCodeTakesYouToTheMainRegistrationForm()
+  {
+    $event= $this->event;
+    $code = $this->hashids->encode($event->id + 1);
+    $badUrl = secure_url('/events/' . $event->slug . '/presenter/' . $code);
+    $result = $this->get($badUrl);
+    $result->assertOk();
+    $result->assertViewIs('event.register');
+    $result->assertViewHasAll(['event','presenter']);
+    $result->assertViewHas('presenter', false);
+
+  }
+
 
 }
