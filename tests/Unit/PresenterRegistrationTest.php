@@ -57,7 +57,7 @@ class PresenterRegistrationTest extends TestCase
     $controller = App::make(EventRegisterController::class);
     $method = $this->getPrivateMethod(EventRegisterController::class, 'verifyPresenter');
     $result = $method->invokeArgs($controller, [$this->event->id, $this->code, $this->salt ]);
-    $this->assertTrue($result);
+    $this->assertTrue($result === true);
 
   }
 
@@ -68,7 +68,7 @@ class PresenterRegistrationTest extends TestCase
     $invalidCode = $this->hashids->encode(5);
 
     $result = $method->invokeArgs($controller, [$this->event->id, $invalidCode , $this->salt ]);
-    $this->assertFalse($result);
+    $this->assertTrue($result === false);
 
   }
 
@@ -76,10 +76,10 @@ class PresenterRegistrationTest extends TestCase
   {
     $controller = App::make(EventRegisterController::class);
     $method = $this->getPrivateMethod(EventRegisterController::class, 'verifyPresenter');
-    $invalidCode = $this->hashids->encode(5);
+//    $invalidCode = $this->hashids->encode(5);
 
     $result = $method->invokeArgs($controller, [$this->event->id, $this->code, 'bad salt' ]);
-    $this->assertFalse($result);
+    $this->assertTrue($result === false);
 
   }
 

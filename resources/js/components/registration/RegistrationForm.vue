@@ -5,7 +5,7 @@
       <input type="hidden" name="_token" :value="csrf">
 
       <div v-for="model in formModels" :key="model.id">
-        <attendee :key="model.id" :model="model"></attendee>
+        <attendee :key="model.id" :model="model" :presenter="presenter"></attendee>
       </div>
 
       <div class="row">
@@ -66,7 +66,7 @@
     components: {
       Attendee,
     },
-    props: ['eventName'],
+    props: ['eventName', 'presenter'],
     data () {
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),

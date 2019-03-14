@@ -8,7 +8,7 @@
 
     <h4>{{ eventDates }}</h4>
 
-    <registration-form :event-name="event.name" dusk="registration-form"></registration-form>
+    <registration-form :event-name="event.name" :presenter="this.presenter" dusk="registration-form" ></registration-form>
 
     <div class="container">
       <div class="row">

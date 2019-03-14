@@ -32,8 +32,16 @@ use function var_dump;
 
 class EventRegisterController extends Controller
 {
-  private $presenter = false;
+  private $presenter;
 
+  /**
+   * EventRegisterController constructor.
+   * @param $presenter
+   */
+  public function __construct()
+  {
+    $this->presenter = false;
+  }
 
 
   /**
