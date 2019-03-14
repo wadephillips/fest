@@ -70,7 +70,7 @@
     data () {
       return {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        postPath: window.location.pathname,
+        postPath: this.getPostPath(),
         attendees: 1,
         form: {
           errors: []
@@ -160,6 +160,17 @@
 
         let wildcardSelector = 'attendee_' + index + '_rs';
         $('label[for^="' + wildcardSelector + '"]').each(function() { $(this).parent().hide()});
+      },
+      getPostPath(){
+        let path = '';
+        if (this.presenter){
+          let temp_path = window.location.pathname;
+          let index = temp_path.indexOf('presenter');
+          path = temp_path.slice(0, index) + 'register';
+        } else {
+          path = window.location.pathname;
+        }
+        return path;
       }
     },
     computed: {
