@@ -118,7 +118,6 @@
                     }
 
                     if (model.chosen.hasOwnProperty(oldKey)) {
-                      console.log('deleting it');
                       delete model.chosen[oldKey]
                     }
 
