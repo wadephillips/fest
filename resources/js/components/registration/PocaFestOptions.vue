@@ -28,7 +28,7 @@
       "vue-form-generator": VueFormGenerator.component,
       rangeSlider
     },
-    props: ['model-id'],
+    props: ['model-id', 'presenter'],
     data() {
       return {
         id: null,
@@ -42,6 +42,7 @@
           registration_type: '',
           donate: 0,
           prices: {
+            presenter: 150,
             three_day_overnight_pass: 300,
             three_day_day_only: 250,
             ear_training_overnight: 300,
@@ -147,6 +148,25 @@
                 },
                 {
                   type: "rangeSlider",
+                  label: "Sliding Scale, set your price - Presenter Three Day Pass - $100 - $300",
+                  model: 'prices.presenter',
+                  id: 'rs_presenter',
+                  attributes: {
+                    "name" :  'attendee_' + this.modelId + '_rs_presenter',
+                    'dusk' : 'presenter-rs-' + this.modelId
+                  },
+                  min: 100,
+                  max: 300,
+                  rangeSliderOptions: {
+                    force_edges: true,
+                    prefix: '$',
+                  },
+                  set: function (model, value) {
+                    model.chosen.presenter.value = value * 100
+                  }
+                },
+                {
+                  type: "rangeSlider",
                   label: "Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500",
                   model: 'prices.three_day_day_only',
                   id: 'rs_three_day_day_only',
@@ -229,6 +249,10 @@
                   label: "Food Preference",
                   model: "food.type",
                   id: 'meal_type',
+                  attributes: {
+                    "name" :  'attendee_' + this.modelId + '_meal_type'
+                    //todo resume
+                  },
                   dusk: 'meal_type',
                   required: true,
                   validator: ['string'],
@@ -407,6 +431,11 @@
       $('label[for^="' + wildcardSelector + '"]').each(function () {
         $(this).parent().hide()
       });
+
+      //if this is a presenter registration lets add an option to the registration type
+      if (this.presenter) {
+        this.schema.groups[0].fields[0].values.unshift({name:"Presenter Three Day Pass", value:"presenter"})
+      }
     }
   }
 </script>
