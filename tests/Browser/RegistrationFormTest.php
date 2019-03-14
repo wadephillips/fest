@@ -223,7 +223,7 @@ class RegistrationFormTest extends DuskTestCase
       $browser->visit($this->url)
           ->assertSee('Poca Fest');
 
-      $browser->radio('registration_type', 'three_day_overnight_pass')
+      $browser->radio('input[id^="attendee_0_registration_type"]', 'three_day_overnight_pass')
           ->assertSee('Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500')
           ->dragRight('.irs-single', 10)
 //          ->assertVue('wade','the bomb', '@poca-fest-options-0')

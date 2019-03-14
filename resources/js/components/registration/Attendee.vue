@@ -21,7 +21,7 @@
       </div>
 
       <div class="col-md-9">
-        <poca-fest-options :dusk="'poca-fest-options-' + this.model.id" :key="this.model.id" :model-id="this.model.id"></poca-fest-options>
+        <poca-fest-options :dusk="'poca-fest-options-' + this.model.id" :key="this.model.id" :model-id="this.model.id" :presenter="this.presenter"></poca-fest-options>
       </div>
       
     </div>
@@ -39,7 +39,7 @@
       EmergencyContact,
       AttendeeDetails,
       PocaFestOptions},
-    props: ['model'],
+    props: ['model', 'presenter'],
     data() {
       return {
       }
