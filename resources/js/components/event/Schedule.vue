@@ -104,7 +104,7 @@
           <div class="pb-4">
             <h5>6:45-8:00 pm PAAAARTY</h5>
             <ul class="list-group">
-              <li class="list-group-item"> At the MCU! Olive and Amy and the rest at Milwaukee CA are inviting us to hang out at their place with drinks/food and possibly a nearby restaurant. A bus will leave Pearlman Center to take us to and back.</li>
+              <li class="list-group-item"> At Milwaukee Community Acupuncture! Olive and Amy and the rest at Milwaukee CA are inviting us to hang out at their place with drinks/food and possibly a nearby restaurant. A bus will leave Pearlman Center to take us to and back.</li>
             </ul>
           </div>
         </div>
