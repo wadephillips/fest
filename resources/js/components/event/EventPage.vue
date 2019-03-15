@@ -174,7 +174,7 @@
         </template>
 
         <div class="card-columns">
-          <breakout :breakout="breakout" :key="breakout.id" ey v-for="breakout in this.event.breakouts"></breakout>
+          <breakout :breakout="breakout" :key="breakout.id" v-for="breakout in this.event.breakouts"></breakout>
         </div>
 
       </info-section>
