@@ -10,7 +10,8 @@
             :id="modelId + '-acu-switch'"
             :dusk="modelId + '-acu-switch'"
         >
-        <label :for="modelId + '-acu-switch'">Acupuncturist</label>
+        <label v-if="!acupuncturist" :for="modelId + '-acu-switch'">Attendee is not an Acupuncturist</label>
+        <label v-else :for="modelId + '-acu-switch'">Attendee is an acupuncturist</label>
       </span>
     </div>
     <vue-form-generator
@@ -51,7 +52,7 @@
     props:['model-id'],
     data() {
       return {
-        acupuncturist: null,
+        acupuncturist: true,
         formOptions: optionsIn,
         model: {
           id: null,
