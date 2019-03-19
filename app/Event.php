@@ -2,6 +2,7 @@
 
 namespace App;
 
+use function dd;
 use Hashids\Hashids;
 use Illuminate\Database\Eloquent\Model;
 use function secure_url;
@@ -45,6 +46,14 @@ class Event extends Model
     return $this->hasMany('App\EventFee');
   }
 
+  public function getAttendeeCountAttribute()
+  {
+    if (!$this->relationLoaded('attendees')){
+      $this->load('attendees');
+    }
+    return $this->attendees->count();
+  }
+
   public function getDatesAttribute()
   {
     $dates = $this->start->format('F jS, Y');
@@ -72,6 +81,12 @@ class Event extends Model
     $code = $hashId->encode($this->id);
 //    dd(secure_url('/events/' . $this->slug . '/presenter/' . $code));
     return secure_url('/events/' . $this->slug . '/presenter/' . $code);
+  }
+
+  public function getRegistrationTotalsAttribute()
+  {
+    //todo resume: play with raw queries from DataGrip in tinker.  Switch dev db to pgsql
+    $attendee_aggragates = DB::raw('');
   }
 
 
