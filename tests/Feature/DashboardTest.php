@@ -6,6 +6,7 @@ use App\Attendee;
 use App\Event;
 use App\User;
 use function collect;
+use function dd;
 use function factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -93,7 +94,11 @@ class DashboardTest extends TestCase
     $response = $this->get('/admin');
 
     $response->assertSee($event->name);
-    $response->assertViewHas()
+//    $event->load('attendees');
+//    dd($event->getTotalRegistrationTypes());
+    $response->assertSee('fso_adult');
+    $response->assertSee('student');
+
   }
 
   private function createAndBeAdminUser(): User

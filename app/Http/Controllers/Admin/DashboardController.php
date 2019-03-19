@@ -6,6 +6,7 @@ use App\Event;
 use function compact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use function print_r;
 use function response;
 
 class DashboardController extends Controller
@@ -16,6 +17,12 @@ class DashboardController extends Controller
     $events = Event::where('active', true)
         ->with('attendees')
         ->get();
+
+    foreach ($events as $event){
+      $event->setTotalRegistrationTypes();
+    }
+//      $event->push('totalTypes', $types);
+//    dd($events);
 
     // table with the registration types listed and the count for each one
     // count of attendees
