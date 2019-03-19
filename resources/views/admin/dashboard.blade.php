@@ -21,7 +21,7 @@
                 <tbody>
                 @forelse($event->getTotalRegistrationTypes() as $key => $total)
                   <tr>
-                    <td>{{$key}}</td>
+                    <td><a href="{{secure_url('/events/')}}">{{$key}}</a></td>
                     <td>{{$total}}</td>
                   </tr>
                 @empty
