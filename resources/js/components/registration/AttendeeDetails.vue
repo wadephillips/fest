@@ -87,7 +87,8 @@
                   placeholder: '551-555-5555',
                   required: true,
                   styleClasses: ['col-md-6'],
-                  validator: ['string']
+                  validator: ['string'],
+                  max: 16
                 },
               ],
             },

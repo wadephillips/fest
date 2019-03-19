@@ -1,43 +1,118 @@
 <?php
 
+namespace Tests\Feature;
+
 use App\Attendee;
 use App\Event;
-use Illuminate\Database\Seeder;
+use App\User;
+use function collect;
+use function dd;
+use function factory;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PermissionRoleTableSeeder;
+use PermissionsTableSeeder;
+use function print_r;
+use RolesTableSeeder;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-
-class EventTableSeeder extends Seeder
+class DashboardTest extends TestCase
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-      //create 2 events
-      factory(Event::class, 2)
-          ->create()
-          ->each(function ($event) {
-            // create 20 breakouts for each event
-            factory(App\Breakout::class, 20)->create([ 'event_id' => $event->id,])
-                ->each(function ($breakout) use ($event) {
-                  // assign 1 to 3 presenters to each breakout
-                  $i = rand(1,3);
-                  $ids = [];
-                  for ($i; $i > 0; $i--) {
-                    $ids[] = random_int(1,50);
-                  }
-                  $ids = array_unique($ids);
+  use DatabaseMigrations;
 
-                  $breakout->presenters()->attach($ids);
-                });
+  protected function setUp()
+  {
+    parent::setUp();
+    $this->seed(RolesTableSeeder::class);
+    $this->seed(PermissionsTableSeeder::class);
+    $this->seed(PermissionRoleTableSeeder::class);
+  }
 
-            $this->createAttendees($event);
-          });
-    }
+  public function testAnUnauthorizedUserShouldNotBeAbleToSeeTheDashboard()
+  {
+    $this->withoutExceptionHandling();
+
+    $response = $this->get('/admin/');
+
+    $response->assertStatus(302)
+        ->assertSee('Redirecting to ' . url('admin/login'));
+
+
+  }
+
+
+  public function testAnAuthorizedUserCanSeeTheDashBoard()
+  {
+    $this->withoutExceptionHandling();
+
+
+    $user = $this->createAndBeAdminUser();
+
+
+    $response = $this->get('/admin');
+
+    $response->assertStatus(200);
+    $response->assertSee('Dashboard');
+
+  }
+
+  public function testAUserSeesASetOfStatisticsForEachActiveEvent()
+  {
+//    $this->withoutExceptionHandling();
+
+    $user = $this->createAndBeAdminUser();
+
+    $events = factory(Event::class, 2)
+        ->create()
+        ->each(function ($event) {
+          factory(Attendee::class, 10)->create([ 'event_id' => $event->id ]);
+        });
+
+    $inactive = factory(Event::class)->create([ 'active' => false ]);
+
+
+    $response = $this->get('/admin');
+    $response->assertStatus(200);
+    $response->assertSee($events[ 0 ]->name);
+    $response->assertSee($events[ 1 ]->name);
+    $response->assertDontSee($inactive->name);
+
+  }
+
+
+  public function testEachActiveEventHasATableDisplayingAttendeeTypeTotals()
+  {
+
+    //given we have an admin and an event with attendees
+    $this->createAndBeAdminUser();
+    $event = factory(Event::class)->create([ 'active' => true,]);
+    $attendees = $this->createAttendees($event);
+
+    //an the view should receive aggregate data with counts of registration types
+    $response = $this->get('/admin');
+
+    $response->assertSee($event->name);
+//    $event->load('attendees');
+//    dd($event->getTotalRegistrationTypes());
+    $response->assertSee('fso_adult');
+    $response->assertSee('student');
+
+  }
+
+  private function createAndBeAdminUser(): User
+  {
+    $user = factory(User::class)->create();
+    $user->setRole('admin');
+    $user->hasPermissionOrFail('browse_admin');
+    $this->be($user);
+    return $user;
+  }
 
   private function createAttendees(Event $event)
   {
+    $attendees = collect();
     $three_day_attendees = factory(Attendee::class, 3)->create([
         'event_id' => $event->id,
         'modifiers' => [
@@ -147,6 +222,13 @@ class EventTableSeeder extends Seeder
         ],
         'total' => 10500,
     ]);
+
+    $attendees->merge($three_day_attendees);
+    $attendees->merge($students);
+    $attendees->merge($ear_attendees);
+    $attendees->merge($fso_attendee);
+    return $attendees;
   }
+
 
 }

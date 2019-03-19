@@ -45,4 +45,8 @@ Route::post('/events/{event}/register', 'EventRegisterController@register');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
+    Route::get('/', 'Admin\DashboardController@show')
+        ->name('voyager.dashboard')
+        ->middleware('admin.user');
 });

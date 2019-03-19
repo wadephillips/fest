@@ -23,7 +23,7 @@ $factory->define(App\Attendee::class, function (Faker $faker) {
       'postal' => $faker->postcode,
       'country' => $faker->countryCode,
       'emergency_contact_name' => $faker->name,
-      'emergency_contact_phone' => $faker->phoneNumber,
+      'emergency_contact_phone' => $faker->tollFreePhoneNumber,
       'emergency_contact_relationship' => $faker->word,
       'modifiers' => $json,
       'total' => $faker->numberBetween(0,250000)
