@@ -3,6 +3,7 @@
 namespace App;
 
 use function array_combine;
+use function array_merge;
 use function array_pluck;
 use function dd;
 use Hashids\Hashids;
@@ -53,15 +54,26 @@ class Event extends Model
   public function setTotalRegistrationTypes()
   {
     $result = DB::select(DB::raw(
-        "SELECT b.key, count(b.key) 
+        "SELECT count(b.*),b.key,b.value->>'description' AS description
               FROM attendees a, json_each(a.modifiers->'payment') b
               WHERE a.event_id = ?
                     AND b.key NOT IN ('poca_tech_donation','linens')
-              GROUP BY b.key ORDER BY b.key"), [$this->id]);
+              GROUP BY b.value->>'description', b.key
+              ORDER BY b.value->>'description', b.key"), [$this->id]);
     $keys = array_pluck($result, 'key');
-    $values = array_pluck($result, 'count');
+    $count = array_pluck($result, 'count');
+    $description =array_pluck($result, 'description');
+    $values = [];
+    for($i = 0; $i < count($keys); $i++)
+    {
+      $values[$keys[$i]] = [
+          'count' => $count[$i],
+          'description' => $description[$i],
+      ];
+    }
 
-    $this->totalRegistrationTypes = array_combine($keys, $values);
+
+    $this->totalRegistrationTypes = $values;
   }
 
   /**

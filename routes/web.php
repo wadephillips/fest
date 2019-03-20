@@ -49,4 +49,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'Admin\DashboardController@show')
         ->name('voyager.dashboard')
         ->middleware('admin.user');
+
+    Route::get('/attendees/{event}/registration-type/{registration}', 'EventAttendeeTypeController@show')
+        ->name('event.attendees.type')
+        ->middleware('admin.user');
+
 });
