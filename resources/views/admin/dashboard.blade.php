@@ -19,10 +19,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($event->getTotalRegistrationTypes() as $key => $total)
+                @forelse($event->getTotalRegistrationTypes() as $key => $values)
                   <tr>
-                    <td><a href="{{secure_url('/events/')}}">{{$key}}</a></td>
-                    <td>{{$total}}</td>
+                    <td><a href="{{route('event.attendees.type', ['$event' => $event->slug,  'registration' => $key,])}}">{{$values['description']}}</a></td>
+                    <td>{{$values['count']}}</td>
                   </tr>
                 @empty
                   <tr>
