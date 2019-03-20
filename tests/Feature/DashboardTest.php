@@ -94,12 +94,12 @@ class DashboardTest extends TestCase
     $response = $this->get('/admin');
 
     $response->assertSee($event->name);
-//    $event->load('attendees');
-//    dd($event->getTotalRegistrationTypes());
-    $response->assertSee('fso_adult');
-    $response->assertSee('student');
+    $response->assertSee('Additional Family Member / Significant Other - Adult');
+    $response->assertSee('Student - 3 Day Pass');
 
   }
+
+  //todo resume: all the names in the above table should be links to /admin/attendees/{event-id}/registration-type/{registration_type}
 
   private function createAndBeAdminUser(): User
   {

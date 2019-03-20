@@ -42,13 +42,13 @@ class EventTest extends TestCase
     $event->load('attendees');
 
     $this->assertTrue($event->attendeeCount == 10);
-    $this->assertTrue(method_exists($event, 'totalRegistrationTypes'), 'The totalRegistrationTypes method does not exist'
+    $this->assertTrue(method_exists($event, 'getTotalRegistrationTypes'), 'The totalRegistrationTypes method does not exist'
     );
-//    $this->assertObjectHasAttribute('totalRegistrationTypes', $event);
+    $event->setTotalRegistrationTypes();
     $types = $event->getTotalRegistrationTypes();
     $this->assertIsArray($types );
-    $this->assertTrue($types['fso_adult'] == 1);
-    $this->assertTrue($types['student'] == 4);
+    $this->assertTrue($types['fso_adult']['count'] == 1);
+    $this->assertTrue($types['student']['count'] == 4);
 
   }
 
