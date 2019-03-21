@@ -55,7 +55,6 @@ class Attendee extends Model
 
   public function getDescriptionsAttribute()
   {
-    $mods =
     $descriptions = [];
     foreach ( $this->modifiers as $key => $modifier ) {
       foreach ($modifier as $element) {

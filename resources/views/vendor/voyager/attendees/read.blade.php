@@ -145,19 +145,41 @@
               <hr style="margin:0;">
             @endif
           @endforeach
-          <div class="panel-heading" style="border-bottom:0;">
-            <h3 class="panel-title">Presenter URL</h3>
-          </div>
-          <div class="panel-body" style="padding-top:0;">
-            <p>{{ $dataTypeContent->presenterUrl }}</p>
-          </div>
+          {{--<div class="panel-heading" style="border-bottom:0;">--}}
+            {{--<h3 class="panel-title">Presenter URL</h3>--}}
+          {{--</div>--}}
+          {{--<div class="panel-body" style="padding-top:0;">--}}
+            {{--<p>{{ $dataTypeContent->presenterUrl }}</p>--}}
+          {{--</div>--}}
           <div class="panel-heading" style="border-bottom:0;">
             <h3 class="panel-title">Modifiers</h3>
           </div>
-          {{--<div class="panel-body" style="padding-top:0;">--}}
+          <div class="panel-body" style="padding-top:0;">
+            <ul>
+            @php
+              $descriptions = [];
+              foreach ( $dataTypeContent->modifiers as $key => $modifier ) {
+              //var_dump($modifier);
+              //$i = 0;
+                foreach ($modifier as $element) {
+                //print_r($i);
+                //var_dump($element);
+                //$i++;
+                  $descriptions[] = $element['description'];
+                }
+              }
+            foreach ($descriptions as $description)
+              {
+              echo '<li>' . $description . '</li>';
+              }
+            @endphp
+
+            </ul>
             {{--@foreach($dataTypeContent->modifiers as $mod)--}}
-            {{--<p>{{$mod->toString()}}</p>--}}
-          {{--</div>--}}
+
+            {{--<p>{{print_r(array_flatten($mod))}}</p>--}}
+            {{--@endforeach--}}
+          </div>
 
 
         </div>
