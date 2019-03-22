@@ -40,9 +40,7 @@ class AttendeeTableSeeder extends Seeder
               ],
               'meal' => [
                   'type' => [
-                      [
                           'description' => 'Omnivore',
-                      ]
                   ],
               ],
           ],
@@ -65,9 +63,7 @@ class AttendeeTableSeeder extends Seeder
               ],
               'meal' => [
                   'type' => [
-                      [
                           'description' => 'Vegetarian',
-                      ]
                   ],
               ],
               'other' => [
@@ -95,9 +91,7 @@ class AttendeeTableSeeder extends Seeder
               ],
               'meal' => [
                   'type' => [
-                      [
                           'description' => 'Vegan',
-                      ]
                   ],
                   'other_food' => [
                       'description' => 'No meats!!',
@@ -126,9 +120,7 @@ class AttendeeTableSeeder extends Seeder
               ],
               'meal' => [
                   'type' => [
-                      [
                           'description' => 'Omnivore',
-                      ]
                   ],
               ],
           ],

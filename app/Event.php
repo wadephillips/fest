@@ -76,6 +76,19 @@ class Event extends Model
     $this->totalRegistrationTypes = $values;
   }
 
+  public function getModifierCount($modifier)
+  {
+    $result = DB::select(DB::raw(
+  "SELECT count(b.*),b.key,b.value->>'description' as description
+        FROM attendees a, json_each(a.modifiers->'payment') b
+        WHERE a.event_id = ?
+                    AND b.key = ?
+        GROUP BY b.value->>'description', b.key
+        ORDER BY b.value->>'description', b.key;"
+    ), [$this->id, $modifier]);
+    return $result;
+  }
+
   /**
    * @return mixed
    */
@@ -83,6 +96,7 @@ class Event extends Model
   {
     return $this->totalRegistrationTypes;
   }
+
 
 
   public function getAttendeeCountAttribute()
