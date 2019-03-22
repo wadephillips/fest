@@ -54,4 +54,8 @@ Route::group(['prefix' => 'admin'], function () {
         ->name('event.attendees.type')
         ->middleware('admin.user');
 
+    Route::get('/attendees/{event}/donors/{type}', 'EventAttendeeTypeController@show')
+        ->name('event.donors')
+        ->middleware('admin.user');
+
 });
