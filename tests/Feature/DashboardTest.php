@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Attendee;
 use App\Event;
 use App\User;
+use function array_key_exists;
 use function collect;
 use function dd;
 use function factory;
@@ -17,6 +18,7 @@ use RolesTableSeeder;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use function var_dump;
 
 class DashboardTest extends TestCase
 {
@@ -99,7 +101,26 @@ class DashboardTest extends TestCase
 
   }
 
-  //todo resume: all the names in the above table should be links to /admin/attendees/{event-id}/registration-type/{registration_type}
+  public function testItDisplaysACountOfAttendeesWhoDonated()
+  {
+    //    $this->withoutExceptionHandling();
+
+    //given we're on the dashboard
+    $this->createAndBeAdminUser();
+    $event = factory(Event::class)->create([ 'active' => true,]);
+    // and we have Attendees who donated
+    $attendees = $this->createAttendees($event);
+    $response = $this->get('/admin');
+    // we should see a count of donors
+
+    $response->assertSee('Donors');
+    $response->assertSee(' Donate $5 to POCA Tech');
+    $response->assertSee('<span class="badge badge-warning">4</span>');
+
+
+
+  }
+
 
   private function createAndBeAdminUser(): User
   {
@@ -112,8 +133,7 @@ class DashboardTest extends TestCase
 
   private function createAttendees(Event $event)
   {
-    $attendees = collect();
-    $three_day_attendees = factory(Attendee::class, 3)->create([
+    $attendees = factory(Attendee::class, 3)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -128,9 +148,9 @@ class DashboardTest extends TestCase
             ],
             'meal' => [
                 'type' => [
-                    [
+
                         'description' => 'Omnivore',
-                    ]
+
                 ],
             ],
         ],
@@ -153,9 +173,9 @@ class DashboardTest extends TestCase
             ],
             'meal' => [
                 'type' => [
-                    [
+
                         'description' => 'Vegetarian',
-                    ]
+
                 ],
             ],
             'other' => [
@@ -182,11 +202,11 @@ class DashboardTest extends TestCase
                 ],
             ],
             'meal' => [
-                'type' => [
+                'type' =>
                     [
                         'description' => 'Vegan',
                     ]
-                ],
+                ,
                 'other_food' => [
                     'description' => 'No meats!!',
                 ],
@@ -195,7 +215,7 @@ class DashboardTest extends TestCase
         'total' => 31500,
     ]);
 
-    $fso_attendee = factory(Attendee::class)->create([
+    $fso_attendee = factory(Attendee::class,2)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -213,17 +233,17 @@ class DashboardTest extends TestCase
                 ],
             ],
             'meal' => [
-                'type' => [
+                'type' =>
                     [
                         'description' => 'Omnivore',
                     ]
-                ],
+                ,
             ],
         ],
         'total' => 10500,
     ]);
 
-    $attendees->merge($three_day_attendees);
+//    $attendees->merge($three_day_attendees);
     $attendees->merge($students);
     $attendees->merge($ear_attendees);
     $attendees->merge($fso_attendee);

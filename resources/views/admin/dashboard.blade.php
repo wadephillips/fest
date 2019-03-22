@@ -21,7 +21,9 @@
                 <tbody>
                 @forelse($event->getTotalRegistrationTypes() as $key => $values)
                   <tr>
-                    <td><a href="{{route('event.attendees.type', ['$event' => $event->slug,  'registration' => $key,])}}">{{$values['description']}}</a></td>
+                    <td><a
+                          href="{{route('event.attendees.type', ['$event' => $event->slug,  'registration' => $key,])}}">{{$values['description']}}</a>
+                    </td>
                     <td>{{$values['count']}}</td>
                   </tr>
                 @empty
@@ -39,8 +41,22 @@
             </div>
           </div>
         </div>
+        <col-md-3>
+          .
+          <div class="card text-white bg-secondary">
+            <div class="card-header"><h4> Donors</h4></div>
+            <div class="card-body">
+              @forelse($event->getModifierCount('poca_tech_donation') as $donors)
+                <a href="{{route('event.donors', ['$event' => $event->slug,  'type' => $donors->key,])}}"><span class="badge badge-warning">{{$donors->count}}</span>  {{$donors->description}}</a>
+              @empty
+                No donors yet
+              @endforelse
+
+            </div>
+          </div>
+        </col-md-3>
       </div>
-      @empty
+    @empty
       <div class="row">
         <h2>There no active events</h2>
       </div>
