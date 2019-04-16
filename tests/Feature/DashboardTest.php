@@ -115,10 +115,22 @@ class DashboardTest extends TestCase
 
     $response->assertSee('Donors');
     $response->assertSee(' Donate $5 to POCA Tech');
-    $response->assertSee('<span class="badge badge-warning">4</span>');
+    $response->assertSee('<span class="badge badge-warning" id="poca-tech-donor-count">4</span>');
 
+  }
 
-
+  public function testItDisplaysACountOfLinensRequested()
+  {
+    //given we're on the dashboard
+    $this->createAndBeAdminUser();
+    $event = factory(Event::class)->create([ 'active' => true,]);
+    // and we have Attendees who donated
+    $attendees = $this->createAttendees($event);
+    $response = $this->get('/admin');
+    //we should see a count of people who want linens
+    $response->assertSee('Linens');
+    $response->assertSee(' Linens: Yes');
+    $response->assertSee('<span class="badge badge-warning linens-count-badge">7</span>');
   }
 
 

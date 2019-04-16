@@ -259,7 +259,6 @@ class EventRegisterController extends Controller
       $payment = $this->savePayment($all, $charge, $event);//App\Payment
       $attendees = [];
       foreach ( $all[ 'registrants' ] as $registrant ) {
-        //todo resume: test to ensure that the modifiers are being registered for all attendees
         $attendees[] = $this->createRegistration($registrant, $event, $payment); // array of attendees with first being the payor
       }
       $payment->payer_id = $attendees[ 0 ]->id;
@@ -267,6 +266,7 @@ class EventRegisterController extends Controller
       DB::commit();
       return [ 'payment' => $payment, 'attendees' => $attendees ];
     } catch ( Exception $e ) {
+      //todo: I think that we're occasionally hitting this and it's not breaking the way it shoul break, add logging
       DB::rollBack();
       throw new Exception('There was a problem persisting the registration or payment: ' . $e->getMessage(), 0, $e);
     }
