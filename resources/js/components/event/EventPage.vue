@@ -146,8 +146,8 @@
         </template>
 
         <template slot="default">
-          <hr>
-          <div class="col-md-8">
+          <!--<hr>-->
+          <div class="col-md-8 offset-md-2">
             <div class="text-center" v-for="fee in this.event.fees">
               <fee :fee="fee"></fee>
             </div>
@@ -155,20 +155,20 @@
           </div>
         </template>
 
-        <template slot="image-right">
-          <div class="col-md">
-            <div class="card bg-light border-light">
-              <div class="card-body">
-                <h4 class="card-title">Acu-Market Scholarship</h4>
-                <p class="card-text">Do you want to attend POCA Fest in Mukwonago, WI this Spring but can’t afford it?</p>
-                <p>Well you may be in luck! This year Acu-Market has sponsored our POCA Fest and is sending two lucky comrades to POCA Fest for FREE! That’s right, the fest including your lodging and meals are included. <em>POCA Memebers only!</em></p>
-                <p class="card-text"><small class="text-muted">Application deadline is Sunday, April 28, 2019. Two winners
-                  will be selected on Wednesday, May 1, 2019.</small></p>
-                <a href="https://forms.gle/c4WfcTnHA42Z1pRJ6" class="btn btn-outline-primary">Apply for the Acu-Market Scholarship</a>
-              </div>
-            </div>
-          </div>
-        </template>
+        <!--<template slot="image-right">-->
+          <!--<div class="col-md">-->
+            <!--<div class="card bg-light border-light">-->
+              <!--<div class="card-body">-->
+                <!--<h4 class="card-title">Acu-Market Scholarship</h4>-->
+                <!--<p class="card-text">Do you want to attend POCA Fest in Mukwonago, WI this Spring but can’t afford it?</p>-->
+                <!--<p>Well you may be in luck! This year Acu-Market has sponsored our POCA Fest and is sending two lucky comrades to POCA Fest for FREE! That’s right, the fest including your lodging and meals are included. <em>POCA Memebers only!</em></p>-->
+                <!--<p class="card-text"><small class="text-muted">Application deadline is Sunday, April 28, 2019. Two winners-->
+                  <!--will be selected on Wednesday, May 1, 2019.</small></p>-->
+                <!--<a href="https://forms.gle/c4WfcTnHA42Z1pRJ6" class="btn btn-outline-primary">Apply for the Acu-Market Scholarship</a>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</template>-->
 
       </info-section>
 
