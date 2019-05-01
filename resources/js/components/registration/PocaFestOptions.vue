@@ -43,7 +43,7 @@
           donate: 0,
           prices: {
             presenter: 150,
-            three_day_overnight_pass: 300,
+            three_day_overnight_pass: 375,
             three_day_day_only: 250,
             ear_training_overnight: 300,
             ear_training_day_only: 250,
@@ -132,11 +132,11 @@
                 },
                 {
                   type: "rangeSlider",
-                  label: "Sliding Scale, set your price - Three Day Pass - Overnight Stay - $250 - $500",
+                  label: "Sliding Scale, set your price - Three Day Pass - Overnight Stay - $350 - $550",
                   model: 'prices.three_day_overnight_pass',
                   id: 'rs_three_day_overnight_pass',
-                  min: 250,
-                  max: 500,
+                  min: 350,
+                  max: 550,
                   rangeSliderOptions: {
                     force_edges: true
                   },
