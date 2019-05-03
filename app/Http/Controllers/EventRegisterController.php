@@ -88,12 +88,30 @@ class EventRegisterController extends Controller
    * @return \Illuminate\Http\Response
    * //EventRegistrationPostRequest
    */
-  public function register(Request $request, Event $event)
+  public function register(EventRegistrationPostRequest $request, Event $event)
   {
-    try {
-      $all = $request->all();
+//    dd($request);
+//    try {
+//      $all = $this->validate($request, [
+//          'name' => 'required|max:100',
+//          'email' => 'required|email|max:100',
+//          'phone' => 'required|max:16',
+//          'address' => 'required|max:100',
+//          'address_2' => 'max:100',
+//          'suite' => 'max:50',
+//          'city' => 'required|max:100',
+//          'state' => 'required|max:3',
+//          'postal' => 'required|max:10',
+//          'country' => 'required|max:2',
+//          'emergency_contact_name' => 'required|max:100',
+//          'emergency_contact_phone' => 'required|max:16',
+//          'emergency_contact_relationship' => 'required|max:50',
+//          'total' => 'required|integer',
+//      ]);
+    $all = $request->validated();
+//      dd($all);
 
-      $description = (array_key_exists('description', $all)) ? $all['description']: 'Event Charge';
+    $description = (array_key_exists('description', $all)) ? $all['description']: 'Event Charge';
 
       //todo CRITICAL pre-launch need to validate - done with request, but the request isn't being called right now
       // attempt to charge the card
@@ -129,14 +147,12 @@ class EventRegisterController extends Controller
       if ($paymentAndAttendees !== null) {
         $attendees = $paymentAndAttendees[ 'attendees' ];
         $payment = $paymentAndAttendees[ 'payment' ];
+        //trigger event to send email?
         Mail::to($all[ 'token' ][ 'email' ])->send(new RegistrationSuccessful($attendees, $payment, $event));
 
         $payment_id = $payment->id;
         $route = '/events/' . $event->slug . '/registered/' . $payment_id;
         return response(['redirect' => $route],201);
-//        return redirect()->route('registered', [$event->slug, $payment_id]);
-//        return view('event.registered',  compact('event', 'payment', 'attendees'));
-        // ['event' => $event, 'attendees' => collect($attendees), 'payment' => $payment]
       }
 //      dd($mail);
 
@@ -145,13 +161,14 @@ class EventRegisterController extends Controller
 
       return response($paymentAndAttendees, 400);
 
-    } catch ( Exception $e ) {
-      echo $e->getMessage();
-      echo $e->getTraceAsString();
+//    }
+//    catch ( Exception $e ) {
+//      echo $e->getMessage();
+//      echo $e->getTraceAsString();
 
-      return abort(400, $e->getMessage());
+//      return abort(400, $e->getMessage());
 
-    }
+//    }
 
   }
 
@@ -339,7 +356,9 @@ class EventRegisterController extends Controller
       $attendee->modifiers = $registrant[ 'modifiers' ];
     }
 
-    if ($registrant['license_number'] != '') {
+//    print_r($registrant);
+    if (array_key_exists('license_number', $registrant) && $registrant['license_number'] != '') {
+
       $attendee->licenses()->create([
           'number' => $registrant['license_number'],
           'state' => $registrant['license_state'],

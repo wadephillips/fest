@@ -37,7 +37,6 @@ Route::get('/events/{event}/register', 'EventRegisterController@show');
 Route::get('/events/{event}/registered/{payment}', 'EventRegisterController@registered' )->name('registered');
 Route::get('events/{event}/presenter/{code}', 'EventRegisterController@showPresenter');
 
-Route::post('/events/{event}/register', 'EventRegisterController@register');
 
 
 
