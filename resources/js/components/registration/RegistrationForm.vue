@@ -40,7 +40,7 @@
             </button>
             <strong>There was a problem processing your charge:</strong>
             <ul>
-              <li v-for="error in this.form.errors">{{error.message}}</li>
+              <li v-for="error in this.form.errors">{{error}}</li>
             </ul>
           </div>
         </div>
@@ -212,8 +212,11 @@
         self.form.errors = [];
       });
 
-      Bus.$on('setFormErrors', function (e) {
-        self.form.errors.push(e);
+      Bus.$on('setFormErrors', function (errors) {
+        for (let field in errors) {
+          console.log(errors[field][0]);
+          self.form.errors.push(errors[field][0]);
+        }
       });
     },
 

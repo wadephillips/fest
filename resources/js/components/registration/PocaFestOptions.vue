@@ -364,12 +364,15 @@
             if (isFunction(self.schema.onValidationError)) {
 
               self.schema.onValidationError(self.model, self.schema, errors, $event);
+
             }
           } else if (!validateAsync && errors) {
 
             Bus.$emit('subFormValidated', {pocaFestOptions: true});
 
+
           }
+
 
         };
         if (errors && isFunction(errors.then)) {
@@ -377,6 +380,9 @@
         } else {
           handleErrors(errors);
         }
+        $('html, body').animate({
+          scrollTop: ($('.error').first().offset().top)
+        },500);
       });
 
     },

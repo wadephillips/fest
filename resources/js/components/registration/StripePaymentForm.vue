@@ -92,8 +92,10 @@
           this.form.busy = true;
           const {token, args} = await this.$refs.checkoutRef.open();
         } else {
+
           this.formValidationsResponse = 0;
           Bus.$emit('validateForms', $event);
+
         }
 
       },
@@ -119,31 +121,22 @@
               this.form.submitted = false;
               //todo deal with the other situations.
               if (response.status === 201) {
-                // $(self.modalId).modal('hide');
                 window.location = response.data.redirect;
               }
 
               if (response.status === 402) {
-                // console.log('402');
-                // console.log(response);
-                // console.log(response.data);
                 Bus.$emit('setFormErrors', response.data);
               }
-              // return response.data.note;
-            }).catch((response) => {
-              // console.log('error');
-              // console.log(response);
-              // console.log(response.data);
-              Bus.$emit('setFormErrors', response.data);
+            }).catch((error) => {
+              console.log(error.response);
+              Bus.$emit('setFormErrors', error.response.data.errors);
             });
 
       },
 
       opened() {
-        // do stuff
       },
       closed() {
-        // do stuff
         this.resetValidationChecks();
         this.form.busy = false;
       },
