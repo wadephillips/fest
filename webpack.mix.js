@@ -30,10 +30,7 @@ if (! mix.inProduction()) {
 } else {
   mix.webpackConfig({
     resolve: {
-      // modules: [
-      //   path.resolve(__dirname, 'vendor/laravel/spark-aurelius/resources/assets/js'),
-      //   'node_modules'
-      // ],
+
       alias: {
         'vue$': 'vue/dist/vue.common.js'
       }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use function dd;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventRegistrationPostRequest extends FormRequest
@@ -23,21 +24,27 @@ class EventRegistrationPostRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|max:100',
-            'email' => 'required|email|max:100',
-            'phone' => 'required|max:16',
-            'address' => 'required|max:100',
-            'address_2' => 'max:100',
-            'suite' => 'max:50',
-            'city' => 'required|max:100',
-            'state' => 'required|max:3',
-            'postal' => 'required|max:10',
-            'country' => 'required|max:2',
-            'emergency_contact_name' => 'required|max:100',
-            'emergency_contact_phone' => 'required|max:16',
-            'emergency_contact_relationship' => 'required|max:50',
-            'total' => 'required|integer',
-        ];
+      $rules = [
+          'token' => 'required|array',
+          'token.card.id' => 'required|string',
+          'total' => 'required|integer',
+          'registrants' => 'required|array',
+          'registrants.*.name' => 'required|max:100',
+          'registrants.*.email' => 'required|email|max:100',
+          'registrants.*.phone' => 'required|max:16',
+          'registrants.*.address' => 'required|max:100',
+          'registrants.*.address_2' => 'max:100',
+          'registrants.*.suite' => 'max:50',
+          'registrants.*.city' => 'required|max:100',
+          'registrants.*.state' => 'required|max:3',
+          'registrants.*.postal' => 'required|max:10',
+          'registrants.*.country' => 'required|max:2',
+          'registrants.*.emergency_contact_name' => 'required|max:100',
+          'registrants.*.emergency_contact_phone' => 'required|max:16',
+          'registrants.*.emergency_contact_relationship' => 'required|max:50',
+          'registrants.*.amount' => 'required|integer',
+          'registrants.*.license_number' => 'nullable|string',
+      ];
+        return $rules;
     }
 }

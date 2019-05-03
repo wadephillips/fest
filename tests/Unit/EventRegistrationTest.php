@@ -6,14 +6,19 @@ use App\Attendee;
 use App\Event;
 use App\Http\Controllers\EventRegisterController;
 use App\Payment;
+use App\User;
 use function array_merge;
 use Exception;
 use function factory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use function is_object;
 use function json_decode;
+use function print_r;
 use ReflectionClass;
+use function str_random;
 use Stripe\Charge;
 use Stripe\Error\Card;
 use Tests\TestCase;
@@ -75,6 +80,11 @@ class EventRegistrationTest extends TestCase
         'emergency_contact_name' => 'Jenny Doe',
         'emergency_contact_phone' => '406-555-5556',
         'emergency_contact_relationship' => 'Mother',
+
+        'license_number' =>  '',
+        'license_country' => '',
+        'license_state' => '',
+
         'modifiers' => [
             'meal' => [
                 'other_food' => 'Gluten Free plz',
@@ -138,18 +148,14 @@ class EventRegistrationTest extends TestCase
 
   public function testItPostsStuffToTheRoute()
   {
-    try {
       $path = '/events/' . $this->event->slug . '/register';
       $response = $this->post($path, $this->post);
 //      dd($response);
-      $emails = app()->make('swift.transport')->driver()->messages();
-      $this->assertCount(1, $emails);
-      $this->assertEquals([ $this->stripeData[ 'token' ][ 'email' ] ], array_keys($emails[ 0 ]->getTo()));
+//      $emails = app()->make('swift.transport')->driver()->messages();
+//      $this->assertCount(1, $emails);
+//      $this->assertEquals([ $this->stripeData[ 'token' ][ 'email' ] ], array_keys($emails[ 0 ]->getTo()));
       $response->assertOk();
-    } catch ( Exception $e ) {
-      echo $e->getMessage();
-      echo $e->getTraceAsString();
-    }
+
   }
 
   public function testItPostsABadCardToTheRoute()
@@ -165,7 +171,7 @@ class EventRegistrationTest extends TestCase
       $response->assertJson($content);
       $response->assertJsonFragment(['message' => 'Your card was declined.']);
     } catch ( Exception $e ) {
-      echo $e->getMessage();
+//      echo $e->getMessage();
     }
   }
 
@@ -186,6 +192,22 @@ class EventRegistrationTest extends TestCase
     }
   }
 
+  public function testItValidatesDataAndReturns422ResponseWhenInvalidDataIsPosted()
+  {
+//    $this->withoutExceptionHandling();
+    Mail::fake();
+      $path = '/events/' . $this->event->slug . '/register';
+    $this->post['registrants'][0][ 'name' ] = str_random(105);
+//    print_r($this->post);
+      $response = $this->postJson($path, $this->post);
+//      var_dump($response->getStatusCode());
+    $response->assertStatus(422);
+      $response->assertJsonValidationErrors('registrants.0.name');
+
+
+  }
+
+
   public function testItChargesAStripeToken()
   {
     $result = $this->chargeAToken(9900, 'base charge test');
@@ -199,10 +221,11 @@ class EventRegistrationTest extends TestCase
   public function testItRejectsABadStripeToken()
   {
     $result = $this->chargeAToken(9900, 'a bad charge unit test charge', 'tok_chargeDeclined');
-    var_dump($result->getJsonBody()['error']['message']);
+//    var_dump($result->getJsonBody()['error']['message']);
     $this->assertTrue(is_object($result));
     $this->assertInstanceOf(Card::class, $result);
-    $this->assertTrue($result->content() == "Your card was declined.");
+//    print_r($result->getJsonBody());
+    $this->assertTrue($result->getJsonBody()['error']['message'] == "Your card was declined.");
   }
 
   public function testItPersistsAPayment()
