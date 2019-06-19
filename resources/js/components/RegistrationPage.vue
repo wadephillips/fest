@@ -20,11 +20,11 @@
             <p>POCA Fest requires pre-registration and payment in full by the participant.</p>
 
             <p>For cancellations, following the refund schedule applies:</p>
-            <p>Up to 30 days prior to POCA Fest (April 18th)- 100% refund</p>
+            <p>Before September 1<sup>st</sup> - 100% refund</p>
 
-            <p>29 to 14 days prior to POCA Fest (April 19-May 3rd)- 50 % refund</p>
+            <p>September 1<sup>st</sup> to September 14<sup>th</sup> - 50 % refund</p>
 
-            <p>13 days or less (after May 4th on)- no refund</p>
+            <p>September 15<sup>th</sup> onward - no refund</p>
 
             <p>Refunds will be issued within 30 days.</p>
           </policy>
