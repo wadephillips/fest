@@ -9,7 +9,7 @@
         </template>
 
         <template slot="subheading">
-          <h3 class="text-center py-3">{{this.eventDates}}</h3>
+          <h2 class="text-center py-3 mt-5">{{this.eventDates}}</h2>
         </template>
 
         <template slot="default">
@@ -23,10 +23,10 @@
       <hr>
       <info-section id="theme" >
         <template slot="heading">
-          <h2 class="text-center">Theme</h2>
+          <h2 class="text-center text-muted">Theme</h2>
         </template>
         <template slot="subheading">
-          <h3 class="text-center">Practical Interventions</h3>
+          <h3 class="text-center h1">Endurance</h3>
         </template>
         <template slot="image-left">
           <div class="col-md-6">
@@ -34,24 +34,15 @@
           </div>
         </template>
         <template slot="default">
-          <div class="col-md-6 text-center pt-4"><p class="lead">At this POCAfest we are gonna look at the basics: what
-            makes a CA clinic
-            work and not just work-sing.</p>
-            <p>We are gonna do this in two ways:</p>
-            <p>1) Lisa Rohleder is making the keynote speech on The Hierarchy of Needs that all CA clinics need to take
-              care
-              of in order to be a sustainable small business. Many of the Breakouts relate to this hierarchy (and you
-              can
-              <a href="https://www.pocacoop.com/prick-prod-provoke/">read about it in Prick, Prod, and Provoke</a>)</p>
-            <p>2) We will also be hosting our first auricular training for punks and non punks led by Ellen Vincent,
-              Caroline Picker, Susan Williams, Amy Severinsen and Olivia Crane. (For a full description of this, read
-              below,
-              right after the logistics of registration and traveling to POCAfest and above the Schedule.)</p></div>
+          <div class="col-md-6 text-center pt-4"><p class="lead">By the time that this POCAfest happens Community Acupuncture will be 17.5 years old.</p>
+            <p>No longer are we just the new, weird, revolutionary, disruptive movement that we started out as. We still are all those things but in addition we've been around to the point where CA is a well known branch of Acupuncture. </p>
+            <p>That also means that we have a bunch of clinics that are way past their 10th birthdays and are thinking of things besides starting up like developing a succession plan, paying ourselves adequately, and hiring. Many of the breakout sessions this weekend will touch on such topics.</p>
+            <p>In addition Jeff Levin, co-owner of Oakland Acupuncture Project will provide the keynote speech, <strong><em>"Chronic Pain, Endurance, and the Future of the Acupuncture Profession"</em></strong>. Please join us as we discuss and solve common issues that we all face. </p></div>
         </template>
       </info-section>
 
       <hr>
-      <info-section id="auricular">
+      <!--info-section id="auricular">
         <template slot="heading">
           <h2 class="text-center">POCA Auricular Acu-Technician Training and Certification</h2>
         </template>
@@ -94,18 +85,24 @@
           </div>
         </template>
       </info-section>
-      <hr>
+      <hr-->
       <!--Location-->
       <info-section id="location">
         <template slot="heading">
-          <h2 class="text-center my-3">Location</h2>
+          <h2 class="text-center my-3 text-muted">Location</h2>
 
         </template>
 
         <template slot="default">
           <div class="col-md-6">
+            <p class="lead">
+              POCA Fest will be returning to the <a href="https://naturebridge.org/retreat-space/golden-gate">Headlands Institute</a> in the Marin Headlands.</p>
+
             <p>
-              POCA Fest Milwaukee will be held at <a href="http://www.perlmanretreats.org/">Perlman Retreat Center</a>.</p>
+              The Headlands Institute is a beautiful historic military camp located on the beach of the Pacific Ocean.</p>
+            <p>It’s conveniently located just 22 miles from San Francisco International Airport or 30 miles from Oakland International Airport. Housing for the event will be onsite in dorm-style accommodations, with all meals provided in the dining hall.
+            </p>
+
             <location-address
                 :address="this.event.address"
                 :address_2="this.event.address_2"
@@ -115,24 +112,12 @@
                 :state="this.event.state"
                 :suite="this.event.suite"
             ></location-address>
-            <p>
-              Here are <a href="http://www.perlmanretreats.org/contact/directions-map/">driving directions from Milwaukee, Chicago, Madison, and the Twin
-              Cities</a>.</p>
-
-            <p>
-              <strong>Please note:</strong> for some reason, sometimes Waze or Google Maps will indicate you have
-              arrived about a mile sooner than it should be. So, please note these more specific direction. Once you are
-              on County Road J, heading west, go 2.25 miles and look for the Perlman Retreat Center sign on your right.
-              It will be a quarter mile after the Beber Camp sign. If coming from the east on County Road J, watch for
-              the Perlman Retreat Center sign on your left.
-              <em>If you see the Beber Camp sign on your right, you have gone too far.</em>
-            </p>
           </div>
         </template>
         <template slot="image-right">
           <div class="col-md">
             <fest-map api-key="AIzaSyCSdbPjbn7KYWaFGl6Cy8EYD1l1YVCTGL8"
-                      place-id="ChIJFY5ircKXBYgRXS2rAIsCc4Q"></fest-map>
+                      place-id="ChIJua9GxYqFhYARTCRipeBx4T8"></fest-map>
           </div>
         </template>
       </info-section>
@@ -142,7 +127,7 @@
       <info-section id="fees">
 
         <template slot="heading">
-          <h2 class="text-center my-3">Conference Fees</h2>
+          <h2 class="text-center my-3 text-muted">Conference Fees</h2>
         </template>
 
         <template slot="default">
@@ -176,7 +161,7 @@
       <!--schedule-->
       <info-section id="schedule">
         <template slot="heading">
-          <h2 class="text-center">Conference Schedule</h2>
+          <h2 class="text-center text-muted">Conference Schedule</h2>
         </template>
 
         <schedule></schedule>
@@ -186,7 +171,7 @@
       <!--Breakouts-->
       <info-section id="breakouts">
         <template slot="heading">
-          <h2 class="text-center">Breakouts</h2>
+          <h2 class="text-center text-muted">Breakouts</h2>
         </template>
 
         <div class="card-columns">
@@ -199,7 +184,7 @@
       <!--Presenters-->
       <info-section id="presenters">
         <template slot="heading">
-          <h2 class="text-center">Presenters</h2>
+          <h2 class="text-center text-muted">Presenters</h2>
         </template>
         <div class="card-columns">
           <presenter :key="presenter.id" :presenter="presenter" v-for="presenter in this.presenters"></presenter>
@@ -236,11 +221,11 @@
             description: 'Theme',
             styleClasses: 'nav-link'
           },
-          {
-            a: '#auricular',
-            description: 'Auricular Certification',
-            styleClasses: 'nav-link'
-          },
+          // {
+          //   a: '#auricular',
+          //   description: 'Auricular Certification',
+          //   styleClasses: 'nav-link'
+          // },
           {
             a: '#location',
             description: 'Location',
@@ -300,9 +285,9 @@
 <style scoped>
   #home {
     background-image: linear-gradient(
-        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.35),
         rgba(0, 0, 0, 0.5)
-    ), url(/img/Milwaukeedowntown.jpg);
+    ), url(/img/golden-gate.jpg);
   }
   #auricular {
     background-image: linear-gradient(
