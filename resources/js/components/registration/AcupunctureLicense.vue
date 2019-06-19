@@ -31,8 +31,8 @@
 <script>
 
   import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
-  import 'vue-form-generator/dist/vfg.css'
-  import cleave from 'cleave.js'
+  // import 'vue-form-generator/dist/vfg.css'
+  // import cleave from 'cleave.js'
   import { get as objGet, isFunction} from "lodash";
 
 

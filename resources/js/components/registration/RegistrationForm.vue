@@ -8,8 +8,14 @@
         <attendee :key="model.id" :model="model" :presenter="presenter"></attendee>
       </div>
 
-      <div class="row">
-        <div class="col-md-3">
+      <hr>
+      <div class="row d-flex justify-content-end ">
+        <div >
+          <h4 :dusk="all-attendees-total"  class="attendee-total mr-3">Grand Total: ${{(this.total / 100).toFixed(2)}}</h4>
+        </div>
+      </div>
+      <div class=" row d-flex">
+        <div class="">
           <button @click="addAttendee" type="button" class="btn btn-primary m-3" id="add-attendee-btn"
                   dusk='add-attendee-btn'>+ Add Attendee
           </button>
@@ -19,8 +25,8 @@
           <!--</vue-form-generator>-->
 
         </div>
-        <div class="col"></div>
-        <div class="col-md-3">
+        <div class="flex-grow-1"></div>
+        <div class="d-flex justify-content-end">
           <stripe-payment-form
               class="m-3"
               :purchaserEmail="purchaserEmail"

@@ -16,10 +16,10 @@
 <script>
 
   import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
-  import 'vue-form-generator/dist/vfg.css'
+  // import 'vue-form-generator/dist/vfg.css'
   import rangeSlider from 'ion-rangeslider/js/ion.rangeSlider'
   import 'ion-rangeslider/css/ion.rangeSlider.css'
-  import { get as objGet, isFunction} from "lodash";
+  import {get as objGet, isFunction} from "lodash";
 
 
   export default {
@@ -43,17 +43,18 @@
           donate: 0,
           prices: {
             presenter: 150,
-            three_day_overnight_pass: 375,
-            three_day_day_only: 250,
-            ear_training_overnight: 300,
-            ear_training_day_only: 250,
-            student: 150,
-            fso_adult: 100,
+            three_day_overnight_pass: 350,
+            three_day_day_only: 325,
+            // ear_training_overnight: 300,
+            // ear_training_day_only: 250,
+            student: 175,
+            fso_adult: 150,
             fso_child: 100,
+            fso_young_child: 0,
             one_day_pass: 125,
             one_day_add_ceu: 75,
             poca_tech_donation: 5,
-            linens: 15,
+            linens: 35,
           },
           chosen: {},
           meal: {},
@@ -73,6 +74,7 @@
                   label: "How are you attending POCA Fest?",
                   model: "registration_type",
                   id: 'registration_type',
+                  // styleClasses: ['d-flex', 'justify-content-between'],
                   attributes: {
                     "name" :  'attendee_' + this.modelId + '_registration_type'
                   },
@@ -80,11 +82,12 @@
                   values: [
                     {name: "Three Day Pass - Overnight Stay", value: "three_day_overnight_pass"},
                     {name: "Three Day Pass - No Overnight Stay", value: "three_day_day_only"},
-                    {name: "Ear Training - 3 Day Pass - Overnight Stay", value: "ear_training_overnight"},
-                    {name: "Ear Training - 3 Day Pass - No Overnight Stay", value: "ear_training_day_only"},
+                    // {name: "Ear Training - 3 Day Pass - Overnight Stay", value: "ear_training_overnight"},
+                    // {name: "Ear Training - 3 Day Pass - No Overnight Stay", value: "ear_training_day_only"},
                     {name: "Student - 3 Day Pass", value: "student"},
                     {name: "Additional Family Member / Significant Other - Adult", value: 'fso_adult'},
-                    {name: "Additional Family Member / Significant Other - Child", value: 'fso_child'},
+                    {name: "Additional Family Member / Significant Other - Child 4 - 15", value: 'fso_child'},
+                    {name: "Additional Family Member / Significant Other - Child - Under 4", value: 'fso_young_child'},
                     {name: "One Day Only Pass", value: "one_day_pass"}
                   ],
                 validator: ['string'],
@@ -132,11 +135,11 @@
                 },
                 {
                   type: "rangeSlider",
-                  label: "Sliding Scale, set your price - Three Day Pass - Overnight Stay - $350 - $550",
+                  label: "Sliding Scale, set your price - Three Day Pass - Overnight Stay - $300 - $500",
                   model: 'prices.three_day_overnight_pass',
                   id: 'rs_three_day_overnight_pass',
-                  min: 350,
-                  max: 550,
+                  min: 300,
+                  max: 500,
                   rangeSliderOptions: {
                     force_edges: true
                   },
@@ -166,10 +169,10 @@
                 },
                 {
                   type: "rangeSlider",
-                  label: "Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $250 - $500",
+                  label: "Sliding Scale, set your price - Three Day Pass - No Overnight Stay - $300 - $500",
                   model: 'prices.three_day_day_only',
                   id: 'rs_three_day_day_only',
-                  min: 200,
+                  min: 300,
                   max: 500,
 
 
@@ -177,37 +180,37 @@
                     model.chosen.three_day_day_only.value = value * 100
                   }
                 },
+                // {
+                //   type: "rangeSlider",
+                //   label: "Sliding Scale, set your price - Ear Training - 3 Day Pass - Overnight Stay - $250 - $500",
+                //   model: 'prices.ear_training_overnight',
+                //   id: 'rs_ear_training_overnight',
+                //   min: 250,
+                //   max: 500,
+                //
+                //
+                //   set: function (model, value) {
+                //     model.chosen.ear_training_overnight.value = value * 100
+                //   }
+                // },
+                // {
+                //   type: "rangeSlider",
+                //   label: "Sliding Scale, set your price - Ear Training - 3 Day Pass - No Overnight Stay - $200 - $500",
+                //   model: 'prices.ear_training_day_only',
+                //   id: 'rs_ear_training_day_only',
+                //   min: 200,
+                //   max: 500,
+                //   set: function (model, value) {
+                //     model.chosen.ear_training_day_only.value = value * 100
+                //   }
+                // },
                 {
                   type: "rangeSlider",
-                  label: "Sliding Scale, set your price - Ear Training - 3 Day Pass - Overnight Stay - $250 - $500",
-                  model: 'prices.ear_training_overnight',
-                  id: 'rs_ear_training_overnight',
-                  min: 250,
-                  max: 500,
-
-
-                  set: function (model, value) {
-                    model.chosen.ear_training_overnight.value = value * 100
-                  }
-                },
-                {
-                  type: "rangeSlider",
-                  label: "Sliding Scale, set your price - Ear Training - 3 Day Pass - No Overnight Stay - $200 - $500",
-                  model: 'prices.ear_training_day_only',
-                  id: 'rs_ear_training_day_only',
-                  min: 200,
-                  max: 500,
-                  set: function (model, value) {
-                    model.chosen.ear_training_day_only.value = value * 100
-                  }
-                },
-                {
-                  type: "rangeSlider",
-                  label: "Sliding Scale, set your price - Student - 3 Day Pass - $100 - $200",
+                  label: "Sliding Scale, set your price - Student - 3 Day Pass - $150 - $250",
                   model: 'prices.student',
                   id: 'rs_student',
-                  min: 100,
-                  max: 200,
+                  min: 150,
+                  max: 250,
                   set: function (model, value) {
                     model.chosen.student.value = value * 100
                   }
@@ -228,6 +231,7 @@
                   label: 'I need to add CEUs to my one day pass.',
                   model: 0,
                   id: 'one_day_add_ceu',
+                  styleClasses: ['d-flex', 'align-items-baseline'],
                   set: function (model, value) {
                     model.chosen.one_day_add_ceu = {
                       value: value * model.prices.one_day_add_ceu * 100,
@@ -250,7 +254,6 @@
                   id: 'meal_type',
                   attributes: {
                     "name" :  'attendee_' + this.modelId + '_meal_type'
-                    //todo resume
                   },
                   dusk: 'meal_type',
                   required: true,
@@ -274,7 +277,7 @@
                   label: "Other Dietary Restrictions",
                   model: "food.other_food",
                   id: 'other_food',
-                  hint: "At this time we are unable to guarantee that our hosts can accommodate any special food needs.  We will inquire and communicate back with you.",
+                  hint: "We can do Guten Free! However, at this time we are unable to guarantee that our hosts can accommodate any other special food needs.  We will inquire and communicate back with you.",
                   validator: 'string',
                   set: function (model, value) {
                     model.meal['other_food'] = {
@@ -285,7 +288,7 @@
                 {
                   type: "radios",
                   label: "Do you need linens?",
-                  hint: "The Perlman Retreat Center will provide you with linens for $15 if you select Yes.",
+                  hint: "The Headlands Institute will provide you with linens for $35 if you select Yes.",
                   model: "linens",
                   // inputName: 'attendee_' + this.modelId + '_linens',
                   attributes: {
@@ -323,6 +326,7 @@
                   label: "I'd like to support affordable Acupuncture Education by donating $5 to POCA Tech!",
                   model: 'donate',
                   id: 'poca_tech_donation',
+                  styleClasses: ['d-flex', 'align-items-baseline'],
                   set: function (model, value) {
 
                     model.chosen.poca_tech_donation = {
