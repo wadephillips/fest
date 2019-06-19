@@ -1,12 +1,14 @@
 
 <template>
   <div class="m-3">
-    <h1 v-if="this.presenter">Presenter Registration for {{event.name}}</h1>
-    <h1 v-else>Register for {{event.name}}</h1>
+    <div class="mb-4">
+      <h1 class="h3 text-muted" v-if="this.presenter">Presenter Registration for {{event.name}}</h1>
+      <h1 class="h3 text-muted" v-else>Register for {{event.name}}</h1>
 
-    <h3>{{event.location_name}} - {{event.city}}</h3>
+      <h2 class="h5 text-muted">{{event.location_name}} - {{event.city}}</h2>
 
-    <h4>{{ eventDates }}</h4>
+      <h3 class="h5 text-muted">{{ eventDates }}</h3>
+    </div>
 
     <registration-form :event-name="event.name" :presenter="this.presenter" dusk="registration-form" ></registration-form>
 
@@ -47,5 +49,7 @@
 </script>
 
 <style scoped>
-
+.form-group label {
+  font-weight: 500;
+}
 </style>

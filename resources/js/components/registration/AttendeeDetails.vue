@@ -15,7 +15,7 @@
 
 <script>
   import VueFormGenerator from 'vue-form-generator/dist/vfg.js'
-  import 'vue-form-generator/dist/vfg.css'
+  // import 'vue-form-generator/dist/vfg.css'
   import cleave from 'cleave.js'
   require('cleave.js/dist/addons/cleave-phone.us');
   require('cleave.js/dist/addons/cleave-phone.ca');
