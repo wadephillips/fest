@@ -13,14 +13,14 @@
               <li class="list-group-item"><strong>Depression, addiction and chronic pain </strong>- Panel discussion with Michelle Lemieux, L.Ac., Melissa Craven, L.Ac.
               </li>
               <li class="list-group-item"><strong>Speed skills/Managing patient flow in your busy CA clinics -</strong> - Moses Cooper, L.Ac.</li>
-              <li class="list-group-item"><strong>Bookkeeping/Business Systems</strong> - Jade Fang, L.Ac.</li>
+              <li class="list-group-item"><strong>Bookkeeping/Business Systems</strong> - Carmen Doerge, POCA Finance Coordinator, Steve Kingsbury, L.Ac.</li>
             </ul>
           </div>
           <div class="pb-4">
             <h5>4:45-6:00 pm - Conference Opening</h5>
             <ul class="list-group">
               <li class="list-group-item"><strong>Welcoming / Roll Call</strong> - Skip Van Meter, L.Ac.</li>
-              <li class="list-group-item"><strong>Keynote Addresss: Chronic Pain, Endurance, and the Future of the Acupuncture Profession</strong> - Jeff Levin, L.Ac.</li>
+              <li class="list-group-item"><strong>Keynote Address: Chronic Pain, Endurance, and the Future of the Acupuncture Profession</strong> - Jeff Levin, L.Ac.</li>
             </ul>
           </div>
           <div class="pb-4">
@@ -71,7 +71,6 @@
             <h5>2:45 - 4:00 pm - Breakout 4</h5>
             <ul class="list-group">
               <li class="list-group-item"><strong>Solid Financial Ground: Effective Financial Management for your Clinic</strong> – Michelle Lemieux, L.Ac. and Whitney Thorniley, L.Ac.</li>
-              <li class="list-group-item"><strong>Punk Skillz: Curating the Clinic Experience</strong>  - Evelyn Williamson, L.Ac.</li>
               <li class="list-group-item"><strong>Specific Applications for Cannabis for Chronic Pain and More</strong> - Dr. Dan Price</li>
             </ul>
           </div>
