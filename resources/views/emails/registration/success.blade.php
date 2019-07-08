@@ -55,7 +55,7 @@ Linen packages can be rented from the Headlands Institute for an additional $35 
 Additional POCA Fest Information!
 @endcomponent
 
-@component('mail::button', ['url' => 'https://www.pocacoop.com/forums/viewthread/9215/'])
+@component('mail::button', ['url' => 'https://www.pocacoop.com/forums/viewthread/9308/'])
 Ride share information
 @endcomponent
 
