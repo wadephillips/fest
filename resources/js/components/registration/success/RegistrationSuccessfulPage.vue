@@ -11,7 +11,7 @@
                href="https://www.pocacoop.com/forums/viewforum/175/"
                role="button" dusk="poca-forums-button" >The POCA Fest Forum</a>
 
-            <a id="pf-toronto-photos-btn" class="btn btn-outline-secondary" href="https://www.pocacoop.com/forums/viewthread/9088/" role="button" dusk="pf-toronto-pictures-button">Pictures from POCA Fest Toronto!</a>
+            <!--<a id="pf-toronto-photos-btn" class="btn btn-outline-secondary" href="https://www.pocacoop.com/forums/viewthread/9088/" role="button" dusk="pf-toronto-pictures-button">Pictures from POCA Fest Toronto!</a>-->
           </template>
         </hero>
 
@@ -25,19 +25,20 @@
           <div class="col-md-8 offset-md-2">
             <h2>Where and When to arrive</h2>
 
-            <p>POCA Fest Milwaukee will be held at the:</p>
-
-
+            <p>POCA Fest Marin will be held at the:</p>
 
             <address>
-              <a href="http://www.perlmanretreats.org/contact/directions-map/">Perlman Retreat Center</a>
-              W 1802 County Road J<br/>
-              Mukwonago, WI 53149
+              <a href="https://www.naturebridge.org/golden-gate/conference-facilities">Headlands Institute</a>
+              Golden Gate National Recreation Area<br/>
+              1033 Fort Cronkhite<br/>
+              Sausalito, CA 94965
             </address>
 
+            <p>415-332-5771</p>
 
-            <p>On Friday, May 17 arrive as early as 3pm to catch Friday afternoon programming.
-              We’ll say our goodbyes Sunday May 19, 2019 and depart the camp by 2pm.</p>
+
+            <p>On Friday, September 27 arrive as early as 2 pm to catch Friday afternoon programming which starts at 3.
+              We’ll say our goodbyes Sunday, September 29 and depart the camp by 2pm.</p>
 
             <h2>How to get to POCA Fest</h2>
 
@@ -45,38 +46,22 @@
             <blockquote>
               <ol>
                 <li>
-                  Flying into Milwaukee, the airport is General Mitchell International Airport, MKE. Flying into Chicago, please note Chicago has two airports - O’Hare (ORD) and Midway (MDW). O’Hare is closer to the Perlman Retreat Center. The Milwaukee airport is...I’m finding it difficult enough that I am flying into ORD: O’Hare in Chicago. (MKE tends to be more expensive to fly into but makes up for it with fewer flights into it. Conveniently enough the Perlman Retreat Center is southwest of Milwaukee). Check out both airports and rent a car or grab a shuttle. Here are links to two airport shuttle services -
-                  <a href="http://www.airportserviceinc.com">http://www.airportserviceinc.com</a> - <a
-                    href="https://shuttlewizard.com">https://shuttlewizard.com</a>. We’ll have threads in the POCA forums about ride sharing to either airport.
+                  <strong>By Car:</strong> check out <a href="https://naturebridge.org/locations/golden-gate">the Headlands Institute website</a> for driving directions.
                 </li>
 
                 <li>
-                  Why not drive? Here are some of the estimated driving times: Milwaukee 30 minutes, Madison 1.5 hours, Chicago 2 hours or less depending what part of the city you are driving from, Champaign 3.5 hours, Twin Cities 5 hours, Louisville 6 hours, Lincoln NE 8 hours, Buffalo 11 hours, Toronto 12 hours, Denver 15 hours. ROAD TRIP!!!!!!!
+                  <strong>By plane:</strong> check both OAK and SFO airports for the best prices then rent a car. (Or pool together to rent a car by advertising for such in the POCAS forums) or check out this <a href="http://www.marindoortodoor.com">shuttle service</a>.
                 </li>
               </ol>
 
             </blockquote>
 
-            <h3>Driving</h3>
-            <p>
-              Here is a <a href="http://www.perlmanretreats.org/contact/directions-map/">map that provides driving directions from Milwaukee, Chicago, Madison and the Twin
-              Cities</a></p>
-
-            <p>
-              <strong>Please note:</strong> for some reason, sometimes Waze or Google Maps will indicate you have
-              arrived about a mile sooner than it should be. So, please note these more specific direction. Once you are
-              on County Road J, heading west, go 2.25 miles and look for the Perlman Retreat Center sign on your right.
-              It will be a quarter mile after the Beber Camp sign. If coming from the east on County Road J, watch for
-              the Perlman Retreat Center sign on your left.
-              <em>If you see the Beber Camp sign on your right, you have gone too far.</em>
-            </p>
-
 
             <h2>What to bring</h2>
 
-            <p>The Perlman provides bedding! Bring a towel, sunscreen, soap, shampoo, toiletries, and good walking
-              shoes. The campground’s <a href="http://www.perlmanretreats.org/facilities/accommodations/dormitory-style/">sleeping quarters are in
-                dormitories</a></p>
+            <p>Bring a towel, bedding, sunscreen and good walking shoes. There's several great hiking paths along the cliffs and inland which you can explore as you reconnect with your comrade punks. As for the bedding, Marin Headlands provides bunk beds and you need bedding for them!</p>
+
+            <p>Linen packages can be rented from the Headlands Institute for an additional $35 fee at registration. These packages include a fitted sheet, pillow and sleeping bag. Towels are not included in a linen package and there are none to rent. There are only 30 linen packages available to rent, so we ask that those driving in to please bring their own linens.</p>
 
           <h2>What else to bring</h2>
 
@@ -94,20 +79,10 @@
               </li>
             </ol>
 
-        <h2>More on sleeping at Perlman Retreat Center:</h2>
-
-            <p>We presume that you will sleep some at POCAfest. Excellent! Always good to do. There’s a couple options/things to know:</p>
-
-            <ol>
-              <li>There are five dormitories at the camp with beds (where you have to provide your own bedding).  First come first serve. If you want to share a room with specific other people, please note that in the registration form.
-              </li>
-              <li>What? You got kids? There are rooms that could be used for families. If you want to bring your kids and want to use one of these rooms, please register early so we can accommodate you as these rooms may fill up quick.</li>
-            </ol>
-
 
             <a href="https://www.pocacoop.com/forums/viewforum/175/" class="btn btn-primary">Additional POCA Fest Information!</a>
 
-            <a href="https://www.pocacoop.com/forums/viewthread/9215/" class="btn btn-primary">Ride share information</a>
+            <a href="https://www.pocacoop.com/forums/viewthread/9308/" class="btn btn-primary">Ride share information</a>
 
 
             <p><strong>ANY QUESTIONS PLEASE <a href="mailto:pocafest@pocacoop.com">EMAIL US</a> OR CHECK THE POCA FORUMS</strong>
@@ -115,7 +90,7 @@
 
             <p><strong>SEE YOU THERE!</strong></p>
 
-            <p><strong>-Amy, Olive, and Skip - The POCA Events Circle</strong></p>
+            <p><strong>-Jeff, Mary, and Skip - The POCA Events Circle</strong></p>
           </div>
         </div>
 
@@ -130,11 +105,11 @@
               <p>POCA Fest requires pre-registration and payment in full by the participant.</p>
 
               <p>For cancellations, following the refund schedule applies:</p>
-              <p>Up to 30 days prior to POCA Fest (April 18th)- 100% refund</p>
+              <p>Up to 30 days prior to POCA Fest (September 1<sup>st</sup>)- 100% refund</p>
 
-              <p>29 to 14 days prior to POCA Fest (April 19-May 3rd)- 50 % refund</p>
+              <p>29 to 14 days prior to POCA Fest (September 1<sup>st</sup> to September 14<sup>th</sup>)- 50 % refund</p>
 
-              <p>13 days or less (after May 4th on)- no refund</p>
+              <p>13 days or less (September 15<sup>th</sup> onward )- no refund</p>
 
               <p>Refunds will be issued within 30 days.</p>
             </policy>
