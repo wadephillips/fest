@@ -39,7 +39,7 @@ We’ll say our goodbyes Sunday, September 29 and depart the camp by 2pm.
 
 ## What to bring
 
-Bring a towel, bedding, sunscreen and good walking shoes. There's several great hiking paths along the cliffs and inland which you can explore as you reconnect with your comrade punks. As for the bedding, Marin Headlands provides bunkbeds and you need bedding for them!
+Bring a towel, bedding, sunscreen and good walking shoes. There's several great hiking paths along the cliffs and inland which you can explore as you reconnect with your comrade punks. As for the bedding, Marin Headlands provides bunk beds and you need bedding for them!
 
 Linen packages can be rented from the Headlands Institute for an additional $35 fee at registration. These packages include a fitted sheet, pillow and sleeping bag. Towels are not included in a linen package and there are none to rent. There are only 30 linen packages available to rent, so we ask that those driving in to please bring their own linens.
 
