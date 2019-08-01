@@ -62,6 +62,7 @@
               <li class="list-group-item"><strong>Reception management made fun and efficient</strong> - Princess Pei Pei</li>
               <li class="list-group-item"><strong>POCA Tech and California</strong> – Lisa Rohleder, L.Ac., Jersey Rivers, L.Ac., and Skip Van Meter, L.Ac.</li>
               <li class="list-group-item"><strong>Scalp Acupuncture</strong> – Gururas Khalsa, L.Ac.</li>
+              <li class="list-group-item"><strong>The Use of CBD in Clinical Practice</strong> – Katy Whitcomb, DOM and Kent Nixon, L.Ac.</li>
             </ul>
           </div>
 

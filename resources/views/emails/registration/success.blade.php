@@ -32,7 +32,7 @@ On Friday, September 27 arrive as early as 2 pm to catch Friday afternoon progra
 We’ll say our goodbyes Sunday, September 29 and depart the camp by 2pm.
 
 ## How to get to POCA Fest
-{{--TODO RESUME: Get confirmation on this part and names on schedule then either push it out or build the conference schedule creator--}}
+
 ### Skip says:
 **By Car:** check out [the Headlands Institute website](https://naturebridge.org/locations/golden-gate) for driving directions.
 **By plane:** check both OAK and SFO airports for the best prices then rent a car. (Or pool together to rent a car by advertising for such in the POCAS forums) or check out this shuttle service: http://www.marindoortodoor.com.
