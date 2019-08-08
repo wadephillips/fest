@@ -79,7 +79,7 @@
           <div class="pb-4">
             <h5>4:45-6:00 pm - Breakout 5</h5>
             <ul class="list-group">
-              <li class="list-group-item"><strong>Implementing Trauma Informed Care in Practice</strong> - Sister Maria Magdalena, L.Ac.</li>
+              <li class="list-group-item"><strong>Implementing Trauma Informed Care in Practice</strong> - Sierra-maria Magdalena, L.Ac.</li>
               <li class="list-group-item"><strong>Panel: Burnout</strong> - Jeff Levin, L.Ac., and Cait Cain, L.Ac.</li>
               <li class="list-group-item"><strong>Quick Pulse Diagnosis</strong>- Mike Gonzalez, L.Ac.</li>
               <li class="list-group-item"><strong>Acupuncture to Support Cancer Patients</strong> - Faune Towery, L.Ac.</li>
