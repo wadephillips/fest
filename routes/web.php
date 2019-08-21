@@ -13,6 +13,7 @@
 
 use App\Attendee;
 use App\Event;
+use App\Mail\RegistrationError;
 use App\Mail\RegistrationSuccessful;
 use App\Payment;
 use Illuminate\Support\Facades\Mail;
@@ -27,6 +28,10 @@ use Illuminate\Support\Facades\Mail;
 //  $attendees = Attendee::where('payment_id', $payment_id)->get();
 //  Mail::to($attendees[0]->email)->send(new RegistrationSuccessful($attendees, $payment, $event));
 //  return new RegistrationSuccessful($attendees, $payment, $event);
+//});
+
+//Route::get('registration_error/', function() {
+//  Mail::to('techsupport@pocacoop.com')->send(new RegistrationError([ 'things' => 'that went wrong',], 'test route'));
 //});
 
 Route::get('/', 'EventController@index');

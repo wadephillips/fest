@@ -24,7 +24,7 @@ class CreatePaymentsTable extends Migration
       //billing address
       $table->string('address');
       $table->string('address_2')->nullable();
-      $table->string('suite')->nullable()->nullable();
+      $table->string('suite')->nullable();
       $table->string('city');
       $table->string('state', 3);
       $table->string('postal', 10);
