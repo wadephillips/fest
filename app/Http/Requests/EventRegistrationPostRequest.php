@@ -44,6 +44,7 @@ class EventRegistrationPostRequest extends FormRequest
           'registrants.*.emergency_contact_relationship' => 'required|max:50',
           'registrants.*.amount' => 'required|integer',
           'registrants.*.license_number' => 'nullable|string',
+          'description' => 'nullable|string',
       ];
         return $rules;
     }
