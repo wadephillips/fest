@@ -113,8 +113,6 @@ class EventRegisterController extends Controller
 
     $description = (array_key_exists('description', $all)) ? $all['description']: 'Event Charge';
 
-      //todo CRITICAL pre-launch need to validate - done with request, but the request isn't being called right now
-      // attempt to charge the card
       $tokenId = $all[ 'token' ][ 'id' ];
       $total = $all[ 'total' ];
       $charge = null;
@@ -138,6 +136,11 @@ class EventRegisterController extends Controller
        return response($charge->getJsonBody(), $charge->getHttpStatus());
 
       } else {
+        Mail::to('techsupport@pocacoop.com')->send(new RegistrationError([
+            'all' => $all,
+            'charge' => $charge,
+            'requested' => $request->all(),
+        ], 'if/ifelse/else to check the charge'));
         throw new Exception('There is a general problem processing the charge');
       }
       //if successful persist payment info, attendee info, and then send email to queue, display thank you page
@@ -283,6 +286,15 @@ class EventRegisterController extends Controller
       DB::commit();
       return [ 'payment' => $payment, 'attendees' => $attendees ];
     } catch ( Exception $e ) {
+      Mail::to('techsupport@pocacoop.com')->send(new RegistrationError([
+          'all' => $all,
+          'charge' => $charge,
+          'event' => $event,
+          'error' => [
+              'message' => $e->getMessage(),
+              'trace' => $e->getTraceAsString(),
+          ],
+      ], 'saveRegistrationAndPayment catch'));
       //todo: I think that we're occasionally hitting this and it's not breaking the way it shoul break, add logging
       DB::rollBack();
       throw new Exception('There was a problem persisting the registration or payment: ' . $e->getMessage(), 0, $e);
