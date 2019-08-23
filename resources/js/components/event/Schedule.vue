@@ -10,7 +10,7 @@
           <div class="pb-4">
             <h5>3:30-4:30 pm - Breakout 1</h5>
             <ul class="list-group">
-              <li class="list-group-item"><strong>Depression, addiction and chronic pain </strong>- Panel discussion with Michelle Lemieux, L.Ac., Melissa Craven, L.Ac.
+              <li class="list-group-item"><strong>Depression, addiction and chronic pain </strong>- Panel discussion with Michelle Lemieux, L.Ac.
               </li>
               <li class="list-group-item"><strong>Speed skills/Managing patient flow in your busy CA clinics -</strong> - Moses Cooper, L.Ac.</li>
               <li class="list-group-item"><strong>Bookkeeping/Business Systems</strong> - Carmen Doerge, POCA Finance Coordinator, Steve Kingsbury, L.Ac.</li>
