@@ -21,9 +21,6 @@
           </button>
 
 
-          <!--<vue-form-generator :schema="schema" :model="model[0]" :options="formOptions">-->
-          <!--</vue-form-generator>-->
-
         </div>
         <div class="flex-grow-1"></div>
         <div class="d-flex justify-content-end">
