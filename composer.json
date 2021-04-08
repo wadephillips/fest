@@ -12,7 +12,7 @@
         "ext-gd": "*",
         "ext-bcmath": "*",
         "aws/aws-sdk-php": "~3.0",
-        "extended-bread-form-fields": "^0.2.0@beta",
+        "marfdiogo78/extended-bread-form-fields": "^0.2.0",
         "fideloper/proxy": "^4.0",
         "hashids/hashids": "^3.0",
         "laravel/framework": "5.7.*",
