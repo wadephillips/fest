@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13b690f5696367f2c90754dfe64e0afd",
+    "content-hash": "3b0bbd35b29715ec646f86d8f07067f5",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -1176,46 +1176,6 @@
                 "parser"
             ],
             "time": "2019-12-30T22:54:17+00:00"
-        },
-        {
-            "name": "extended-bread-form-fields",
-            "version": "v0.2-beta",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bnku/extended-bread-form-fields.git",
-                "reference": "v0.2-beta"
-            },
-            "require": {
-                "larapack/hooks": "^1.0.5"
-            },
-            "type": "library",
-            "extra": {
-                "hook": {
-                    "providers": [
-                        "ExtendedBreadFormFields\\ExtendedBreadFormFieldsServiceProvider"
-                    ],
-                    "views": [
-                        "resources/vievs"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "ExtendedBreadFormFields\\": "src/"
-                }
-            },
-            "notification-url": "https://larapack.io/downloads",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "bnku",
-                    "email": "bnku@ya.ru"
-                }
-            ],
-            "description": "Extended FormFields hook interface to Voyager BREAD",
-            "time": "2019-03-11T12:03:18+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -7185,6 +7145,66 @@
             "time": "2020-09-29T09:10:42+00:00"
         },
         {
+            "name": "phpstan/phpstan",
+            "version": "0.12.88",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "464d1a81af49409c41074aa6640ed0c4cbd9bb68"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/464d1a81af49409c41074aa6640ed0c4cbd9bb68",
+                "reference": "464d1a81af49409c41074aa6640ed0c4cbd9bb68",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.12-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "support": {
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.88"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/phpstan",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-05-17T12:24:49+00:00"
+        },
+        {
             "name": "phpunit/php-code-coverage",
             "version": "6.1.4",
             "source": {
@@ -7520,6 +7540,66 @@
                 "xunit"
             ],
             "time": "2020-01-08T08:45:45+00:00"
+        },
+        {
+            "name": "rector/rector",
+            "version": "0.11.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rectorphp/rector.git",
+                "reference": "d009bac6f03d19e4ef14f3f05c70c4dbdea17726"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d009bac6f03d19e4ef14f3f05c70c4dbdea17726",
+                "reference": "d009bac6f03d19e4ef14f3f05c70c4dbdea17726",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0",
+                "phpstan/phpstan": ">=0.12.86 <=0.12.88"
+            },
+            "conflict": {
+                "phpstan/phpdoc-parser": "<=0.5.3",
+                "phpstan/phpstan": "<=0.12.82",
+                "rector/rector-cakephp": "*",
+                "rector/rector-doctrine": "*",
+                "rector/rector-nette": "*",
+                "rector/rector-nette-to-symfony": "*",
+                "rector/rector-phpunit": "*",
+                "rector/rector-prefixed": "*",
+                "rector/rector-symfony": "*"
+            },
+            "bin": [
+                "bin/rector"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.10-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Prefixed and PHP 7.1 downgraded version of rector/rector",
+            "support": {
+                "issues": "https://github.com/rectorphp/rector/issues",
+                "source": "https://github.com/rectorphp/rector/tree/0.11.7"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/tomasvotruba",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-05-29T19:51:43+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -8185,9 +8265,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "extended-bread-form-fields": 10
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -8196,5 +8274,5 @@
         "ext-bcmath": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
