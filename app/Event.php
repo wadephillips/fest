@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Arr;
 use function array_combine;
 use function array_merge;
 use function array_pluck;
@@ -60,9 +61,9 @@ class Event extends Model
                     AND b.key NOT IN ('poca_tech_donation','linens')
               GROUP BY b.value->>'description', b.key
               ORDER BY b.value->>'description', b.key"), [ $this->id ]);
-    $keys = array_pluck($result, 'key');
-    $count = array_pluck($result, 'count');
-    $description = array_pluck($result, 'description');
+    $keys = Arr::pluck($result, 'key');
+    $count = Arr::pluck($result, 'count');
+    $description = Arr::pluck($result, 'description');
     $values = [];
     for ( $i = 0; $i < count($keys); $i++ ) {
       $values[ $keys[ $i ] ] = [

@@ -2,6 +2,9 @@
 
 namespace App\Mail;
 
+use App\Attendee;
+use App\Event;
+use App\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -11,7 +14,7 @@ class RegistrationSuccessful extends Mailable  implements ShouldQueue
 {
     use Queueable, SerializesModels;
   /**
-   * @var Attendees - The attendees who have been registered and paid for in this group of registrations
+   * @var Attendee - The attendees who have been registered and paid for in this group of registrations
    */
   public $attendees;
   /**
@@ -24,13 +27,14 @@ class RegistrationSuccessful extends Mailable  implements ShouldQueue
    */
   public $event;
 
-  /**
-   * Create a new message instance.
-   *
-   * @param array $attendees
-   * @param Payment $payment
-   */
-    public function __construct($attendees, $payment, $event)
+    /**
+     * Create a new message instance.
+     *
+     * @param array $attendees
+     * @param Payment $payment
+     * @param Event $event
+     */
+    public function __construct(array $attendees, Payment $payment, Event $event)
     {
 
       $this->attendees = $attendees;

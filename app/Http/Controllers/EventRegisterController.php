@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Arr;
 use function abort;
 use App\Attendee;
 use App\Event;
@@ -51,7 +52,7 @@ class EventRegisterController extends Controller
    */
   public function create()
   {
-    //
+    // not used
   }
 
 
@@ -90,28 +91,11 @@ class EventRegisterController extends Controller
    */
   public function register(EventRegistrationPostRequest $request, Event $event)
   {
-//    dd($request);
-//    try {
-//      $all = $this->validate($request, [
-//          'name' => 'required|max:100',
-//          'email' => 'required|email|max:100',
-//          'phone' => 'required|max:16',
-//          'address' => 'required|max:100',
-//          'address_2' => 'max:100',
-//          'suite' => 'max:50',
-//          'city' => 'required|max:100',
-//          'state' => 'required|max:3',
-//          'postal' => 'required|max:10',
-//          'country' => 'required|max:2',
-//          'emergency_contact_name' => 'required|max:100',
-//          'emergency_contact_phone' => 'required|max:16',
-//          'emergency_contact_relationship' => 'required|max:50',
-//          'total' => 'required|integer',
-//      ]);
-    $all = $request->validated();
-//      dd($all);
 
-    $description = (array_key_exists('description', $all)) ? $all['description']: 'Event Charge';
+    $all = $request->validated();
+
+    $description = (array_key_exists('description', $all))
+        ? $all['description']: 'Event Charge';
 
       $tokenId = $all[ 'token' ][ 'id' ];
       $total = $all[ 'total' ];
@@ -193,35 +177,31 @@ class EventRegisterController extends Controller
   /**
    * Show the form for editing the specified resource.
    *
-   * @param  int $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($id)
+  public function edit(int $id)
   {
-    //
+    //not used
   }
 
   /**
    * Update the specified resource in storage.
    *
-   * @param  \Illuminate\Http\Request $request
-   * @param  int $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(Request $request, int $id)
   {
-    //
+    //not used
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param  int $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(int $id)
   {
-    //
+    // not used
   }
 
   private function chargeStripeToken($tokenId, $total, $description)
@@ -324,10 +304,10 @@ class EventRegisterController extends Controller
         'country' => $all[ 'registrants' ][ 0 ][ 'country' ],
 
     ]);
-    if ( array_has($all[ 'registrants' ][ 0 ], 'address_2') ) {
+    if ( Arr::has($all[ 'registrants' ][ 0 ], 'address_2') ) {
       $payment->address_2 = $all[ 'registrants' ][ 0 ][ 'address_2' ];
     }
-    if ( array_has($all[ 'registrants' ][ 0 ], 'suite') ) {
+    if ( Arr::has($all[ 'registrants' ][ 0 ], 'suite') ) {
       $payment->suite = $all[ 'registrants' ][ 0 ][ 'suite' ];
     }
 
@@ -358,17 +338,17 @@ class EventRegisterController extends Controller
           'total' => $registrant['amount'],
       ]);
 
-    if ( array_has($registrant, 'address_2') ) {
+      //handle optional fields
+    if ( Arr::has($registrant, 'address_2') ) {
       $attendee->address_2 = $registrant[ 'address_2' ];
     }
-    if ( array_has($registrant, 'suite') ) {
+    if ( Arr::has($registrant, 'suite') ) {
       $attendee->suite = $registrant[ 'suite' ];
     }
-    if ( array_has($registrant, 'modifiers') ) {
+    if ( Arr::has($registrant, 'modifiers') ) {
       $attendee->modifiers = $registrant[ 'modifiers' ];
     }
 
-//    print_r($registrant);
     if (array_key_exists('license_number', $registrant) && $registrant['license_number'] != '') {
 
       $attendee->licenses()->create([
