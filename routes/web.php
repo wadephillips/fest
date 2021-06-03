@@ -39,13 +39,8 @@ Route::get('/', 'EventController@index');
 Route::get('/events', 'EventController@index');
 Route::get('/events/{event}', 'EventController@show');
 Route::get('/events/{event}/register', 'EventRegisterController@show');
-Route::get('/events/{event}/registered/{payment}', 'EventRegisterController@registered' )->name('registered');
+Route::get('/events/{event}/registered/{payment}', 'EventRegisterController@registered')->name('registered');
 Route::get('events/{event}/presenter/{code}', 'EventRegisterController@showPresenter');
-
-
-
-
-
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
@@ -65,5 +60,4 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/attendees/{event}/linens/{type}/{description}', 'EventAttendeeTypeController@linens')
         ->name('event.linens')
         ->middleware('admin.user');
-
 });

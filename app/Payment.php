@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-  use Uuids;
+    use Uuids;
 
-  /**
-   * Indicates if the IDs are auto-incrementing.
-   *
-   * @var bool
-   */
-  public $incrementing = false;
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
-  protected $fillable = [
+    protected $fillable = [
       'amount',
       'processor_invoice_id',
       'processor_transaction_id',
@@ -34,13 +34,13 @@ class Payment extends Model
 
   ];
 
-  public function payer()
-  {
-    return $this->belongsTo('App\Attendee', 'payer_id', 'id');
-  }
+    public function payer()
+    {
+        return $this->belongsTo('App\Attendee', 'payer_id', 'id');
+    }
 
-  public function paidFor()
-  {
-    return $this->hasMany('App\Attendee');
-  }
+    public function paidFor()
+    {
+        return $this->hasMany('App\Attendee');
+    }
 }

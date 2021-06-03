@@ -11,141 +11,130 @@ use function dd;
 use function factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use PermissionRoleTableSeeder;
 use PermissionsTableSeeder;
 use function print_r;
 use RolesTableSeeder;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use function var_dump;
 
 class DashboardTest extends TestCase
 {
-  use DatabaseMigrations;
+    use DatabaseMigrations;
 
-  protected function setUp()
-  {
-    parent::setUp();
-    $this->seed(RolesTableSeeder::class);
-    $this->seed(PermissionsTableSeeder::class);
-    $this->seed(PermissionRoleTableSeeder::class);
-  }
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->seed(RolesTableSeeder::class);
+        $this->seed(PermissionsTableSeeder::class);
+        $this->seed(PermissionRoleTableSeeder::class);
+    }
 
-  public function testAnUnauthorizedUserShouldNotBeAbleToSeeTheDashboard()
-  {
-    $this->withoutExceptionHandling();
+    public function testAnUnauthorizedUserShouldNotBeAbleToSeeTheDashboard()
+    {
+        $this->withoutExceptionHandling();
 
-    $response = $this->get('/admin/');
+        $response = $this->get('/admin/');
 
-    $response->assertStatus(302)
-        ->assertSee('Redirecting to ' . url('admin/login'));
+        $response->assertStatus(302)
+        ->assertSee('Redirecting to '.url('admin/login'));
+    }
 
+    public function testAnAuthorizedUserCanSeeTheDashBoard()
+    {
+        $this->withoutExceptionHandling();
 
-  }
+        $user = $this->createAndBeAdminUser();
 
+        $response = $this->get('/admin');
 
-  public function testAnAuthorizedUserCanSeeTheDashBoard()
-  {
-    $this->withoutExceptionHandling();
+        $response->assertStatus(200);
+        $response->assertSee('Dashboard');
+    }
 
-
-    $user = $this->createAndBeAdminUser();
-
-
-    $response = $this->get('/admin');
-
-    $response->assertStatus(200);
-    $response->assertSee('Dashboard');
-
-  }
-
-  public function testAUserSeesASetOfStatisticsForEachActiveEvent()
-  {
+    public function testAUserSeesASetOfStatisticsForEachActiveEvent()
+    {
 //    $this->withoutExceptionHandling();
 
-    $user = $this->createAndBeAdminUser();
+        $user = $this->createAndBeAdminUser();
 
-    $events = factory(Event::class, 2)
+        $events = factory(Event::class, 2)
         ->create()
         ->each(function ($event) {
-          factory(Attendee::class, 10)->create([ 'event_id' => $event->id ]);
+            factory(Attendee::class, 10)->create(['event_id' => $event->id]);
         });
 
-    $inactive = factory(Event::class)->create([ 'active' => false ]);
+        $inactive = factory(Event::class)->create(['active' => false]);
 
+        $response = $this->get('/admin');
+        $response->assertStatus(200);
+        $response->assertSee($events[0]->name);
+        $response->assertSee($events[1]->name);
+        $response->assertDontSee($inactive->name);
+    }
 
-    $response = $this->get('/admin');
-    $response->assertStatus(200);
-    $response->assertSee($events[ 0 ]->name);
-    $response->assertSee($events[ 1 ]->name);
-    $response->assertDontSee($inactive->name);
-
-  }
-
-
-  public function testEachActiveEventHasATableDisplayingAttendeeTypeTotals()
-  {
+    public function testEachActiveEventHasATableDisplayingAttendeeTypeTotals()
+    {
 
     //given we have an admin and an event with attendees
-    $this->createAndBeAdminUser();
-    $event = factory(Event::class)->create([ 'active' => true,]);
-    $attendees = $this->createAttendees($event);
+        $this->createAndBeAdminUser();
+        $event = factory(Event::class)->create(['active' => true]);
+        $attendees = $this->createAttendees($event);
 
-    //an the view should receive aggregate data with counts of registration types
-    $response = $this->get('/admin');
+        //an the view should receive aggregate data with counts of registration types
+        $response = $this->get('/admin');
 
-    $response->assertSee($event->name);
-    $response->assertSee('Additional Family Member / Significant Other - Adult');
-    $response->assertSee('Student - 3 Day Pass');
+        $response->assertSee($event->name);
+        $response->assertSee('Additional Family Member / Significant Other - Adult');
+        $response->assertSee('Student - 3 Day Pass');
+    }
 
-  }
+    public function testItDisplaysACountOfAttendeesWhoDonated()
+    {
+        //    $this->withoutExceptionHandling();
 
-  public function testItDisplaysACountOfAttendeesWhoDonated()
-  {
-    //    $this->withoutExceptionHandling();
+        //given we're on the dashboard
+        $this->createAndBeAdminUser();
+        $event = factory(Event::class)->create(['active' => true]);
+        // and we have Attendees who donated
+        $attendees = $this->createAttendees($event);
+        $response = $this->get('/admin');
+        // we should see a count of donors
 
-    //given we're on the dashboard
-    $this->createAndBeAdminUser();
-    $event = factory(Event::class)->create([ 'active' => true,]);
-    // and we have Attendees who donated
-    $attendees = $this->createAttendees($event);
-    $response = $this->get('/admin');
-    // we should see a count of donors
+        $response->assertSee('Donors');
+        $response->assertSee(' Donate $5 to POCA Tech');
+        $response->assertSee('<span class="badge badge-warning" id="poca-tech-donor-count">4</span>');
+    }
 
-    $response->assertSee('Donors');
-    $response->assertSee(' Donate $5 to POCA Tech');
-    $response->assertSee('<span class="badge badge-warning" id="poca-tech-donor-count">4</span>');
+    public function testItDisplaysACountOfLinensRequested()
+    {
+        //given we're on the dashboard
+        $this->createAndBeAdminUser();
+        $event = factory(Event::class)->create(['active' => true]);
+        // and we have Attendees who donated
+        $attendees = $this->createAttendees($event);
+        $response = $this->get('/admin');
+        //we should see a count of people who want linens
+        $response->assertSee('Linens');
+        $response->assertSee(' Linens: Yes');
+        $response->assertSee('<span class="badge badge-warning linens-count-badge">7</span>');
+    }
 
-  }
+    private function createAndBeAdminUser(): User
+    {
+        $user = factory(User::class)->create();
+        $user->setRole('admin');
+        $user->hasPermissionOrFail('browse_admin');
+        $this->be($user);
 
-  public function testItDisplaysACountOfLinensRequested()
-  {
-    //given we're on the dashboard
-    $this->createAndBeAdminUser();
-    $event = factory(Event::class)->create([ 'active' => true,]);
-    // and we have Attendees who donated
-    $attendees = $this->createAttendees($event);
-    $response = $this->get('/admin');
-    //we should see a count of people who want linens
-    $response->assertSee('Linens');
-    $response->assertSee(' Linens: Yes');
-    $response->assertSee('<span class="badge badge-warning linens-count-badge">7</span>');
-  }
+        return $user;
+    }
 
-
-  private function createAndBeAdminUser(): User
-  {
-    $user = factory(User::class)->create();
-    $user->setRole('admin');
-    $user->hasPermissionOrFail('browse_admin');
-    $this->be($user);
-    return $user;
-  }
-
-  private function createAttendees(Event $event)
-  {
-    $attendees = factory(Attendee::class, 3)->create([
+    private function createAttendees(Event $event)
+    {
+        $attendees = factory(Attendee::class, 3)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -169,7 +158,7 @@ class DashboardTest extends TestCase
         'total' => 31500,
     ]);
 
-    $ear_attendees = factory(Attendee::class, 2)->create([
+        $ear_attendees = factory(Attendee::class, 2)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -200,7 +189,7 @@ class DashboardTest extends TestCase
         'total' => 25500,
     ]);
 
-    $students = factory(Attendee::class, 4)->create([
+        $students = factory(Attendee::class, 4)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -214,11 +203,9 @@ class DashboardTest extends TestCase
                 ],
             ],
             'meal' => [
-                'type' =>
-                    [
+                'type' => [
                         'description' => 'Vegan',
-                    ]
-                ,
+                    ],
                 'other_food' => [
                     'description' => 'No meats!!',
                 ],
@@ -227,7 +214,7 @@ class DashboardTest extends TestCase
         'total' => 31500,
     ]);
 
-    $fso_attendee = factory(Attendee::class,2)->create([
+        $fso_attendee = factory(Attendee::class, 2)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -245,22 +232,19 @@ class DashboardTest extends TestCase
                 ],
             ],
             'meal' => [
-                'type' =>
-                    [
+                'type' => [
                         'description' => 'Omnivore',
-                    ]
-                ,
+                    ],
             ],
         ],
         'total' => 10500,
     ]);
 
 //    $attendees->merge($three_day_attendees);
-    $attendees->merge($students);
-    $attendees->merge($ear_attendees);
-    $attendees->merge($fso_attendee);
-    return $attendees;
-  }
+        $attendees->merge($students);
+        $attendees->merge($ear_attendees);
+        $attendees->merge($fso_attendee);
 
-
+        return $attendees;
+    }
 }

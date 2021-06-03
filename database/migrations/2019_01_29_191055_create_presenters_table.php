@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePresentersTable extends Migration
 {
@@ -19,8 +19,7 @@ class CreatePresentersTable extends Migration
             $table->string('credentials')->nullable();
             $table->string('bio', 5000);
 
-
-          $table->timestamps();
+            $table->timestamps();
         });
     }
 

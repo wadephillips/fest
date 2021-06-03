@@ -4,7 +4,6 @@ use App\Attendee;
 use App\Event;
 use Illuminate\Database\Seeder;
 
-
 class EventTableSeeder extends Seeder
 {
     /**
@@ -14,31 +13,31 @@ class EventTableSeeder extends Seeder
      */
     public function run()
     {
-      //create 2 events
-      factory(Event::class, 2)
+        //create 2 events
+        factory(Event::class, 2)
           ->create()
           ->each(function ($event) {
-            // create 20 breakouts for each event
-            factory(App\Breakout::class, 20)->create([ 'event_id' => $event->id,])
+              // create 20 breakouts for each event
+              factory(App\Breakout::class, 20)->create(['event_id' => $event->id])
                 ->each(function ($breakout) use ($event) {
-                  // assign 1 to 3 presenters to each breakout
-                  $i = rand(1,3);
-                  $ids = [];
-                  for ($i; $i > 0; $i--) {
-                    $ids[] = random_int(1,50);
-                  }
-                  $ids = array_unique($ids);
+                    // assign 1 to 3 presenters to each breakout
+                    $i = rand(1, 3);
+                    $ids = [];
+                    for ($i; $i > 0; $i--) {
+                        $ids[] = random_int(1, 50);
+                    }
+                    $ids = array_unique($ids);
 
-                  $breakout->presenters()->attach($ids);
+                    $breakout->presenters()->attach($ids);
                 });
 
-            $this->createAttendees($event);
+              $this->createAttendees($event);
           });
     }
 
-  private function createAttendees(Event $event)
-  {
-    $three_day_attendees = factory(Attendee::class, 3)->create([
+    private function createAttendees(Event $event)
+    {
+        $three_day_attendees = factory(Attendee::class, 3)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -55,14 +54,14 @@ class EventTableSeeder extends Seeder
                 'type' => [
                     [
                         'description' => 'Omnivore',
-                    ]
+                    ],
                 ],
             ],
         ],
         'total' => 31500,
     ]);
 
-    $ear_attendees = factory(Attendee::class, 2)->create([
+        $ear_attendees = factory(Attendee::class, 2)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -80,7 +79,7 @@ class EventTableSeeder extends Seeder
                 'type' => [
                     [
                         'description' => 'Vegetarian',
-                    ]
+                    ],
                 ],
             ],
             'other' => [
@@ -93,7 +92,7 @@ class EventTableSeeder extends Seeder
         'total' => 25500,
     ]);
 
-    $students = factory(Attendee::class, 4)->create([
+        $students = factory(Attendee::class, 4)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -110,7 +109,7 @@ class EventTableSeeder extends Seeder
                 'type' => [
                     [
                         'description' => 'Vegan',
-                    ]
+                    ],
                 ],
                 'other_food' => [
                     'description' => 'No meats!!',
@@ -120,7 +119,7 @@ class EventTableSeeder extends Seeder
         'total' => 31500,
     ]);
 
-    $fso_attendee = factory(Attendee::class)->create([
+        $fso_attendee = factory(Attendee::class)->create([
         'event_id' => $event->id,
         'modifiers' => [
             'payment' => [
@@ -141,12 +140,11 @@ class EventTableSeeder extends Seeder
                 'type' => [
                     [
                         'description' => 'Omnivore',
-                    ]
+                    ],
                 ],
             ],
         ],
         'total' => 10500,
     ]);
-  }
-
+    }
 }

@@ -7,7 +7,7 @@ use Laravel\Dusk\Browser;
 
 class PresenterRegistration extends Page
 {
-  protected $event;
+    protected $event;
 
     /**
      * Get the URL for the page.
@@ -16,7 +16,8 @@ class PresenterRegistration extends Page
      */
     public function url()
     {
-      $this->event = Event::findOrFail(1);
+        $this->event = Event::findOrFail(1);
+
         return $this->event->presenterUrl;
     }
 

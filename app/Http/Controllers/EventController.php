@@ -20,12 +20,12 @@ class EventController extends Controller
      */
     public function index()
     {
-      $events = Event::all()->where('active', "=", 1);
-      if ($events->count() == 1) {
-        return redirect(secure_url('/events/' . $events[0]->slug));
-      } else {
-        return view('events', compact('events'));
-      }
+        $events = Event::all()->where('active', '=', 1);
+        if ($events->count() == 1) {
+            return redirect(secure_url('/events/'.$events[0]->slug));
+        } else {
+            return view('events', compact('events'));
+        }
     }
 
     /**
@@ -35,7 +35,6 @@ class EventController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -57,9 +56,10 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-          $event->load(['breakouts.presenters', 'fees']);
-          $presenters = $event->presenters;
-          return view('event.index', compact('event', 'presenters'));
+        $event->load(['breakouts.presenters', 'fees']);
+        $presenters = $event->presenters;
+
+        return view('event.index', compact('event', 'presenters'));
     }
 
     /**
@@ -95,6 +95,4 @@ class EventController extends Controller
     {
         //
     }
-
-
 }

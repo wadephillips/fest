@@ -24,7 +24,7 @@ class EventRegistrationPostRequest extends FormRequest
      */
     public function rules()
     {
-      $rules = [
+        $rules = [
           'token' => 'required|array',
           'token.card.id' => 'required|string',
           'total' => 'required|integer',
@@ -46,6 +46,7 @@ class EventRegistrationPostRequest extends FormRequest
           'registrants.*.license_number' => 'nullable|string',
           'description' => 'nullable|string',
       ];
+
         return $rules;
     }
 }
