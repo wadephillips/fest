@@ -16,11 +16,14 @@ let path = require('path');
 
 mix
     .js('resources/js/app.js', 'public/js')
+    .vue()
     .sass('resources/sass/app.scss', 'public/css')
 
     .copy('resources/assets/img', 'public/img')
-    .extract()
-    .browserSync({
+
+mix.extract()
+
+mix.browserSync({
       proxy: 'fest.pocacoop.test',
       open: false,
       // https:true
