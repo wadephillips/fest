@@ -8,17 +8,16 @@ use function var_dump;
 
 class Attendee extends Model
 {
-
-  /**
-   * The attributes that should be cast to native types.
-   *
-   * @var array
-   */
-  protected $casts = [
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
       'modifiers' => 'array',
   ];
 
-  protected $fillable = [
+    protected $fillable = [
       'event_id',
       'payment_id',
       'name',
@@ -38,29 +37,30 @@ class Attendee extends Model
       'total',
   ];
 
-  public function event()
-  {
-    return $this->belongsTo(Event::class);
-  }
-
-  public function payment()
-  {
-    return $this->belongsTo(Payment::class);
-  }
-
-  public function licenses()
-  {
-    return $this->hasMany(License::class);
-  }
-
-  public function getDescriptionsAttribute()
-  {
-    $descriptions = [];
-    foreach ( $this->modifiers as $key => $modifier ) {
-      foreach ($modifier as $element) {
-        $descriptions[] = $element['description'];
-      }
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
     }
-    return $descriptions;
-  }
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
+    }
+
+    public function licenses()
+    {
+        return $this->hasMany(License::class);
+    }
+
+    public function getDescriptionsAttribute()
+    {
+        $descriptions = [];
+        foreach ($this->modifiers as $key => $modifier) {
+            foreach ($modifier as $element) {
+                $descriptions[] = $element['description'];
+            }
+        }
+
+        return $descriptions;
+    }
 }

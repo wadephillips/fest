@@ -3,21 +3,21 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class RegistrationError extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $data;
-  /**
-   * @var string
-   */
-  public $where;
+    /**
+     * @var string
+     */
+    public $where;
 
-  /**
+    /**
      * Create a new message instance.
      *
      * @return void
@@ -25,7 +25,7 @@ class RegistrationError extends Mailable
     public function __construct($data = [], $where = ' an unspecified location')
     {
         $this->data = $data;
-      $this->where = $where;
+        $this->where = $where;
     }
 
     /**

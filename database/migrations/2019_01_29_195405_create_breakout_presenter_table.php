@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateBreakoutPresenterTable extends Migration
 {
@@ -14,11 +14,11 @@ class CreateBreakoutPresenterTable extends Migration
     public function up()
     {
         Schema::create('breakout_presenter', function (Blueprint $table) {
-          $table->integer('breakout_id')->unsigned()->index();
-          $table->foreign('breakout_id')->references('id')->on('breakouts')->onDelete('cascade');
+            $table->integer('breakout_id')->unsigned()->index();
+            $table->foreign('breakout_id')->references('id')->on('breakouts')->onDelete('cascade');
 
-          $table->integer('presenter_id')->unsigned()->index();
-          $table->foreign('presenter_id')->references('id')->on('presenters')->onDelete('cascade');
+            $table->integer('presenter_id')->unsigned()->index();
+            $table->foreign('presenter_id')->references('id')->on('presenters')->onDelete('cascade');
             $table->timestamps();
         });
     }

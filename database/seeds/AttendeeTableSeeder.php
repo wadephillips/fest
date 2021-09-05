@@ -6,26 +6,25 @@ use Illuminate\Database\Seeder;
 
 class AttendeeTableSeeder extends Seeder
 {
-  protected $event;
+    protected $event;
 
-  /**
-   * AttendeeTableSeeder constructor.
-   * @param Event $event
-   */
-  public function __construct(Event $event)
-  {
-    $this->event = $event;
-  }
+    /**
+     * AttendeeTableSeeder constructor.
+     * @param Event $event
+     */
+    public function __construct(Event $event)
+    {
+        $this->event = $event;
+    }
 
-
-  /**
+    /**
      * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-      $three_day_attendees = factory(Attendee::class, 3)->create([
+        $three_day_attendees = factory(Attendee::class, 3)->create([
           'event_id' => $this->event->id,
           'modifiers' => [
               'payment' => [
@@ -47,7 +46,7 @@ class AttendeeTableSeeder extends Seeder
           'total' => 31500,
       ]);
 
-      $ear_attendees = factory(Attendee::class, 2)->create([
+        $ear_attendees = factory(Attendee::class, 2)->create([
           'event_id' => $this->event->id,
           'modifiers' => [
               'payment' => [
@@ -76,7 +75,7 @@ class AttendeeTableSeeder extends Seeder
           'total' => 25500,
       ]);
 
-      $students = factory(Attendee::class, 4)->create([
+        $students = factory(Attendee::class, 4)->create([
           'event_id' => $this->event->id,
           'modifiers' => [
               'payment' => [
@@ -101,7 +100,7 @@ class AttendeeTableSeeder extends Seeder
           'total' => 31500,
       ]);
 
-      $fso_attendee = factory(Attendee::class)->create([
+        $fso_attendee = factory(Attendee::class)->create([
           'event_id' => $this->event->id,
           'modifiers' => [
               'payment' => [

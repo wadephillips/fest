@@ -19,7 +19,7 @@ class PagesTableSeeder extends Seeder
     {
         //Data Type
         $dataType = $this->dataType('slug', 'pages');
-        if (!$dataType->exists) {
+        if (! $dataType->exists) {
             $dataType->fill([
                 'name'                  => 'pages',
                 'display_name_singular' => __('voyager::seeders.data_types.page.singular'),
@@ -35,7 +35,7 @@ class PagesTableSeeder extends Seeder
         //Data Rows
         $pageDataType = DataType::where('slug', 'pages')->firstOrFail();
         $dataRow = $this->dataRow($pageDataType, 'id');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'number',
                 'display_name' => __('voyager::seeders.data_rows.id'),
@@ -50,7 +50,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'author_id');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
                 'display_name' => __('voyager::seeders.data_rows.author'),
@@ -65,7 +65,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'title');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
                 'display_name' => __('voyager::seeders.data_rows.title'),
@@ -80,7 +80,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'excerpt');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text_area',
                 'display_name' => __('voyager::seeders.data_rows.excerpt'),
@@ -95,7 +95,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'body');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'rich_text_box',
                 'display_name' => __('voyager::seeders.data_rows.body'),
@@ -110,7 +110,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'slug');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
                 'display_name' => __('voyager::seeders.data_rows.slug'),
@@ -133,7 +133,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'meta_description');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
                 'display_name' => __('voyager::seeders.data_rows.meta_description'),
@@ -148,7 +148,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'meta_keywords');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
                 'display_name' => __('voyager::seeders.data_rows.meta_keywords'),
@@ -163,7 +163,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'status');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',
                 'display_name' => __('voyager::seeders.data_rows.status'),
@@ -185,7 +185,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'created_at');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => __('voyager::seeders.data_rows.created_at'),
@@ -200,7 +200,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'updated_at');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => __('voyager::seeders.data_rows.updated_at'),
@@ -215,7 +215,7 @@ class PagesTableSeeder extends Seeder
         }
 
         $dataRow = $this->dataRow($pageDataType, 'image');
-        if (!$dataRow->exists) {
+        if (! $dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'image',
                 'display_name' => __('voyager::seeders.data_rows.page_image'),
@@ -237,7 +237,7 @@ class PagesTableSeeder extends Seeder
             'url'     => '',
             'route'   => 'voyager.pages.index',
         ]);
-        if (!$menuItem->exists) {
+        if (! $menuItem->exists) {
             $menuItem->fill([
                 'target'     => '_self',
                 'icon_class' => 'voyager-file-text',
@@ -253,7 +253,7 @@ class PagesTableSeeder extends Seeder
         $page = Page::firstOrNew([
             'slug' => 'hello-world',
         ]);
-        if (!$page->exists) {
+        if (! $page->exists) {
             $page->fill([
                 'author_id' => 0,
                 'title'     => 'Hello World',

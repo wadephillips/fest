@@ -11,12 +11,12 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use DatabaseTransactions;
 
-  public function getPrivateMethod($className, $methodName)
-  {
-    $reflector = new ReflectionClass($className);
-    $method = $reflector->getMethod($methodName);
-    $method->setAccessible(true);
+    public function getPrivateMethod($className, $methodName)
+    {
+        $reflector = new ReflectionClass($className);
+        $method = $reflector->getMethod($methodName);
+        $method->setAccessible(true);
 
-    return $method;
-  }
+        return $method;
+    }
 }
