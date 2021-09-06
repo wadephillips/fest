@@ -34,14 +34,25 @@ use Illuminate\Support\Facades\Mail;
 //  Mail::to('techsupport@pocacoop.com')->send(new RegistrationError([ 'things' => 'that went wrong',], 'test route'));
 //});
 
+
+/*
+ * Primary Display Routes
+ */
 Route::get('/', 'EventController@index');
 
 Route::get('/events', 'EventController@index');
+
 Route::get('/events/{event}', 'EventController@show');
+
 Route::get('/events/{event}/register', 'EventRegisterController@show');
+
 Route::get('/events/{event}/registered/{payment}', 'EventRegisterController@registered')->name('registered');
+
 Route::get('events/{event}/presenter/{code}', 'EventRegisterController@showPresenter');
 
+/*
+ * Admin Routes
+ */
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
